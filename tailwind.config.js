@@ -60,13 +60,36 @@ export default {
         },
       },
       animation: {
-        "terminal-flicker": "terminal-flicker 0.15s infinite linear",
+        "underwater-shimmer": "underwater-shimmer 3s ease-in-out infinite",
+        "glass-reflect": "glass-reflect 2s ease-in-out infinite",
+        float: "float 6s ease-in-out infinite",
+        ripple: "ripple 1.5s ease-out",
+        "soul-dive": "soul-dive 0.8s ease-out",
       },
       keyframes: {
-        "terminal-flicker": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.8" },
+        "underwater-shimmer": {
+          "0%, 100%": { opacity: "0.5", transform: "translateY(0px)" },
+          "50%": { opacity: "1", transform: "translateY(-5px)" },
         },
+        "glass-reflect": {
+          "0%, 100%": { transform: "scaleX(1) skewX(0deg)", opacity: "0.3" },
+          "50%": { transform: "scaleX(1.05) skewX(1deg)", opacity: "0.6" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        ripple: {
+          "0%": { transform: "scale(0)", opacity: "1" },
+          "100%": { transform: "scale(4)", opacity: "0" },
+        },
+        "soul-dive": {
+          "0%": { transform: "translateY(-20px)", opacity: "0" },
+          "100%": { transform: "translateY(0px)", opacity: "1" },
+        },
+      },
+      backdropBlur: {
+        xs: "2px",
       },
     },
   },

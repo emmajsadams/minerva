@@ -49,7 +49,7 @@ export function TaskEditDialog({
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "// Enter task description...",
+        placeholder: "Describe your task in detail...",
       }),
     ],
     content: "",
@@ -57,7 +57,7 @@ export function TaskEditDialog({
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[200px] max-w-none prose-invert prose-green font-mono text-sm bg-input/50 backdrop-blur-sm border border-primary/30 rounded-sm p-4",
+          "prose prose-sm max-w-none prose-invert focus:outline-none min-h-[200px] p-6 bg-transparent text-foreground prose-headings:text-primary prose-strong:text-primary prose-em:text-secondary prose-code:text-primary prose-code:bg-primary/20 prose-code:px-2 prose-code:py-1 prose-a:text-primary prose-blockquote:text-secondary prose-blockquote:border-primary/30",
       },
     },
   });
@@ -107,122 +107,163 @@ export function TaskEditDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl bg-card/90 backdrop-blur-md border border-primary/30 shadow-lg shadow-primary/20">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-mono text-primary tracking-wider">
-            EDIT_TASK.exe
-          </DialogTitle>
-          <DialogDescription className="text-accent font-mono text-sm">
-            {`// Modify task parameters and description`}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent 
+        className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8"
+        showCloseButton={false}
+        style={{ maxWidth: '42rem', width: '95vw' }}
+      >
+        {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
+        <div 
+          className="absolute inset-0 border-2 transform -rotate-[13.5deg] translate-x-8 translate-y-6 -z-10"
+          style={{ 
+            borderRadius: '80px / 35px',
+            backgroundColor: '#1E90FF',
+            borderColor: '#1E90FF',
+            width: '100%',
+            height: '100%',
+            opacity: '0.85'
+          }}
+        ></div>
 
-        <div className="grid gap-6 py-4">
-          {/* Task Name */}
-          <div className="space-y-3">
-            <Label
-              htmlFor="task-name"
-              className="text-blue-300 font-mono text-sm tracking-wider"
-            >
-              &gt; TASK_NAME:
-            </Label>
-            <Input
-              id="task-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="task.name"
-              className="lain-input cyber-border"
+        {/* Large Angled Triangular Accent Element - Positioned Outside Card */}
+        <div className="absolute -top-[30px] left-[20px] z-20">
+          <svg
+            width="200"
+            height="80"
+            viewBox="0 0 200 80"
+            className="overflow-visible"
+          >
+            <path
+              d="M 15 10 L 180 20 L 60 65 Z"
+              fill="hsl(var(--secondary) / 0.7)"
+              className="drop-shadow-lg"
+              transform="rotate(-5 100 40) scale(-1, 1)"
             />
-          </div>
-
-          {/* Status and Priority */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-3">
-              <Label
-                htmlFor="status"
-                className="text-blue-300 font-mono text-sm tracking-wider"
-              >
-                &gt; STATUS:
-              </Label>
-              <select
-                id="status"
-                value={status}
-                onChange={(e) => setStatus(e.target.value as Task["status"])}
-                className="w-full h-10 bg-input/50 backdrop-blur-sm border border-primary/30 text-purple-100 font-mono text-sm px-3 rounded-sm focus:border-accent focus:shadow-lg focus:shadow-accent/30 outline-none"
-              >
-                <option value="todo">TODO</option>
-                <option value="in_progress">IN_PROGRESS</option>
-                <option value="done">COMPLETED</option>
-              </select>
-            </div>
-
-            <div className="space-y-3">
-              <Label
-                htmlFor="priority"
-                className="text-blue-300 font-mono text-sm tracking-wider"
-              >
-                &gt; PRIORITY:
-              </Label>
-              <select
-                id="priority"
-                value={priority}
-                onChange={(e) =>
-                  setPriority(e.target.value as Task["priority"])
-                }
-                className="w-full h-10 bg-input/50 backdrop-blur-sm border border-primary/30 text-purple-100 font-mono text-sm px-3 rounded-sm focus:border-accent focus:shadow-lg focus:shadow-accent/30 outline-none"
-              >
-                <option value="low">LOW</option>
-                <option value="medium">MEDIUM</option>
-                <option value="high">HIGH</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Due Date */}
-          <div className="space-y-3">
-            <Label
-              htmlFor="due-date"
-              className="text-blue-300 font-mono text-sm tracking-wider"
-            >
-              &gt; DUE_DATE:
-            </Label>
-            <Input
-              id="due-date"
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-              className="lain-input cyber-border"
-            />
-          </div>
-
-          {/* Description Editor */}
-          <div className="space-y-3">
-            <Label className="text-blue-300 font-mono text-sm tracking-wider">
-              &gt; DESCRIPTION:
-            </Label>
-            <div className="min-h-[200px] border border-primary/30 rounded-sm overflow-hidden cyber-border">
-              <EditorContent editor={editor} />
-            </div>
-          </div>
+          </svg>
         </div>
 
-        <DialogFooter className="gap-3">
-          <Button
-            variant="outline"
-            onClick={onClose}
-            disabled={isSaving}
-            className="font-mono"
-          >
-            [CANCEL]
-          </Button>
-          <Button
-            onClick={handleSave}
-            disabled={isSaving || !name.trim()}
-            className="font-mono"
-          >
-            {isSaving ? "[SAVING...]" : "[SAVE_CHANGES]"}
-          </Button>
-        </DialogFooter>
+        {/* Main Dialog Rectangle */}
+        <div 
+          className="relative border-2 border-primary/40 overflow-hidden shadow-2xl shadow-primary/20"
+          style={{ 
+            backgroundColor: 'hsl(var(--card))',
+            borderRadius: '80px / 35px'
+          }}
+        >
+
+          {/* Main Dialog Content */}
+          <div className="pt-12 px-12 pb-10">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-2xl text-foreground font-medium mb-2">
+                Edit Task Details
+              </DialogTitle>
+              <DialogDescription className="text-secondary/80 text-sm">
+                Modify your task parameters and dive deeper into the details
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex flex-col gap-8 py-4">
+              {/* Task Name */}
+              <div className="space-y-3">
+                <Label
+                  htmlFor="task-name"
+                  className="text-secondary font-medium text-sm"
+                >
+                  Task Name
+                </Label>
+                <Input
+                  id="task-name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter task name..."
+                  className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+                />
+              </div>
+
+              {/* Status and Priority */}
+              <div className="flex gap-6">
+                <div className="flex-1 space-y-3">
+                  <Label
+                    htmlFor="status"
+                    className="text-secondary font-medium text-sm"
+                  >
+                    Status
+                  </Label>
+                  <select
+                    id="status"
+                    value={status}
+                    onChange={(e) =>
+                      setStatus(e.target.value as Task["status"])
+                    }
+                    className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+                  >
+                    <option value="todo">To Do</option>
+                    <option value="in_progress">In Progress</option>
+                    <option value="done">Completed</option>
+                  </select>
+                </div>
+
+                <div className="flex-1 space-y-3">
+                  <Label
+                    htmlFor="priority"
+                    className="text-secondary font-medium text-sm"
+                  >
+                    Priority
+                  </Label>
+                  <select
+                    id="priority"
+                    value={priority}
+                    onChange={(e) =>
+                      setPriority(e.target.value as Task["priority"])
+                    }
+                    className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Due Date */}
+              <div className="space-y-3">
+                <Label
+                  htmlFor="due-date"
+                  className="text-secondary font-medium text-sm"
+                >
+                  Due Date
+                </Label>
+                <Input
+                  id="due-date"
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+                />
+              </div>
+
+              {/* Description Editor */}
+              <div className="space-y-3">
+                <Label className="text-secondary font-medium text-sm">
+                  Description
+                </Label>
+                <div className="min-h-[200px] bg-input border border-transparent rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300">
+                  <EditorContent editor={editor} />
+                </div>
+              </div>
+            </div>
+
+            <DialogFooter className="pt-6 border-t border-primary/20 mt-6">
+              <Button
+                onClick={handleSave}
+                disabled={isSaving || !name.trim()}
+                className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
+              >
+                {isSaving ? "Saving..." : "Save Changes"}
+              </Button>
+            </DialogFooter>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -6,12 +6,7 @@ import { useConvexAuth } from "convex/react";
 import { useRouter } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 import { useState, useEffect } from "react";
-import {
-  IconButton,
-  EditIcon,
-  DeleteIcon,
-  ConfirmIcon,
-} from "@/components/ui/icons";
+import { EditIcon, DeleteIcon, ConfirmIcon } from "@/components/ui/icons";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
 
 export default function TasksPage() {
@@ -131,21 +126,24 @@ export default function TasksPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Terminal Header */}
-      <div className="bg-card/20 border-b border-border shadow-lg backdrop-blur-sm">
+    <div className="min-h-screen bg-background relative">
+      {/* Sea of Souls Header */}
+      <div className="glass-panel border-b shadow-lg relative z-10">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex justify-between items-center py-6">
-            <div className="flex items-center space-x-4">
-              <div className="text-primary font-mono text-lg">
-                <span className="terminal-text">&gt; minerva_shell.exe</span>
+          <div className="flex justify-between items-center py-8">
+            <div className="flex items-center space-x-6">
+              <div className="text-primary text-xl font-medium">
+                <span className="text-shimmer">Minerva</span>
+              </div>
+              <div className="text-secondary/80 text-sm">
+                Personal Task Management
               </div>
             </div>
             <button
               onClick={() => signOut()}
-              className="bg-destructive hover:bg-destructive/90 text-destructive-foreground px-6 py-2 border border-primary/30 shadow-lg shadow-destructive/30/50 font-mono text-sm tracking-wide transition-all duration-200"
+              className="glass-panel hover:glow-aqua px-6 py-3 text-primary border border-primary/30 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105"
             >
-              [LOGOUT]
+              Sign Out
             </button>
           </div>
         </div>
@@ -153,40 +151,40 @@ export default function TasksPage() {
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
-        {/* Create Task Button */}
+        {/* Create Task Section */}
         <div className="mb-8">
           {!showCreateForm ? (
             <button
               onClick={() => setShowCreateForm(true)}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 border border-primary/30 shadow-lg shadow-primary/30 font-mono text-sm tracking-wider transition-all duration-200"
+              className="glass-panel hover:glow-aqua px-8 py-4 text-primary border border-primary/30 rounded-lg font-medium transition-all duration-300 hover:scale-105 soul-dive"
             >
-              [+] NEW_TASK.exe
+              + Create New Task
             </button>
           ) : (
             <form
               onSubmit={handleCreateTask}
-              className="bg-card/30 p-6 border border-primary/30 backdrop-blur-sm"
+              className="glass-panel p-8 rounded-xl soul-dive"
             >
-              <div className="flex gap-3">
+              <div className="flex gap-6">
                 <div className="flex-1">
-                  <div className="text-accent font-mono text-sm mb-2">
-                    &gt; TASK_NAME:
+                  <div className="text-secondary font-medium text-sm mb-3">
+                    Task Name
                   </div>
                   <input
                     type="text"
                     value={newTaskName}
                     onChange={(e) => setNewTaskName(e.target.value)}
-                    placeholder="task.name"
-                    className="w-full"
+                    placeholder="Enter task description..."
+                    className="persona-input w-full px-4 py-3 rounded-lg"
                     autoFocus
                   />
                 </div>
-                <div className="flex gap-2 items-end">
+                <div className="flex gap-4 items-end">
                   <button
                     type="submit"
-                    className="bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 border border-primary/30 shadow-lg shadow-primary/30 font-mono text-sm tracking-wide"
+                    className="glass-panel hover:glow-aqua px-6 py-3 text-primary border border-primary/50 rounded-lg font-medium transition-all duration-300"
                   >
-                    [CREATE]
+                    Create
                   </button>
                   <button
                     type="button"
@@ -194,9 +192,9 @@ export default function TasksPage() {
                       setShowCreateForm(false);
                       setNewTaskName("");
                     }}
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground px-4 py-2 border border-primary/30 font-mono text-sm"
+                    className="glass-panel hover:glow-glass px-6 py-3 text-secondary border border-secondary/30 rounded-lg font-medium transition-all duration-300"
                   >
-                    [CANCEL]
+                    Cancel
                   </button>
                 </div>
               </div>
@@ -204,95 +202,103 @@ export default function TasksPage() {
           )}
         </div>
 
-        {/* Tasks Database */}
-        <div className="bg-card/20 border border-primary/30 backdrop-blur-sm overflow-hidden">
-          <div className="bg-card/30 px-6 py-3 border-b border-border">
-            <h2 className="text-accent font-mono text-sm tracking-wider">
-              &gt; DATABASE_RECORDS.tbl
-            </h2>
+        {/* Tasks Collection */}
+        <div className="glass-panel rounded-xl overflow-hidden soul-dive">
+          <div className="glass-panel px-8 py-6 border-b border-border/30">
+            <h2 className="text-primary font-medium text-lg">Your Tasks</h2>
+            <p className="text-secondary/80 text-sm mt-1">
+              Manage your personal development journey
+            </p>
           </div>
-          <table className="min-w-full divide-y divide-border">
-            <thead className="bg-card/40">
+          <table className="min-w-full">
+            <thead className="glass-panel">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-mono text-accent uppercase tracking-wider">
-                  TASK_NAME
+                <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
+                  Task
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-mono text-accent uppercase tracking-wider">
-                  STATUS
+                <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
+                  Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-mono text-accent uppercase tracking-wider">
-                  PRIORITY
+                <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
+                  Priority
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-mono text-accent uppercase tracking-wider">
-                  DUE_DATE
+                <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
+                  Due Date
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-mono text-accent uppercase tracking-wider">
-                  ACTIONS
+                <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
+                  Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-card/10 divide-y divide-border/30">
+            <tbody className="divide-y divide-border/20">
               {tasks.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={5}
-                    className="px-6 py-12 text-center text-muted-foreground font-mono"
-                  >
-                    {/* NO_DATA_FOUND - Initialize database with first record */}
+                  <td colSpan={5} className="px-8 py-16 text-center">
+                    <div className="text-secondary/60 text-lg mb-2">
+                      No tasks yet
+                    </div>
+                    <div className="text-muted-foreground text-sm">
+                      Create your first task to begin your journey
+                    </div>
                   </td>
                 </tr>
               ) : (
                 tasks.map((task) => (
                   <tr
                     key={task._id}
-                    className="hover:bg-card/20 transition-colors duration-200"
+                    className="hover:bg-card/30 transition-all duration-300 group"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-mono text-foreground">
+                    <td className="px-8 py-6">
+                      <div className="text-foreground font-medium">
                         {task.name}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-8 py-6">
                       <select
                         value={task.status}
                         onChange={(e) =>
                           handleStatusChange(task._id, e.target.value as any)
                         }
-                        className="bg-input border border-primary/30 font-mono text-foreground text-sm px-2 py-1 rounded-sm focus:border-accent focus:shadow-lg focus:shadow-accent/20 focus:outline-none hover:border-primary/50 transition-all duration-200"
+                        className="persona-input text-sm px-3 py-2 rounded-lg"
                       >
-                        <option value="todo">TODO</option>
-                        <option value="in_progress">IN_PROGRESS</option>
-                        <option value="done">COMPLETED</option>
+                        <option value="todo">To Do</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="done">Completed</option>
                       </select>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-8 py-6">
                       <span
-                        className={`inline-flex px-2 py-1 text-xs font-mono rounded border ${
+                        className={`inline-flex px-3 py-1 text-xs font-medium rounded-full ${
                           task.priority === "high"
-                            ? "bg-destructive/20 text-destructive border-destructive/30 shadow-lg shadow-destructive/30/30"
+                            ? "bg-destructive/20 text-destructive border border-destructive/30"
                             : task.priority === "medium"
-                              ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
-                              : "bg-primary/20 text-primary border-primary/30 shadow-lg shadow-primary/30/30"
+                              ? "bg-gold/20 text-gold border border-gold/30"
+                              : "bg-primary/20 text-primary border border-primary/30"
                         }`}
                       >
-                        {task.priority.toUpperCase()}
+                        {task.priority.charAt(0).toUpperCase() +
+                          task.priority.slice(1)}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-muted-foreground">
-                      {task.dueDate || "NULL"}
+                    <td className="px-8 py-6 text-sm text-muted-foreground">
+                      {task.dueDate || "—"}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <div className="flex items-center gap-4">
-                        <IconButton
-                          variant="default"
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
                           onClick={() => handleEditTask(task._id)}
+                          className="glass-panel hover:glow-aqua p-2 rounded-lg border border-primary/30 transition-all duration-300"
                           title="Edit task"
                         >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          variant="destructive"
+                          <EditIcon className="w-4 h-4 text-primary" />
+                        </button>
+                        <button
                           onClick={() => handleDeleteTask(task._id)}
+                          className={`glass-panel p-2 rounded-lg border transition-all duration-300 ${
+                            deleteConfirmId === task._id
+                              ? "border-destructive/50 hover:glow-red bg-destructive/10"
+                              : "border-destructive/30 hover:glow-red"
+                          }`}
                           title={
                             deleteConfirmId === task._id
                               ? "Click again to confirm delete"
@@ -300,11 +306,11 @@ export default function TasksPage() {
                           }
                         >
                           {deleteConfirmId === task._id ? (
-                            <ConfirmIcon />
+                            <ConfirmIcon className="w-4 h-4 text-destructive" />
                           ) : (
-                            <DeleteIcon />
+                            <DeleteIcon className="w-4 h-4 text-destructive" />
                           )}
-                        </IconButton>
+                        </button>
                       </div>
                     </td>
                   </tr>

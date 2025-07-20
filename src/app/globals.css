@@ -7,56 +7,56 @@
 
 @layer base {
   :root {
-    /* Lain-inspired Color Palette */
-    --background: 240 15% 3%; /* Deep purple-black */
-    --foreground: 280 80% 80%; /* Soft purple-pink */
-    --card: 245 20% 6%; /* Dark purple cards */
-    --card-foreground: 260 70% 85%; /* Light purple text */
-    --popover: 240 18% 4%;
-    --popover-foreground: 280 80% 80%;
-    --primary: 270 100% 60%; /* Electric purple */
-    --primary-foreground: 240 15% 3%; /* Dark on purple */
-    --secondary: 220 15% 10%; /* Dark blue secondary */
-    --secondary-foreground: 200 80% 70%; /* Light blue */
-    --muted: 245 12% 8%;
-    --muted-foreground: 240 10% 60%; /* Muted purple-gray */
-    --accent: 200 100% 60%; /* Electric blue */
-    --accent-foreground: 240 15% 3%;
+    /* Persona 3 Reload - Sea of Souls Color Palette */
+    --background: 217 91% 8%; /* Deep navy (#001736) */
+    --foreground: 201 100% 85%; /* Light aqua text */
+    --card: 218 100% 12%; /* Slightly lighter navy (#00183e) */
+    --card-foreground: 195 100% 85%; /* Bright aqua */
+    --popover: 217 91% 8%;
+    --popover-foreground: 201 100% 85%;
+    --primary: 195 100% 50%; /* Bright aqua (#00bbfa) */
+    --primary-foreground: 217 91% 8%; /* Dark navy on aqua */
+    --secondary: 200 100% 74%; /* Light aqua (#79d7fd) */
+    --secondary-foreground: 217 91% 8%;
+    --muted: 217 85% 10%;
+    --muted-foreground: 201 50% 65%; /* Muted aqua */
+    --accent: 195 100% 60%; /* Bright aqua accent */
+    --accent-foreground: 217 91% 8%;
     --destructive: 0 85% 55%; /* Red error */
     --destructive-foreground: 0 0% 98%;
-    --border: 270 40% 20%; /* Purple border */
-    --input: 245 15% 8%; /* Dark purple input */
-    --ring: 270 100% 60%; /* Purple focus ring */
-    --radius: 0.25rem; /* Sharp edges */
+    --border: 200 70% 25%; /* Aqua border */
+    --input: 217 85% 10%; /* Dark navy input */
+    --ring: 195 100% 50%; /* Aqua focus ring */
+    --radius: 0.5rem; /* Softer edges */
 
-    /* Neon glow colors */
-    --glow-primary: 270 100% 60%; /* Purple glow */
-    --glow-accent: 200 100% 60%; /* Blue glow */
-    --glow-secondary: 180 100% 50%; /* Cyan glow */
-    --glow-destructive: 0 85% 55%;
+    /* Persona 3 accent colors */
+    --gold: 46 100% 65%; /* Golden accent (#ffc54a) */
+    --glass-shimmer: 195 100% 85%; /* Glass reflection */
+    --underwater-blue: 200 100% 30%; /* Deep underwater */
+    --soul-glow: 195 100% 70%; /* Soul energy glow */
   }
 
   .dark {
-    /* Same as root - dark mode by default */
-    --background: 240 15% 3%;
-    --foreground: 280 80% 80%;
-    --card: 245 20% 6%;
-    --card-foreground: 260 70% 85%;
-    --popover: 240 18% 4%;
-    --popover-foreground: 280 80% 80%;
-    --primary: 270 100% 60%;
-    --primary-foreground: 240 15% 3%;
-    --secondary: 220 15% 10%;
-    --secondary-foreground: 200 80% 70%;
-    --muted: 245 12% 8%;
-    --muted-foreground: 240 10% 60%;
-    --accent: 200 100% 60%;
-    --accent-foreground: 240 15% 3%;
+    /* Same as root - Sea of Souls theme */
+    --background: 217 91% 8%;
+    --foreground: 201 100% 85%;
+    --card: 218 100% 12%;
+    --card-foreground: 195 100% 85%;
+    --popover: 217 91% 8%;
+    --popover-foreground: 201 100% 85%;
+    --primary: 195 100% 50%;
+    --primary-foreground: 217 91% 8%;
+    --secondary: 200 100% 74%;
+    --secondary-foreground: 217 91% 8%;
+    --muted: 217 85% 10%;
+    --muted-foreground: 201 50% 65%;
+    --accent: 195 100% 60%;
+    --accent-foreground: 217 91% 8%;
     --destructive: 0 85% 55%;
     --destructive-foreground: 0 0% 98%;
-    --border: 270 40% 20%;
-    --input: 245 15% 8%;
-    --ring: 270 100% 60%;
+    --border: 200 70% 25%;
+    --input: 217 85% 10%;
+    --ring: 195 100% 50%;
   }
 }
 
@@ -68,29 +68,33 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
     background-image:
-      linear-gradient(rgba(138, 43, 226, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(138, 43, 226, 0.05) 1px, transparent 1px),
       radial-gradient(
-        circle at 20% 80%,
-        rgba(0, 100, 255, 0.08) 0%,
+        circle at 25% 25%,
+        hsl(var(--primary) / 0.1) 0%,
         transparent 50%
       ),
       radial-gradient(
-        circle at 80% 20%,
-        rgba(138, 43, 226, 0.06) 0%,
+        circle at 75% 75%,
+        hsl(var(--secondary) / 0.08) 0%,
         transparent 50%
+      ),
+      linear-gradient(
+        135deg,
+        hsl(var(--underwater-blue) / 0.05) 0%,
+        transparent 40%,
+        hsl(var(--soul-glow) / 0.03) 100%
       );
     background-size:
-      25px 25px,
-      25px 25px,
+      100% 100%,
       100% 100%,
       100% 100%;
     background-attachment: fixed;
+    overflow-x: hidden;
   }
 
-  /* Lain-style scan line effect */
+  /* Underwater shimmer effect */
   body::before {
     content: "";
     position: fixed;
@@ -98,77 +102,122 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(transparent 50%, rgba(138, 43, 226, 0.03) 50%);
-    background-size: 100% 3px;
+    background:
+      radial-gradient(
+        circle at 30% 40%,
+        hsl(var(--glass-shimmer) / 0.03) 0%,
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 70% 60%,
+        hsl(var(--soul-glow) / 0.02) 0%,
+        transparent 25%
+      );
     pointer-events: none;
-    z-index: 1000;
-    animation: scan-lines 0.1s linear infinite;
+    z-index: 1;
+    animation: underwater-shimmer 6s ease-in-out infinite;
   }
 
-  @keyframes scan-lines {
-    0% {
-      transform: translateY(0px);
-    }
-    100% {
-      transform: translateY(3px);
-    }
+  /* Floating glass particles effect */
+  body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(
+        circle at 20% 20%,
+        hsl(var(--glass-shimmer) / 0.4) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 60% 70%,
+        hsl(var(--soul-glow) / 0.3) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 80% 30%,
+        hsl(var(--primary) / 0.2) 1px,
+        transparent 1px
+      );
+    background-size:
+      150px 150px,
+      200px 200px,
+      100px 100px;
+    pointer-events: none;
+    z-index: 1;
+    animation: float 8s ease-in-out infinite;
   }
 }
 
 @layer components {
-  /* Lain-inspired neon glow effects */
-  .glow-purple {
+  /* Persona 3 - Sea of Souls glow effects */
+  .glow-aqua {
     box-shadow:
-      0 0 5px hsl(var(--glow-primary)),
-      0 0 10px hsl(var(--glow-primary)),
-      0 0 20px hsl(var(--glow-primary)),
-      0 0 40px hsl(var(--glow-primary));
+      0 0 10px hsl(var(--primary) / 0.5),
+      0 0 20px hsl(var(--primary) / 0.3),
+      0 0 30px hsl(var(--primary) / 0.2);
   }
 
-  .glow-blue {
+  .glow-soul {
     box-shadow:
-      0 0 5px hsl(var(--glow-accent)),
-      0 0 10px hsl(var(--glow-accent)),
-      0 0 20px hsl(var(--glow-accent)),
-      0 0 40px hsl(var(--glow-accent));
+      0 0 15px hsl(var(--soul-glow) / 0.6),
+      0 0 30px hsl(var(--soul-glow) / 0.4),
+      0 0 45px hsl(var(--soul-glow) / 0.2);
   }
 
-  .glow-cyan {
+  .glow-glass {
     box-shadow:
-      0 0 5px hsl(var(--glow-secondary)),
-      0 0 10px hsl(var(--glow-secondary)),
-      0 0 20px hsl(var(--glow-secondary));
+      0 0 8px hsl(var(--glass-shimmer) / 0.4),
+      0 0 16px hsl(var(--glass-shimmer) / 0.2);
   }
 
-  .glow-red {
+  .glow-gold {
     box-shadow:
-      0 0 5px hsl(var(--glow-destructive)),
-      0 0 10px hsl(var(--glow-destructive)),
-      0 0 15px hsl(var(--glow-destructive));
+      0 0 10px hsl(var(--gold) / 0.5),
+      0 0 20px hsl(var(--gold) / 0.3);
   }
 
-  /* Terminal-style text animations */
-  .terminal-text {
-    animation: terminal-flicker 0.15s infinite linear;
+  /* Glass morphism effects */
+  .glass-panel {
+    background: hsl(var(--card) / 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.3);
+    position: relative;
+    overflow: hidden;
   }
 
-  @keyframes terminal-flicker {
-    0%,
-    100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.8;
-    }
+  .glass-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      hsl(var(--glass-shimmer) / 0.1),
+      transparent
+    );
+    animation: glass-reflect 3s ease-in-out infinite;
   }
 
-  /* Lain-style border effects */
-  .cyber-border {
+  .glass-panel:hover::before {
+    animation-duration: 1.5s;
+  }
+
+  /* Underwater border effects */
+  .soul-border {
     border: 1px solid hsl(var(--border));
     position: relative;
+    background: hsl(var(--card) / 0.6);
+    backdrop-filter: blur(8px);
   }
 
-  .cyber-border::before {
+  .soul-border::before {
     content: "";
     position: absolute;
     top: -1px;
@@ -176,53 +225,66 @@
     right: -1px;
     bottom: -1px;
     background: linear-gradient(
-      45deg,
-      transparent,
-      hsl(var(--primary)) 30%,
-      hsl(var(--accent)) 50%,
-      hsl(var(--glow-secondary)) 70%,
-      transparent
+      135deg,
+      hsl(var(--primary) / 0.3),
+      hsl(var(--secondary) / 0.2),
+      hsl(var(--soul-glow) / 0.3),
+      transparent 70%
     );
     border-radius: inherit;
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.5s ease;
   }
 
-  .cyber-border:hover::before {
-    opacity: 0.3;
+  .soul-border:hover::before {
+    opacity: 1;
   }
 
-  @keyframes border-pulse {
-    0%,
-    100% {
-      opacity: 0.8;
-    }
-    50% {
-      opacity: 1;
-    }
+  /* Persona 3 input styling */
+  input.persona-input[data-slot="input"] {
+    background: hsl(var(--input) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
+    color: hsl(var(--foreground));
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
   }
 
-  /* Lain-style input styling */
-  input.lain-input[data-slot="input"] {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(147, 51, 234, 0.3);
-    color: rgb(221, 214, 254);
-    backdrop-filter: blur(8px);
+  input.persona-input[data-slot="input"]:focus {
+    border-color: hsl(var(--primary) / 0.8);
+    box-shadow:
+      0 0 0 2px hsl(var(--primary) / 0.2),
+      0 0 20px hsl(var(--soul-glow) / 0.3);
+    background: hsl(var(--input) / 0.9);
   }
 
-  input.lain-input[data-slot="input"]:focus {
-    border-color: rgba(96, 165, 250, 0.6);
-    box-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
-    background: rgba(15, 23, 42, 0.9);
-    color: rgb(147, 197, 253);
+  input.persona-input[data-slot="input"]:hover {
+    border-color: hsl(var(--border) / 0.7);
+    box-shadow: 0 0 10px hsl(var(--glass-shimmer) / 0.2);
   }
 
-  input.lain-input[data-slot="input"]:hover {
-    border-color: rgba(168, 85, 247, 0.4);
+  input.persona-input[data-slot="input"]::placeholder {
+    color: hsl(var(--muted-foreground) / 0.7);
   }
 
-  input.lain-input[data-slot="input"]::placeholder {
-    color: rgba(196, 181, 253, 0.5);
+  /* Soul dive animation for modals/dialogs */
+  .soul-dive {
+    animation: soul-dive 0.8s ease-out;
+  }
+
+  /* Underwater text shimmer */
+  .text-shimmer {
+    background: linear-gradient(
+      90deg,
+      hsl(var(--foreground)),
+      hsl(var(--primary)),
+      hsl(var(--secondary)),
+      hsl(var(--foreground))
+    );
+    background-size: 200% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: underwater-shimmer 3s ease-in-out infinite;
   }
 }
