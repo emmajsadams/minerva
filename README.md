@@ -12,9 +12,8 @@ Personal productivity software with task management, note storage, and AI integr
 **Backend**
 - Next.js - Full-stack framework
 - TypeScript - Programming language
-- Convex - Real-time data management
-- Clerk - Authentication and user management
-- OpenRouter - AI service integration
+- Convex - Real-time data management and authentication
+- Vercel AI SDK - AI service integration
 
 **Development & Deployment**
 - Bun - Package manager, runtime, and test runner
