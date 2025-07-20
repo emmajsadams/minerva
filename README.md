@@ -7,7 +7,6 @@ Personal productivity software with task management, note storage, and AI integr
 - React - UI library
 - Tailwind CSS / Shadcn - Styling and component library
 - React Router - Client-side routing
-- React Query - State management and data fetching
 
 **Backend**
 - Next.js - Full-stack framework
