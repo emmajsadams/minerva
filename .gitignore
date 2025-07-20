@@ -16,6 +16,10 @@ logs
 _.log
 report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
+# dev server management
+.dev-server.log
+.dev-server.pid
+
 # dotenv environment variable files
 .env
 .env.development.local

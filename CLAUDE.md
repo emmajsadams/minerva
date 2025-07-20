@@ -187,6 +187,37 @@ Individual commands are also available:
 - `bun run dev:next` - Next.js only
 - `bun run dev:convex` - Convex only
 
+### Development Server Management
+
+For background development server management, use the dev server script:
+
+```bash
+# Start dev server in background (default)
+bun run dev:start
+
+# Stop any running dev server
+bun run dev:stop
+
+# Restart dev server (kills existing and starts new)
+bun run dev:restart
+
+# Check dev server status
+bun run dev:status
+
+# Run the dev manager script directly
+bun run dev:manage [start|stop|restart|status]
+```
+
+This script automatically:
+
+- Detects and kills any existing `bun dev` processes
+- Starts the development server in the background
+- Logs output to `.dev-server.log`
+- Tracks the process ID in `.dev-server.pid`
+- Provides status information and easy management
+
+**Note**: The background dev server logs are written to `.dev-server.log`. Use `tail -f .dev-server.log` to follow the logs in real-time.
+
 ## Code Quality & Pre-commit Hooks
 
 The project uses Husky for pre-commit hooks that automatically run:
