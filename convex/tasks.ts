@@ -79,7 +79,11 @@ export const deleteTask = mutation({
       throw new Error("Task not found or access denied");
     }
 
-    return await ctx.db.delete(args.id);
+    // Soft delete by setting deleted flag
+    return await ctx.db.patch(args.id, {
+      deleted: true,
+      updatedAt: Date.now(),
+    });
   },
 });
 
@@ -91,11 +95,14 @@ export const getTasks = query({
       return [];
     }
 
-    return await ctx.db
+    const allTasks = await ctx.db
       .query("tasks")
       .withIndex("by_user", (q) => q.eq("userId", userId))
       .order("desc")
       .collect();
+
+    // Filter out deleted tasks
+    return allTasks.filter((task) => !task.deleted);
   },
 });
 

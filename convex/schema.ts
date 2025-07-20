@@ -15,6 +15,7 @@ export default defineSchema({
     priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high")),
     dueDate: v.optional(v.string()),
     description: v.optional(v.string()),
+    deleted: v.optional(v.boolean()),
     userId: v.id("users"),
     createdAt: v.number(),
     updatedAt: v.number(),
