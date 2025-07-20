@@ -8,9 +8,9 @@ node scripts/check-secrets.js
 echo "🧹 Running linter and formatter..."
 bunx lint-staged
 
-# Skip tests for now (need to be updated to match new UI)
-# echo "🧪 Running tests..."
-# bun test
+# Run tests
+echo "🧪 Running tests..."
+bun test
 
 # Skip build for now (auth route type issue needs fixing)
 # echo "🏗️ Building project..."
