@@ -49,8 +49,11 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "bun run lint:fix",
+      "prettier --write"
+    ],
+    "convex/**/*.{ts,js}": [
       "prettier --write"
     ],
     "*.{json,md,css}": [
