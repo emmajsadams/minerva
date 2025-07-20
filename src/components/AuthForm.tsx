@@ -41,12 +41,22 @@ export function AuthForm() {
         return;
       }
 
-      await signIn("password", {
+      const authParams: {
+        email: string;
+        password: string;
+        flow: "signUp" | "signIn";
+        name?: string;
+      } = {
         email,
         password,
-        name: isSignUp ? name : undefined,
         flow: isSignUp ? "signUp" : "signIn",
-      });
+      };
+
+      if (isSignUp && name) {
+        authParams.name = name;
+      }
+
+      await signIn("password", authParams);
 
       // Redirect to tasks page after successful authentication
       router.push("/tasks");

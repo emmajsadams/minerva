@@ -12,8 +12,8 @@ bunx lint-staged
 echo "🧪 Running tests..."
 bun test
 
-# Skip build for now (auth route type issue needs fixing)
-# echo "🏗️ Building project..."
-# bun run build
+# Build project
+echo "🏗️ Building project..."
+bun run build
 
 echo "✅ All pre-commit checks passed!"
