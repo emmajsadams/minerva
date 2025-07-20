@@ -125,19 +125,19 @@ export function TaskEditDialog({
           }}
         ></div>
 
-        {/* Large Angled Triangular Accent Element - Positioned Outside Card */}
-        <div className="absolute -top-[30px] left-[20px] z-20">
+        {/* Large Angled Triangular Accent Element - Positioned Within Dialog */}
+        <div className="absolute -top-[20px] left-[80px] z-20">
           <svg
-            width="200"
-            height="80"
-            viewBox="0 0 200 80"
+            width="120"
+            height="60"
+            viewBox="0 0 120 60"
             className="overflow-visible"
           >
             <path
-              d="M 15 10 L 180 20 L 60 65 Z"
-              fill="hsl(var(--secondary) / 0.7)"
+              d="M 10 8 L 100 15 L 35 50 Z"
+              fill="hsl(var(--secondary) / 0.8)"
               className="drop-shadow-lg"
-              transform="rotate(-5 100 40) scale(-1, 1)"
+              transform="rotate(-8 60 30)"
             />
           </svg>
         </div>
