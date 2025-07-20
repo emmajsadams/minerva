@@ -3,6 +3,6 @@ const nextConfig = {
   experimental: {
     esmExternals: true,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

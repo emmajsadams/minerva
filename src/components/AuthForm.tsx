@@ -78,25 +78,28 @@ export function AuthForm() {
         className="w-full border border-primary/30 shadow-lg shadow-primary/20 bg-card/90 backdrop-blur-sm"
         style={{ maxWidth: "384px" }}
       >
-        <CardHeader className="space-y-3">
-          <CardTitle className="text-2xl text-center text-primary font-mono">
+        <CardHeader className="space-y-6 px-8 pt-8">
+          <CardTitle className="text-2xl text-center text-purple-300 font-mono tracking-wider">
             {isForgotPassword
               ? "RESET_PASSWORD.exe"
               : isSignUp
                 ? "CREATE_USER.exe"
                 : "LOGIN.exe"}
           </CardTitle>
-          <CardDescription className="text-center text-accent font-mono text-sm">
+          <CardDescription className="text-center text-blue-300 font-mono text-sm tracking-wide">
             {isForgotPassword
               ? "// Enter credentials to reset access"
               : "// Welcome to the Minerva Network"}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <CardContent className="space-y-10 px-8 pb-10">
+          <form onSubmit={handleSubmit} className="space-y-10">
             {isSignUp && !isForgotPassword && (
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-accent font-mono text-sm">
+              <div className="space-y-4">
+                <Label
+                  htmlFor="name"
+                  className="text-blue-300 font-mono text-sm tracking-wider"
+                >
                   &gt; USER_NAME:
                 </Label>
                 <Input
@@ -107,13 +110,16 @@ export function AuthForm() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="user.name"
-                  className=""
+                  className="lain-input cyber-border"
                 />
               </div>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-accent font-mono text-sm">
+            <div className="space-y-4">
+              <Label
+                htmlFor="email"
+                className="text-blue-300 font-mono text-sm tracking-wider"
+              >
                 &gt; EMAIL_ADDR:
               </Label>
               <Input
@@ -125,15 +131,15 @@ export function AuthForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="user@domain.net"
-                className=""
+                className="lain-input cyber-border"
               />
             </div>
 
             {!isForgotPassword && (
-              <div className="space-y-2">
+              <div className="space-y-4">
                 <Label
                   htmlFor="password"
-                  className="text-accent font-mono text-sm"
+                  className="text-blue-300 font-mono text-sm tracking-wider"
                 >
                   &gt; PASSWD:
                 </Label>
@@ -146,7 +152,7 @@ export function AuthForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className=""
+                  className="lain-input cyber-border"
                 />
               </div>
             )}
