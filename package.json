@@ -21,6 +21,7 @@
     "convex": "convex dev"
   },
   "dependencies": {
+    "@convex-dev/auth": "^0.0.87",
     "@tailwindcss/postcss": "^4.1.11",
     "@tiptap/extension-placeholder": "^3.0.7",
     "@tiptap/react": "^3.0.7",

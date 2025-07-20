@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const createTask = mutation({
   args: {
@@ -10,8 +11,11 @@ export const createTask = mutation({
     description: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    // TODO: Get userId from authentication context
-    const userId = "temp-user-id";
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+    
     const now = Date.now();
     
     return await ctx.db.insert("tasks", {
@@ -33,7 +37,18 @@ export const updateTask = mutation({
     description: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+    
     const { id, ...updates } = args;
+    
+    // Verify the task belongs to the authenticated user
+    const existingTask = await ctx.db.get(id);
+    if (!existingTask || existingTask.userId !== userId) {
+      throw new Error("Task not found or access denied");
+    }
     
     return await ctx.db.patch(id, {
       ...updates,
@@ -45,6 +60,17 @@ export const updateTask = mutation({
 export const deleteTask = mutation({
   args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+    
+    // Verify the task belongs to the authenticated user
+    const existingTask = await ctx.db.get(args.id);
+    if (!existingTask || existingTask.userId !== userId) {
+      throw new Error("Task not found or access denied");
+    }
+    
     return await ctx.db.delete(args.id);
   },
 });
@@ -52,8 +78,10 @@ export const deleteTask = mutation({
 export const getTasks = query({
   args: {},
   handler: async (ctx) => {
-    // TODO: Filter by authenticated user
-    const userId = "temp-user-id";
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return [];
+    }
     
     return await ctx.db
       .query("tasks")
@@ -66,6 +94,16 @@ export const getTasks = query({
 export const getTask = query({
   args: { id: v.id("tasks") },
   handler: async (ctx, args) => {
-    return await ctx.db.get(args.id);
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw new Error("Not authenticated");
+    }
+    
+    const task = await ctx.db.get(args.id);
+    if (!task || task.userId !== userId) {
+      throw new Error("Task not found or access denied");
+    }
+    
+    return task;
   },
 });
