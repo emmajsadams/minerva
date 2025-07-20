@@ -1,0 +1,5 @@
+[test]
+preload = ["./src/setupTests.ts"]
+
+[test.env]
+DOM_ENVIRONMENT = "jsdom"

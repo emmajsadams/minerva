@@ -35,6 +35,41 @@ test("hello world", () => {
 });
 ```
 
+### End-to-End Testing with Playwright
+
+For E2E testing, use Playwright. The app includes admin credentials for testing authentication flows:
+
+```bash
+# Install Playwright if not already installed
+bunx playwright install
+
+# Run E2E tests
+bunx playwright test
+```
+
+**Testing Authentication:**
+- **URL**: http://localhost:3000/
+- **Admin Email**: Use `ADMIN_EMAIL` from `.env.local` (emmajsadams@gmail.com)
+- **Admin Password**: Use `ADMIN_PASSWORD` from `.env.local`
+- After login, users should be redirected to the tasks page (`/tasks`)
+
+Example Playwright test:
+```ts
+import { test, expect } from '@playwright/test';
+
+test('admin login flow', async ({ page }) => {
+  await page.goto('http://localhost:3000/');
+  
+  // Fill login form
+  await page.fill('input[type="email"]', process.env.ADMIN_EMAIL);
+  await page.fill('input[type="password"]', process.env.ADMIN_PASSWORD);
+  await page.click('button[type="submit"]');
+  
+  // Should redirect to tasks page
+  await expect(page).toHaveURL('http://localhost:3000/tasks');
+});
+```
+
 ## Frontend
 
 Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
@@ -109,6 +144,23 @@ bun --hot ./index.ts
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.md`.
+
+## Development
+
+To start the development server (runs both Next.js and Convex):
+
+```bash
+bun run dev
+```
+
+This will:
+- Start Next.js dev server with Turbopack at http://localhost:3000/
+- Start Convex dev server for real-time backend
+- Show colored output for both services in the same terminal
+
+Individual commands are also available:
+- `bun run dev:next` - Next.js only
+- `bun run dev:convex` - Convex only
 
 ## Git Workflow
 

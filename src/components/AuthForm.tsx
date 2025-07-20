@@ -2,9 +2,15 @@
 
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function AuthForm() {
   const { signIn } = useAuthActions();
+  const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -33,6 +39,9 @@ export function AuthForm() {
         name: isSignUp ? name : undefined,
         flow: isSignUp ? "signUp" : "signIn",
       });
+      
+      // Redirect to tasks page after successful authentication
+      router.push("/tasks");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed");
     } finally {
@@ -41,48 +50,44 @@ export function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl text-center">
             {isForgotPassword 
               ? "Reset your password" 
               : isSignUp 
               ? "Create your account" 
               : "Sign in to your account"
             }
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
+          </CardTitle>
+          <CardDescription className="text-center">
             {isForgotPassword 
               ? "Enter your email to reset your password"
               : "Welcome to Minerva - Your personal productivity companion"
             }
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && !isForgotPassword && (
-              <div>
-                <label htmlFor="name" className="sr-only">
-                  Name
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="name">Full name</Label>
+                <Input
                   id="name"
                   name="name"
                   type="text"
                   required={isSignUp}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Full name"
+                  placeholder="Enter your full name"
                 />
               </div>
             )}
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
+            
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
                 id="email"
                 name="email"
                 type="email"
@@ -90,18 +95,14 @@ export function AuthForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 ${
-                  (isSignUp && !isForgotPassword) ? "" : "rounded-t-md"
-                } ${isForgotPassword ? "rounded-b-md" : ""} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                placeholder="Email address"
+                placeholder="Enter your email"
               />
             </div>
+            
             {!isForgotPassword && (
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
                   id="password"
                   name="password"
                   type="password"
@@ -109,27 +110,20 @@ export function AuthForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
+                  placeholder="Enter your password"
                 />
               </div>
             )}
-          </div>
 
-          {error && (
-            <div className="text-red-600 text-sm text-center">{error}</div>
-          )}
+            {error && (
+              <div className="text-destructive text-sm text-center">{error}</div>
+            )}
 
-          {message && (
-            <div className="text-green-600 text-sm text-center">{message}</div>
-          )}
+            {message && (
+              <div className="text-green-600 text-sm text-center">{message}</div>
+            )}
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <Button type="submit" className="w-full" disabled={loading}>
               {loading 
                 ? "Loading..." 
                 : isForgotPassword 
@@ -138,48 +132,51 @@ export function AuthForm() {
                 ? "Sign up" 
                 : "Sign in"
               }
-            </button>
-          </div>
+            </Button>
 
-          <div className="text-center space-y-2">
-            {!isForgotPassword && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => setIsSignUp(!isSignUp)}
-                  className="text-indigo-600 hover:text-indigo-500 text-sm block w-full"
-                >
-                  {isSignUp
-                    ? "Already have an account? Sign in"
-                    : "Don't have an account? Sign up"}
-                </button>
-                {!isSignUp && (
-                  <button
+            <div className="text-center space-y-2">
+              {!isForgotPassword && (
+                <>
+                  <Button
                     type="button"
-                    onClick={() => setIsForgotPassword(true)}
-                    className="text-indigo-600 hover:text-indigo-500 text-sm"
+                    variant="link"
+                    onClick={() => setIsSignUp(!isSignUp)}
+                    className="w-full"
                   >
-                    Forgot your password?
-                  </button>
-                )}
-              </>
-            )}
-            {isForgotPassword && (
-              <button
-                type="button"
-                onClick={() => {
-                  setIsForgotPassword(false);
-                  setError(null);
-                  setMessage(null);
-                }}
-                className="text-indigo-600 hover:text-indigo-500 text-sm"
-              >
-                Back to sign in
-              </button>
-            )}
-          </div>
-        </form>
-      </div>
+                    {isSignUp
+                      ? "Already have an account? Sign in"
+                      : "Don't have an account? Sign up"}
+                  </Button>
+                  {!isSignUp && (
+                    <Button
+                      type="button"
+                      variant="link"
+                      onClick={() => setIsForgotPassword(true)}
+                      className="text-sm"
+                    >
+                      Forgot your password?
+                    </Button>
+                  )}
+                </>
+              )}
+              {isForgotPassword && (
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={() => {
+                    setIsForgotPassword(false);
+                    setError(null);
+                    setMessage(null);
+                  }}
+                  className="text-sm"
+                >
+                  Back to sign in
+                </Button>
+              )}
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
