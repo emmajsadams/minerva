@@ -8,7 +8,7 @@ const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>", {
   resources: "usable",
 });
 
-global.window = dom.window as any;
+global.window = dom.window as typeof globalThis;
 global.document = dom.window.document;
 global.navigator = dom.window.navigator;
 global.HTMLElement = dom.window.HTMLElement;

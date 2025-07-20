@@ -107,21 +107,21 @@ export function TaskEditDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent 
+      <DialogContent
         className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8"
         showCloseButton={false}
-        style={{ maxWidth: '42rem', width: '95vw' }}
+        style={{ maxWidth: "42rem", width: "95vw" }}
       >
         {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
-        <div 
+        <div
           className="absolute inset-0 border-2 transform -rotate-[13.5deg] translate-x-8 translate-y-6 -z-10"
-          style={{ 
-            borderRadius: '80px / 35px',
-            backgroundColor: '#1E90FF',
-            borderColor: '#1E90FF',
-            width: '100%',
-            height: '100%',
-            opacity: '0.85'
+          style={{
+            borderRadius: "80px / 35px",
+            backgroundColor: "#1E90FF",
+            borderColor: "#1E90FF",
+            width: "100%",
+            height: "100%",
+            opacity: "0.85",
           }}
         ></div>
 
@@ -143,14 +143,13 @@ export function TaskEditDialog({
         </div>
 
         {/* Main Dialog Rectangle */}
-        <div 
+        <div
           className="relative border-2 border-primary/40 overflow-hidden shadow-2xl shadow-primary/20"
-          style={{ 
-            backgroundColor: 'hsl(var(--card))',
-            borderRadius: '80px / 35px'
+          style={{
+            backgroundColor: "hsl(var(--card))",
+            borderRadius: "80px / 35px",
           }}
         >
-
           {/* Main Dialog Content */}
           <div className="pt-12 px-12 pb-10">
             <DialogHeader className="mb-6">

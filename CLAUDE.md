@@ -40,12 +40,14 @@ test("hello world", () => {
 **CRITICAL**: When making UI changes or implementing visual features, ALWAYS test using Playwright MCP before assuming changes are working. Visual changes may not be apparent without actually viewing the browser.
 
 Use these MCP tools for UI testing:
+
 - `mcp__playwright__browser_navigate` - Navigate to pages
 - `mcp__playwright__browser_take_screenshot` - Capture visual state
 - `mcp__playwright__browser_click` - Interact with elements
 - `mcp__playwright__browser_wait_for` - Wait for page loads
 
 Example workflow:
+
 ```
 1. Make UI changes
 2. Navigate to http://localhost:3000/tasks with mcp__playwright__browser_navigate

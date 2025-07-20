@@ -8,6 +8,7 @@ import { api } from "../../../convex/_generated/api";
 import { useState, useEffect } from "react";
 import { EditIcon, DeleteIcon, ConfirmIcon } from "@/components/ui/icons";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
 export default function TasksPage() {
   const { signOut } = useAuthActions();
@@ -21,7 +22,7 @@ export default function TasksPage() {
   const [newTaskName, setNewTaskName] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
-  const [editingTask, setEditingTask] = useState<any | null>(null);
+  const [editingTask, setEditingTask] = useState<Doc<"tasks"> | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const handleCreateTask = async (e: React.FormEvent) => {
@@ -46,7 +47,7 @@ export default function TasksPage() {
     status: "todo" | "in_progress" | "done"
   ) => {
     try {
-      await updateTask({ id: taskId as any, status });
+      await updateTask({ id: taskId as Id<"tasks">, status });
     } catch (error) {
       console.error("Failed to update task:", error);
     }
@@ -56,7 +57,7 @@ export default function TasksPage() {
     if (deleteConfirmId === taskId) {
       // Second click - actually delete
       try {
-        await deleteTask({ id: taskId as any });
+        await deleteTask({ id: taskId as Id<"tasks"> });
         setDeleteConfirmId(null);
       } catch (error) {
         console.error("Failed to delete task:", error);
@@ -79,9 +80,12 @@ export default function TasksPage() {
     }
   };
 
-  const handleSaveTask = async (taskId: string, updates: any) => {
+  const handleSaveTask = async (
+    taskId: string,
+    updates: Partial<Doc<"tasks">>
+  ) => {
     try {
-      await updateTask({ id: taskId as any, ...updates });
+      await updateTask({ id: taskId as Id<"tasks">, ...updates });
     } catch (error) {
       console.error("Failed to update task:", error);
       throw error;
@@ -257,7 +261,10 @@ export default function TasksPage() {
                       <select
                         value={task.status}
                         onChange={(e) =>
-                          handleStatusChange(task._id, e.target.value as any)
+                          handleStatusChange(
+                            task._id,
+                            e.target.value as "todo" | "in_progress" | "done"
+                          )
                         }
                         className="persona-input text-sm px-3 py-2 rounded-lg"
                       >

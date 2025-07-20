@@ -22,12 +22,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Color System & Visual Hierarchy
 
 **Primary Palette:**
+
 - `#00BBFA` - Electric blue for primary actions, highlights, and interactive elements
 - `#79D7FD` - Secondary light blue for accents, triangular elements, and secondary actions
 - `#001736` - Deep navy blue for backgrounds and containers
 - `#00183E` - Slightly lighter navy for elevated surfaces and panels
 
 **Usage Patterns:**
+
 - Electric blue (#00BBFA) creates strong visual hierarchy for critical UI elements
 - Light blue (#79D7FD) provides subtle contrast without competing with primary elements
 - Deep navy backgrounds create depth and establish the underwater atmosphere
@@ -36,12 +38,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Typography & Information Design
 
 **Hierarchy Principles:**
+
 - **Primary headers** use electric blue (#00BBFA) for maximum visibility
 - **Secondary text** employs light blue (#79D7FD) for supporting information
 - **Body text** uses high-contrast white/light colors against dark backgrounds
 - **Small labels** maintain readability with careful contrast management
 
 **Text Treatment:**
+
 - Clean, sans-serif fonts prioritize readability in aquatic-themed environments
 - Generous letter spacing enhances legibility on dark backgrounds
 - Strategic use of font weights creates clear information hierarchy
@@ -50,12 +54,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Layout Patterns & Spatial Design
 
 **Container Architecture:**
+
 - **Rounded rectangles** (12-16px border radius) establish consistent component boundaries
 - **Generous padding** (24-32px) creates breathing room and premium feel
 - **Layered shadows** with 1-2px offsets and rotation add dimensional depth
 - **Angled shadow boxes** rotated 1-2 degrees create dynamic visual interest
 
 **Spacing System:**
+
 - **8px base unit** for consistent spacing relationships
 - **24px gaps** between major sections maintain visual hierarchy
 - **16px internal padding** for comfortable content spacing
@@ -64,12 +70,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Interactive Elements & Component Design
 
 **Button & Input Patterns:**
+
 - **Transparent borders** by default, revealing colored borders on hover/focus
 - **Subtle background tints** using primary colors at 10-20% opacity
 - **Smooth transitions** (300ms duration) for all interactive state changes
 - **Glass morphism effects** with backdrop blur and border highlights
 
 **Component Construction:**
+
 - **Triangular accent elements** using CSS borders for geometric visual interest
 - **Floating header badges** positioned absolutely with bright blue backgrounds
 - **Layered depth** through multiple shadow levels and strategic z-indexing
@@ -78,12 +86,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Animation & Transition Philosophy
 
 **Motion Design:**
+
 - **Entrance animations** fade and scale elements with ease-out timing
 - **Hover states** provide immediate feedback through subtle color and shadow changes
 - **Loading states** maintain user engagement with smooth, purposeful animations
 - **Page transitions** evoke underwater movement with flowing, organic timing
 
 **Performance Considerations:**
+
 - Hardware-accelerated transforms for smooth 60fps animations
 - Minimal layout thrashing through transform-only animations
 - Strategic use of will-change for performance optimization
@@ -92,12 +102,14 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 #### Accessibility & Usability Standards
 
 **Contrast & Readability:**
+
 - Minimum 4.5:1 contrast ratios for all text elements
 - Color is never the sole indicator of meaning or state
 - Focus indicators clearly visible with high-contrast outlines
 - Text remains legible at 200% zoom levels
 
 **Interaction Design:**
+
 - Minimum 44px touch targets for mobile accessibility
 - Clear hover and focus states for keyboard navigation
 - Consistent interaction patterns across all components
