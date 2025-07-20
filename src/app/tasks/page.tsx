@@ -36,7 +36,10 @@ export default function TasksPage() {
     }
   };
 
-  const handleStatusChange = async (taskId: string, status: "todo" | "in_progress" | "done") => {
+  const handleStatusChange = async (
+    taskId: string,
+    status: "todo" | "in_progress" | "done"
+  ) => {
     try {
       await updateTask({ id: taskId as any, status });
     } catch (error) {
@@ -117,10 +120,15 @@ export default function TasksPage() {
               [+] NEW_TASK.exe
             </button>
           ) : (
-            <form onSubmit={handleCreateTask} className="bg-card/30 p-6 border border-primary/30 backdrop-blur-sm">
+            <form
+              onSubmit={handleCreateTask}
+              className="bg-card/30 p-6 border border-primary/30 backdrop-blur-sm"
+            >
               <div className="flex gap-3">
                 <div className="flex-1">
-                  <div className="text-accent font-mono text-sm mb-2">&gt; TASK_NAME:</div>
+                  <div className="text-accent font-mono text-sm mb-2">
+                    &gt; TASK_NAME:
+                  </div>
                   <input
                     type="text"
                     value={newTaskName}
@@ -156,7 +164,9 @@ export default function TasksPage() {
         {/* Tasks Database */}
         <div className="bg-card/20 border border-primary/30 backdrop-blur-sm overflow-hidden">
           <div className="bg-card/30 px-6 py-3 border-b border-border">
-            <h2 className="text-accent font-mono text-sm tracking-wider">&gt; DATABASE_RECORDS.tbl</h2>
+            <h2 className="text-accent font-mono text-sm tracking-wider">
+              &gt; DATABASE_RECORDS.tbl
+            </h2>
           </div>
           <table className="min-w-full divide-y divide-border">
             <thead className="bg-card/40">
@@ -181,20 +191,30 @@ export default function TasksPage() {
             <tbody className="bg-card/10 divide-y divide-border/30">
               {tasks.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-muted-foreground font-mono">
-                    // NO_DATA_FOUND - Initialize database with first record
+                  <td
+                    colSpan={5}
+                    className="px-6 py-12 text-center text-muted-foreground font-mono"
+                  >
+                    {/* NO_DATA_FOUND - Initialize database with first record */}
                   </td>
                 </tr>
               ) : (
                 tasks.map((task) => (
-                  <tr key={task._id} className="hover:bg-card/20 transition-colors duration-200">
+                  <tr
+                    key={task._id}
+                    className="hover:bg-card/20 transition-colors duration-200"
+                  >
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-mono text-foreground">{task.name}</div>
+                      <div className="text-sm font-mono text-foreground">
+                        {task.name}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <select
                         value={task.status}
-                        onChange={(e) => handleStatusChange(task._id, e.target.value as any)}
+                        onChange={(e) =>
+                          handleStatusChange(task._id, e.target.value as any)
+                        }
                         className="bg-input border border-primary/30 font-mono text-foreground text-sm px-2 py-1 rounded-sm focus:border-accent focus:shadow-lg focus:shadow-accent/20 focus:outline-none hover:border-primary/50 transition-all duration-200"
                       >
                         <option value="todo">TODO</option>
@@ -203,11 +223,15 @@ export default function TasksPage() {
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-mono rounded border ${
-                        task.priority === "high" ? "bg-destructive/20 text-destructive border-destructive/30 shadow-lg shadow-destructive/30/30" :
-                        task.priority === "medium" ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" :
-                        "bg-primary/20 text-primary border-primary/30 shadow-lg shadow-primary/30/30"
-                      }`}>
+                      <span
+                        className={`inline-flex px-2 py-1 text-xs font-mono rounded border ${
+                          task.priority === "high"
+                            ? "bg-destructive/20 text-destructive border-destructive/30 shadow-lg shadow-destructive/30/30"
+                            : task.priority === "medium"
+                              ? "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+                              : "bg-primary/20 text-primary border-primary/30 shadow-lg shadow-primary/30/30"
+                        }`}
+                      >
                         {task.priority.toUpperCase()}
                       </span>
                     </td>

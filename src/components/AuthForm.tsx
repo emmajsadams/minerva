@@ -6,7 +6,13 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export function AuthForm() {
   const { signIn } = useAuthActions();
@@ -29,7 +35,9 @@ export function AuthForm() {
     try {
       if (isForgotPassword) {
         // For now, just show a message since password reset would need email configuration
-        setMessage("Password reset functionality will be implemented once email is configured.");
+        setMessage(
+          "Password reset functionality will be implemented once email is configured."
+        );
         return;
       }
 
@@ -39,7 +47,7 @@ export function AuthForm() {
         name: isSignUp ? name : undefined,
         flow: isSignUp ? "signUp" : "signIn",
       });
-      
+
       // Redirect to tasks page after successful authentication
       router.push("/tasks");
     } catch (err) {
@@ -55,29 +63,32 @@ export function AuthForm() {
       <div className="absolute top-4 left-4 text-primary text-sm font-mono">
         <span className="terminal-text">&gt; minerva_auth.exe</span>
       </div>
-      
-      <Card className="w-full border border-primary/30 shadow-lg shadow-primary/20 bg-card/90 backdrop-blur-sm" style={{ maxWidth: '384px' }}>
+
+      <Card
+        className="w-full border border-primary/30 shadow-lg shadow-primary/20 bg-card/90 backdrop-blur-sm"
+        style={{ maxWidth: "384px" }}
+      >
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl text-center text-primary font-mono">
-            {isForgotPassword 
-              ? "RESET_PASSWORD.exe" 
-              : isSignUp 
-              ? "CREATE_USER.exe" 
-              : "LOGIN.exe"
-            }
+            {isForgotPassword
+              ? "RESET_PASSWORD.exe"
+              : isSignUp
+                ? "CREATE_USER.exe"
+                : "LOGIN.exe"}
           </CardTitle>
           <CardDescription className="text-center text-accent font-mono text-sm">
-            {isForgotPassword 
+            {isForgotPassword
               ? "// Enter credentials to reset access"
-              : "// Welcome to the Minerva Network"
-            }
+              : "// Welcome to the Minerva Network"}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             {isSignUp && !isForgotPassword && (
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-accent font-mono text-sm">&gt; USER_NAME:</Label>
+                <Label htmlFor="name" className="text-accent font-mono text-sm">
+                  &gt; USER_NAME:
+                </Label>
                 <Input
                   id="name"
                   name="name"
@@ -90,9 +101,11 @@ export function AuthForm() {
                 />
               </div>
             )}
-            
+
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-accent font-mono text-sm">&gt; EMAIL_ADDR:</Label>
+              <Label htmlFor="email" className="text-accent font-mono text-sm">
+                &gt; EMAIL_ADDR:
+              </Label>
               <Input
                 id="email"
                 name="email"
@@ -105,10 +118,15 @@ export function AuthForm() {
                 className=""
               />
             </div>
-            
+
             {!isForgotPassword && (
               <div className="space-y-2">
-                <Label htmlFor="password" className="text-accent font-mono text-sm">&gt; PASSWD:</Label>
+                <Label
+                  htmlFor="password"
+                  className="text-accent font-mono text-sm"
+                >
+                  &gt; PASSWD:
+                </Label>
                 <Input
                   id="password"
                   name="password"
@@ -135,19 +153,18 @@ export function AuthForm() {
               </div>
             )}
 
-            <Button 
-              type="submit" 
-              className="w-full shadow-lg shadow-primary/30 hover:shadow-primary/50 font-mono tracking-wider bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200" 
+            <Button
+              type="submit"
+              className="w-full shadow-lg shadow-primary/30 hover:shadow-primary/50 font-mono tracking-wider bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200"
               disabled={loading}
             >
-              {loading 
-                ? "[PROCESSING...]" 
-                : isForgotPassword 
-                ? "[SEND_RESET]" 
-                : isSignUp 
-                ? "[CREATE_USER]" 
-                : "[LOGIN]"
-              }
+              {loading
+                ? "[PROCESSING...]"
+                : isForgotPassword
+                  ? "[SEND_RESET]"
+                  : isSignUp
+                    ? "[CREATE_USER]"
+                    : "[LOGIN]"}
             </Button>
 
             <div className="text-center space-y-3 pt-4 border-t border-border/20">

@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
     "@playwright/test": "^1.54.1",
     "@tailwindcss/cli": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.3",
@@ -13,9 +14,20 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "eslint-config-next": "^15.4.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
     "jsdom": "^26.1.0",
-    "playwright": "^1.54.1"
+    "lint-staged": "^16.1.2",
+    "playwright": "^1.54.1",
+    "prettier": "^3.6.2"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -27,7 +39,21 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "bun test --preload ./src/setupTests.ts"
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "bunx tsc --noEmit",
+    "test": "bun test --preload ./src/setupTests.ts",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.87",
