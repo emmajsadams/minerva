@@ -6,6 +6,13 @@ import { useConvexAuth } from "convex/react";
 import { useRouter } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
 import { useState, useEffect } from "react";
+import {
+  IconButton,
+  EditIcon,
+  DeleteIcon,
+  ConfirmIcon,
+} from "@/components/ui/icons";
+import { TaskEditDialog } from "@/components/TaskEditDialog";
 
 export default function TasksPage() {
   const { signOut } = useAuthActions();
@@ -18,6 +25,9 @@ export default function TasksPage() {
 
   const [newTaskName, setNewTaskName] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [editingTask, setEditingTask] = useState<any | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,11 +58,44 @@ export default function TasksPage() {
   };
 
   const handleDeleteTask = async (taskId: string) => {
-    try {
-      await deleteTask({ id: taskId as any });
-    } catch (error) {
-      console.error("Failed to delete task:", error);
+    if (deleteConfirmId === taskId) {
+      // Second click - actually delete
+      try {
+        await deleteTask({ id: taskId as any });
+        setDeleteConfirmId(null);
+      } catch (error) {
+        console.error("Failed to delete task:", error);
+      }
+    } else {
+      // First click - enter confirmation mode
+      setDeleteConfirmId(taskId);
+      // Auto-cancel confirmation after 3 seconds
+      setTimeout(() => {
+        setDeleteConfirmId(null);
+      }, 3000);
     }
+  };
+
+  const handleEditTask = (taskId: string) => {
+    const task = tasks?.find((t) => t._id === taskId);
+    if (task) {
+      setEditingTask(task);
+      setIsEditDialogOpen(true);
+    }
+  };
+
+  const handleSaveTask = async (taskId: string, updates: any) => {
+    try {
+      await updateTask({ id: taskId as any, ...updates });
+    } catch (error) {
+      console.error("Failed to update task:", error);
+      throw error;
+    }
+  };
+
+  const handleCloseEditDialog = () => {
+    setIsEditDialogOpen(false);
+    setEditingTask(null);
   };
 
   // Add authentication check
@@ -239,12 +282,30 @@ export default function TasksPage() {
                       {task.dueDate || "NULL"}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <button
-                        onClick={() => handleDeleteTask(task._id)}
-                        className="text-destructive hover:text-destructive/80 font-mono text-sm border border-primary/30 px-2 py-1 shadow-lg shadow-destructive/30/30 hover:shadow-lg shadow-destructive/30 transition-all duration-200"
-                      >
-                        [DELETE]
-                      </button>
+                      <div className="flex items-center gap-4">
+                        <IconButton
+                          variant="default"
+                          onClick={() => handleEditTask(task._id)}
+                          title="Edit task"
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          variant="destructive"
+                          onClick={() => handleDeleteTask(task._id)}
+                          title={
+                            deleteConfirmId === task._id
+                              ? "Click again to confirm delete"
+                              : "Delete task"
+                          }
+                        >
+                          {deleteConfirmId === task._id ? (
+                            <ConfirmIcon />
+                          ) : (
+                            <DeleteIcon />
+                          )}
+                        </IconButton>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -253,6 +314,13 @@ export default function TasksPage() {
           </table>
         </div>
       </div>
+
+      <TaskEditDialog
+        task={editingTask}
+        isOpen={isEditDialogOpen}
+        onClose={handleCloseEditDialog}
+        onSave={handleSaveTask}
+      />
     </div>
   );
 }
