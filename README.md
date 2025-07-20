@@ -1,6 +1,19 @@
 # Minerva
 Personal productivity software with task management, note storage, and AI integration.
 
+## Design Philosophy
+
+Minerva embraces a **90s cyberpunk aesthetic** inspired by iconic works like Ghost in the Shell, Serial Experiments Lain, and The Matrix. The interface evokes the digital landscapes of early internet culture with:
+
+- **Dark, terminal-inspired themes** with deep blacks and muted grays
+- **Neon accent colors** - bright greens, electric blues, and cyan highlights  
+- **Monospace typography** for that authentic code/terminal feel
+- **Glowing effects and subtle animations** reminiscent of CRT monitors
+- **Grid patterns and scan lines** as subtle background textures
+- **Minimalist yet futuristic UI elements** that feel both retro and timeless
+
+The goal is to create a productivity environment that feels like navigating the digital realm itself - functional, focused, and aesthetically striking.
+
 ## Tech Stack
 
 **Frontend**

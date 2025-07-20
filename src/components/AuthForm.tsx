@@ -50,29 +50,34 @@ export function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl text-center">
+    <div className="min-h-screen flex items-center justify-center bg-background p-8 relative">
+      {/* Terminal header effect */}
+      <div className="absolute top-4 left-4 text-primary text-sm font-mono">
+        <span className="terminal-text">&gt; minerva_auth.exe</span>
+      </div>
+      
+      <Card className="w-full border border-primary/30 shadow-lg shadow-primary/20 bg-card/90 backdrop-blur-sm" style={{ maxWidth: '384px' }}>
+        <CardHeader className="space-y-3">
+          <CardTitle className="text-2xl text-center text-primary font-mono">
             {isForgotPassword 
-              ? "Reset your password" 
+              ? "RESET_PASSWORD.exe" 
               : isSignUp 
-              ? "Create your account" 
-              : "Sign in to your account"
+              ? "CREATE_USER.exe" 
+              : "LOGIN.exe"
             }
           </CardTitle>
-          <CardDescription className="text-center">
+          <CardDescription className="text-center text-accent font-mono text-sm">
             {isForgotPassword 
-              ? "Enter your email to reset your password"
-              : "Welcome to Minerva - Your personal productivity companion"
+              ? "// Enter credentials to reset access"
+              : "// Welcome to the Minerva Network"
             }
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {isSignUp && !isForgotPassword && (
               <div className="space-y-2">
-                <Label htmlFor="name">Full name</Label>
+                <Label htmlFor="name" className="text-accent font-mono text-sm">&gt; USER_NAME:</Label>
                 <Input
                   id="name"
                   name="name"
@@ -80,13 +85,14 @@ export function AuthForm() {
                   required={isSignUp}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter your full name"
+                  placeholder="user.name"
+                  className=""
                 />
               </div>
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-accent font-mono text-sm">&gt; EMAIL_ADDR:</Label>
               <Input
                 id="email"
                 name="email"
@@ -95,13 +101,14 @@ export function AuthForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="user@domain.net"
+                className=""
               />
             </div>
             
             {!isForgotPassword && (
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-accent font-mono text-sm">&gt; PASSWD:</Label>
                 <Input
                   id="password"
                   name="password"
@@ -110,51 +117,60 @@ export function AuthForm() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Enter your password"
+                  placeholder="••••••••"
+                  className=""
                 />
               </div>
             )}
 
             {error && (
-              <div className="text-destructive text-sm text-center">{error}</div>
+              <div className="text-destructive text-sm text-center font-mono shadow-lg shadow-destructive/20 bg-destructive/10 p-2 rounded border border-destructive/20">
+                ERROR: {error}
+              </div>
             )}
 
             {message && (
-              <div className="text-green-600 text-sm text-center">{message}</div>
+              <div className="text-primary text-sm text-center font-mono shadow-lg shadow-primary/20 bg-primary/10 p-2 rounded border border-primary/20">
+                INFO: {message}
+              </div>
             )}
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full shadow-lg shadow-primary/30 hover:shadow-primary/50 font-mono tracking-wider bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200" 
+              disabled={loading}
+            >
               {loading 
-                ? "Loading..." 
+                ? "[PROCESSING...]" 
                 : isForgotPassword 
-                ? "Send Reset Email" 
+                ? "[SEND_RESET]" 
                 : isSignUp 
-                ? "Sign up" 
-                : "Sign in"
+                ? "[CREATE_USER]" 
+                : "[LOGIN]"
               }
             </Button>
 
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-3 pt-4 border-t border-border/20">
               {!isForgotPassword && (
                 <>
                   <Button
                     type="button"
                     variant="link"
                     onClick={() => setIsSignUp(!isSignUp)}
-                    className="w-full"
+                    className="w-full text-accent hover:text-primary font-mono text-sm tracking-wide"
                   >
                     {isSignUp
-                      ? "Already have an account? Sign in"
-                      : "Don't have an account? Sign up"}
+                      ? "// EXISTING_USER? → [LOGIN]"
+                      : "// NEW_USER? → [REGISTER]"}
                   </Button>
                   {!isSignUp && (
                     <Button
                       type="button"
                       variant="link"
                       onClick={() => setIsForgotPassword(true)}
-                      className="text-sm"
+                      className="text-muted-foreground hover:text-accent font-mono text-xs"
                     >
-                      Forgot your password?
+                      &gt; passwd_reset.exe
                     </Button>
                   )}
                 </>
@@ -168,9 +184,9 @@ export function AuthForm() {
                     setError(null);
                     setMessage(null);
                   }}
-                  className="text-sm"
+                  className="text-accent hover:text-primary font-mono text-sm"
                 >
-                  Back to sign in
+                  &lt; return_to_login.exe
                 </Button>
               )}
             </div>

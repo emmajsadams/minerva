@@ -12,7 +12,11 @@ export function ConvexClientProvider({
 }) {
   return (
     <ConvexProvider client={convex}>
-      <ConvexAuthProvider client={convex}>
+      <ConvexAuthProvider
+        client={convex}
+        storage={typeof window !== "undefined" ? localStorage : undefined}
+        apiRoute="/api/auth"
+      >
         {children}
       </ConvexAuthProvider>
     </ConvexProvider>

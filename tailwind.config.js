@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
@@ -54,6 +57,15 @@ export default {
           "3": "hsl(var(--chart-3))",
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))"
+        }
+      },
+      animation: {
+        'terminal-flicker': 'terminal-flicker 0.15s infinite linear',
+      },
+      keyframes: {
+        'terminal-flicker': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.8' },
         }
       }
     }

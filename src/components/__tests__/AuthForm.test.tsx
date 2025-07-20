@@ -81,7 +81,8 @@ describe('AuthForm', () => {
     render(<AuthForm />);
     
     // Switch to sign up mode
-    await user.click(screen.getByText("Don't have an account? Sign up"));
+    const signUpButton = screen.getByRole('button', { name: "Don't have an account? Sign up" });
+    await user.click(signUpButton);
     
     await user.type(screen.getByLabelText('Full name'), 'John Doe');
     await user.type(screen.getByLabelText('Email'), 'john@example.com');
@@ -140,7 +141,8 @@ describe('AuthForm', () => {
     render(<AuthForm />);
     
     // Switch to forgot password mode
-    await user.click(screen.getByText('Forgot your password?'));
+    const forgotPasswordButton = screen.getByRole('button', { name: 'Forgot your password?' });
+    await user.click(forgotPasswordButton);
     await user.type(screen.getByLabelText('Email'), 'test@example.com');
     await user.click(screen.getByRole('button', { name: 'Send Reset Email' }));
     
@@ -154,11 +156,13 @@ describe('AuthForm', () => {
     render(<AuthForm />);
     
     // Go to forgot password
-    await user.click(screen.getByText('Forgot your password?'));
+    const forgotPasswordButton = screen.getByRole('button', { name: 'Forgot your password?' });
+    await user.click(forgotPasswordButton);
     expect(screen.getByText('Reset your password')).toBeInTheDocument();
     
     // Go back to sign in
-    await user.click(screen.getByText('Back to sign in'));
+    const backButton = screen.getByRole('button', { name: 'Back to sign in' });
+    await user.click(backButton);
     expect(screen.getByText('Sign in to your account')).toBeInTheDocument();
   });
 });
