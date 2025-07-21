@@ -21,6 +21,7 @@ interface TaskEditDialogProps {
       "_id" | "_creationTime" | "deleted" | "userId" | "createdAt" | "updatedAt"
     >
   ) => Promise<void>;
+  onDelete?: (taskId: string) => Promise<void>;
   isCreating?: boolean;
 }
 
@@ -30,6 +31,7 @@ export function TaskEditDialog({
   onClose,
   onSave,
   onCreate,
+  onDelete,
   isCreating = false,
 }: TaskEditDialogProps) {
   const [name, setName] = useState("");
@@ -37,6 +39,8 @@ export function TaskEditDialog({
   const [priority, setPriority] = useState<Doc<"tasks">["priority"]>("medium");
   const [dueDate, setDueDate] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -80,6 +84,7 @@ export function TaskEditDialog({
       setStatus("todo");
       setPriority("medium");
       setDueDate("");
+      setShowDeleteConfirm(false);
       editor?.commands.clearContent();
     }
   }, [isOpen, editor]);
@@ -114,6 +119,21 @@ export function TaskEditDialog({
     }
   };
 
+  const handleDelete = async () => {
+    if (!task || !onDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await onDelete(task._id);
+      onClose();
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
+    }
+  };
+
   return (
     <StyledDialog
       isOpen={isOpen}
@@ -125,19 +145,54 @@ export function TaskEditDialog({
           : "Modify your task parameters and dive deeper into the details"
       }
       footer={
-        <Button
-          onClick={handleSave}
-          disabled={isSaving || !name.trim()}
-          className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
-        >
-          {isSaving
-            ? isCreating
-              ? "Creating..."
-              : "Saving..."
-            : isCreating
-              ? "Create Task"
-              : "Save Changes"}
-        </Button>
+        <div className="flex items-center justify-between w-full">
+          {!isCreating && onDelete && (
+            <div className="flex items-center gap-3">
+              {!showDeleteConfirm ? (
+                <Button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  disabled={isSaving || isDeleting}
+                  className="px-6 py-3 bg-destructive/20 border-2 border-destructive/30 text-destructive font-medium rounded-lg hover:bg-destructive/30 hover:border-destructive/50 transition-all duration-300"
+                >
+                  Delete Task
+                </Button>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-muted-foreground">
+                    Are you sure?
+                  </span>
+                  <Button
+                    onClick={handleDelete}
+                    disabled={isDeleting}
+                    className="px-4 py-2 bg-destructive border-2 border-destructive text-destructive-foreground font-medium rounded-lg hover:bg-destructive/90 transition-all duration-300"
+                  >
+                    {isDeleting ? "Deleting..." : "Confirm"}
+                  </Button>
+                  <Button
+                    onClick={() => setShowDeleteConfirm(false)}
+                    disabled={isDeleting}
+                    className="px-4 py-2 bg-muted border-2 border-muted text-muted-foreground font-medium rounded-lg hover:bg-muted/80 transition-all duration-300"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              )}
+            </div>
+          )}
+          <Button
+            onClick={handleSave}
+            disabled={isSaving || !name.trim() || isDeleting}
+            className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
+          >
+            {isSaving
+              ? isCreating
+                ? "Creating..."
+                : "Saving..."
+              : isCreating
+                ? "Create Task"
+                : "Save Changes"}
+          </Button>
+        </div>
       }
     >
       <div className="flex flex-col gap-8 py-4">

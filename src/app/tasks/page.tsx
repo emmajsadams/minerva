@@ -3,12 +3,7 @@
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
-import {
-  EditIcon,
-  DeleteIcon,
-  ConfirmIcon,
-  PlusIcon,
-} from "@/components/ui/icons";
+import { PlusIcon } from "@/components/ui/icons";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
@@ -18,7 +13,6 @@ export default function TasksPage() {
   const updateTask = useMutation(api.tasks.updateTask);
   const deleteTask = useMutation(api.tasks.deleteTask);
 
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<Doc<"tasks"> | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -46,25 +40,6 @@ export default function TasksPage() {
       await updateTask({ id: taskId as Id<"tasks">, status });
     } catch (error) {
       console.error("Failed to update task:", error);
-    }
-  };
-
-  const handleDeleteTask = async (taskId: string) => {
-    if (deleteConfirmId === taskId) {
-      // Second click - actually delete
-      try {
-        await deleteTask({ id: taskId as Id<"tasks"> });
-        setDeleteConfirmId(null);
-      } catch (error) {
-        console.error("Failed to delete task:", error);
-      }
-    } else {
-      // First click - enter confirmation mode
-      setDeleteConfirmId(taskId);
-      // Auto-cancel confirmation after 3 seconds
-      setTimeout(() => {
-        setDeleteConfirmId(null);
-      }, 3000);
     }
   };
 
@@ -104,12 +79,15 @@ export default function TasksPage() {
   return (
     <div className="h-full w-full relative bg-background text-foreground">
       {/* Main Content */}
-      <div className="w-full p-8">
+      <div
+        className="w-full p-8"
+        style={{ paddingLeft: "6rem", paddingRight: "6rem" }}
+      >
         {/* Tasks Collection */}
-        <div className="w-full min-w-[800px] max-w-6xl mx-auto bg-transparent rounded-xl">
+        <div className="w-full min-w-[800px] max-w-4xl mx-auto bg-transparent rounded-xl">
           <div className="space-y-4">
             {/* Header */}
-            <div className="grid grid-cols-12 gap-4 px-8 py-6 text-left text-sm font-medium text-secondary">
+            <div className="grid grid-cols-10 gap-4 px-8 py-6 text-left text-sm font-medium text-secondary">
               <div className="col-span-4 flex items-center gap-3">
                 Task
                 <button
@@ -124,7 +102,6 @@ export default function TasksPage() {
               <div className="col-span-2">Status</div>
               <div className="col-span-2">Priority</div>
               <div className="col-span-2">Due Date</div>
-              <div className="col-span-2">Actions</div>
             </div>
 
             {/* Tasks */}
@@ -141,7 +118,8 @@ export default function TasksPage() {
               tasks.map((task) => (
                 <div
                   key={task._id}
-                  className="grid grid-cols-12 gap-4 p-8 bg-slate-800 hover:bg-slate-700 transition-all duration-300 rounded-xl group shadow-lg shadow-black/20 mb-6"
+                  onClick={() => handleEditTask(task._id)}
+                  className="grid grid-cols-10 gap-4 p-8 bg-slate-800 hover:bg-slate-700 transition-all duration-300 rounded-xl group shadow-lg shadow-black/20 mb-6 cursor-pointer hover:shadow-xl hover:shadow-black/30 hover:scale-[1.02]"
                   style={{
                     backgroundColor: "rgba(30, 41, 59, 0.8)",
                     padding: "2rem",
@@ -158,12 +136,13 @@ export default function TasksPage() {
                   <div className="col-span-2">
                     <select
                       value={task.status}
-                      onChange={(e) =>
+                      onChange={(e) => {
+                        e.stopPropagation();
                         handleStatusChange(
                           task._id,
                           e.target.value as "todo" | "in_progress" | "done"
-                        )
-                      }
+                        );
+                      }}
                       className="persona-input text-sm px-3 py-2 rounded-lg w-full"
                     >
                       <option value="todo">To Do</option>
@@ -188,38 +167,6 @@ export default function TasksPage() {
                   <div className="col-span-2 text-sm text-muted-foreground">
                     {task.dueDate || "—"}
                   </div>
-                  <div className="col-span-2">
-                    <div className="flex items-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <button
-                        onClick={() => handleEditTask(task._id)}
-                        className="w-8 h-8 flex items-center justify-center text-primary transition-all duration-300 hover:scale-105 rounded-full bg-primary/10 hover:bg-primary/20 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/30 relative overflow-hidden group/edit"
-                        title="Edit task"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent opacity-0 group-hover/edit:opacity-100 transition-opacity duration-300 -translate-x-full group-hover/edit:translate-x-full transform" />
-                        <EditIcon className="w-4 h-4 relative z-10" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteTask(task._id)}
-                        className={`w-8 h-8 flex items-center justify-center transition-all duration-300 hover:scale-105 rounded-full backdrop-blur-sm hover:shadow-lg relative overflow-hidden group/delete ${
-                          deleteConfirmId === task._id
-                            ? "bg-destructive/20 hover:bg-destructive/30 text-destructive hover:shadow-destructive/40"
-                            : "bg-destructive/10 hover:bg-destructive/20 text-destructive hover:shadow-destructive/30"
-                        }`}
-                        title={
-                          deleteConfirmId === task._id
-                            ? "Click again to confirm delete"
-                            : "Delete task"
-                        }
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent opacity-0 group-hover/delete:opacity-100 transition-opacity duration-300 -translate-x-full group-hover/delete:translate-x-full transform" />
-                        {deleteConfirmId === task._id ? (
-                          <ConfirmIcon className="w-4 h-4 relative z-10" />
-                        ) : (
-                          <DeleteIcon className="w-4 h-4 relative z-10" />
-                        )}
-                      </button>
-                    </div>
-                  </div>
                 </div>
               ))
             )}
@@ -232,6 +179,9 @@ export default function TasksPage() {
         isOpen={isEditDialogOpen}
         onClose={handleCloseEditDialog}
         onSave={handleSaveTask}
+        onDelete={async (taskId: string) => {
+          await deleteTask({ id: taskId as Id<"tasks"> });
+        }}
       />
 
       <TaskEditDialog
