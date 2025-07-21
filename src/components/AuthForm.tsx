@@ -185,7 +185,7 @@ export function AuthForm() {
                     : "Sign In"}
             </Button>
 
-            <div className="text-center space-y-3 pt-6 border-t border-border/20">
+            <div className="text-center space-y-3 pt-6 border-t border-primary/20">
               {!isForgotPassword && (
                 <>
                   <Button

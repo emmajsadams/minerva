@@ -30,13 +30,13 @@ describe("AuthForm", () => {
   test("renders sign in form by default", () => {
     render(<AuthForm />);
 
-    expect(screen.getByText("LOGIN.exe")).toBeInTheDocument();
+    expect(screen.getByText("Welcome Back")).toBeInTheDocument();
     expect(
-      screen.getByText("// Welcome to the Minerva Network")
+      screen.getByText("Sign in to continue your personal development")
     ).toBeInTheDocument();
-    expect(screen.getByLabelText("> EMAIL_ADDR:")).toBeInTheDocument();
-    expect(screen.getByLabelText("> PASSWD:")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "[LOGIN]" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Email Address")).toBeInTheDocument();
+    expect(screen.getByLabelText("Password")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
   });
 
   test("switches to sign up mode when clicking toggle", async () => {
@@ -44,14 +44,14 @@ describe("AuthForm", () => {
     render(<AuthForm />);
 
     const signUpButton = screen.getByRole("button", {
-      name: "// NEW_USER? → [REGISTER]",
+      name: "Don't have an account? Sign up",
     });
     await user.click(signUpButton);
 
-    expect(screen.getByText("CREATE_USER.exe")).toBeInTheDocument();
-    expect(screen.getByLabelText("> USER_NAME:")).toBeInTheDocument();
+    expect(screen.getByText("Create Account")).toBeInTheDocument();
+    expect(screen.getByLabelText("Full Name")).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "[CREATE_USER]" })
+      screen.getByRole("button", { name: "Create Account" })
     ).toBeInTheDocument();
   });
 
@@ -60,17 +60,17 @@ describe("AuthForm", () => {
     render(<AuthForm />);
 
     const forgotPasswordButton = screen.getByRole("button", {
-      name: "> passwd_reset.exe",
+      name: "Forgot your password?",
     });
     await user.click(forgotPasswordButton);
 
-    expect(screen.getByText("RESET_PASSWORD.exe")).toBeInTheDocument();
+    expect(screen.getByText("Reset Password")).toBeInTheDocument();
     expect(
-      screen.getByText("// Enter credentials to reset access")
+      screen.getByText("Enter your email to reset your password")
     ).toBeInTheDocument();
-    expect(screen.queryByLabelText("> PASSWD:")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Password")).not.toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "[SEND_RESET]" })
+      screen.getByRole("button", { name: "Send Reset Link" })
     ).toBeInTheDocument();
   });
 
@@ -80,16 +80,16 @@ describe("AuthForm", () => {
 
     // Go to forgot password
     const forgotPasswordButton = screen.getByRole("button", {
-      name: "> passwd_reset.exe",
+      name: "Forgot your password?",
     });
     await user.click(forgotPasswordButton);
-    expect(screen.getByText("RESET_PASSWORD.exe")).toBeInTheDocument();
+    expect(screen.getByText("Reset Password")).toBeInTheDocument();
 
     // Go back to sign in
     const backButton = screen.getByRole("button", {
-      name: "< return_to_login.exe",
+      name: "Back to sign in",
     });
     await user.click(backButton);
-    expect(screen.getByText("LOGIN.exe")).toBeInTheDocument();
+    expect(screen.getByText("Welcome Back")).toBeInTheDocument();
   });
 });

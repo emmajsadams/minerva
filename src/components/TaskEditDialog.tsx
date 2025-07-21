@@ -110,48 +110,62 @@ export function TaskEditDialog({
       <DialogContent
         className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8"
         showCloseButton={false}
-        style={{ maxWidth: "42rem", width: "95vw" }}
+        style={{ maxWidth: "56rem", width: "95vw" }}
       >
         {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
-        <div
-          className="absolute inset-0 border-2 transform -rotate-[13.5deg] translate-x-8 translate-y-6 -z-10"
+        <div 
+          className="absolute transform -rotate-[4deg] translate-x-6 translate-y-4 -z-10"
           style={{
-            borderRadius: "80px / 35px",
-            backgroundColor: "#1E90FF",
-            borderColor: "#1E90FF",
-            width: "100%",
-            height: "100%",
-            opacity: "0.85",
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
           }}
-        ></div>
-
-        {/* Large Angled Triangular Accent Element - Positioned Within Dialog */}
-        <div className="absolute -top-[20px] left-[80px] z-20">
+        >
           <svg
-            width="120"
-            height="60"
-            viewBox="0 0 120 60"
-            className="overflow-visible"
+            className="w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
           >
             <path
-              d="M 10 8 L 100 15 L 35 50 Z"
-              fill="hsl(var(--secondary) / 0.8)"
-              className="drop-shadow-lg"
-              transform="rotate(-8 60 30)"
+              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
+              fill="#1E90FF"
+              opacity="0.85"
             />
           </svg>
         </div>
 
-        {/* Main Dialog Rectangle */}
-        <div
-          className="relative border-2 border-primary/40 overflow-hidden shadow-2xl shadow-primary/20"
-          style={{
-            backgroundColor: "hsl(var(--card))",
-            borderRadius: "80px / 35px",
-          }}
-        >
+        {/* Large Angled Triangular Accent Element - Overflowing Top Left */}
+        <div className="absolute -top-[60px] -left-[80px] z-20">
+          <svg
+            width="200"
+            height="100"
+            viewBox="0 0 200 100"
+            className="overflow-visible"
+          >
+            <path
+              d="M 0 0 L 140 0 L 20 60 Z"
+              fill="rgba(0, 102, 204, 0.85)"
+              className="drop-shadow-lg"
+              transform="rotate(190 100 50)"
+            />
+          </svg>
+        </div>
+
+        {/* Main Dialog Rectangle - SVG Shape */}
+        <div className="relative overflow-hidden shadow-2xl shadow-primary/20">
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
+              fill="hsl(var(--card) / 0.85)"
+            />
+          </svg>
           {/* Main Dialog Content */}
-          <div className="pt-12 px-12 pb-10">
+          <div className="relative z-10 p-8" style={{ padding: "4rem" }}>
             <DialogHeader className="mb-6">
               <DialogTitle className="text-2xl text-foreground font-medium mb-2">
                 Edit Task Details
@@ -252,7 +266,7 @@ export function TaskEditDialog({
               </div>
             </div>
 
-            <DialogFooter className="pt-6 border-t border-primary/20 mt-6">
+            <DialogFooter className="pt-6 mt-6">
               <Button
                 onClick={handleSave}
                 disabled={isSaving || !name.trim()}

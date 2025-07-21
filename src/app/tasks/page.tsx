@@ -1,19 +1,14 @@
 "use client";
 
 import { useQuery, useMutation } from "convex/react";
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useConvexAuth } from "convex/react";
-import { useRouter } from "next/navigation";
 import { api } from "../../../convex/_generated/api";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { EditIcon, DeleteIcon, ConfirmIcon } from "@/components/ui/icons";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
 export default function TasksPage() {
-  const { signOut } = useAuthActions();
-  const { isAuthenticated, isLoading } = useConvexAuth();
-  const router = useRouter();
   const tasks = useQuery(api.tasks.getTasks);
   const createTask = useMutation(api.tasks.createTask);
   const updateTask = useMutation(api.tasks.updateTask);
@@ -97,29 +92,6 @@ export default function TasksPage() {
     setEditingTask(null);
   };
 
-  // Add authentication check
-  useEffect(() => {
-    console.log("Auth state:", { isAuthenticated, isLoading });
-    if (!isLoading && !isAuthenticated) {
-      router.push("/");
-    }
-  }, [isAuthenticated, isLoading, router]);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Redirecting to login...</div>
-      </div>
-    );
-  }
 
   if (tasks === undefined) {
     return (
@@ -130,25 +102,15 @@ export default function TasksPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background relative">
-      {/* Sea of Souls Header */}
+    <div className="min-h-screen relative bg-background text-foreground">
+      {/* Header with sidebar trigger */}
       <div className="glass-panel border-b shadow-lg relative z-10">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
-          <div className="flex justify-between items-center py-8">
-            <div className="flex items-center space-x-6">
-              <div className="text-primary text-xl font-medium">
-                <span className="text-shimmer">Minerva</span>
-              </div>
-              <div className="text-secondary/80 text-sm">
-                Personal Task Management
-              </div>
+        <div className="flex items-center gap-4 px-6 py-4">
+          <SidebarTrigger className="text-primary hover:bg-primary/10" />
+          <div className="flex items-center space-x-6">
+            <div className="text-secondary/80 text-sm">
+              Personal Task Management
             </div>
-            <button
-              onClick={() => signOut()}
-              className="glass-panel hover:glow-aqua px-6 py-3 text-primary border border-primary/30 rounded-lg font-medium text-sm transition-all duration-300 hover:scale-105"
-            >
-              Sign Out
-            </button>
           </div>
         </div>
       </div>
@@ -208,7 +170,7 @@ export default function TasksPage() {
 
         {/* Tasks Collection */}
         <div className="glass-panel rounded-xl overflow-hidden soul-dive">
-          <div className="glass-panel px-8 py-6 border-b border-border/30">
+          <div className="glass-panel px-8 py-6 border-b border-primary/30">
             <h2 className="text-primary font-medium text-lg">Your Tasks</h2>
             <p className="text-secondary/80 text-sm mt-1">
               Manage your personal development journey
