@@ -12,7 +12,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -20,7 +19,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronUp, User2, LogOut, Home, CheckSquare, Calendar, Settings } from "lucide-react";
+import {
+  ChevronUp,
+  User2,
+  LogOut,
+  Home,
+  CheckSquare,
+  Calendar,
+  Settings,
+} from "lucide-react";
 
 const navigation = [
   {
@@ -49,7 +56,10 @@ export function AppSidebar() {
   const { signOut } = useAuthActions();
 
   return (
-    <Sidebar className="border-r border-primary/40 bg-card/50 backdrop-blur-xl">
+    <Sidebar 
+      collapsible="none"
+      className="border-r border-primary/40 bg-card/50 backdrop-blur-xl"
+    >
       <SidebarHeader className="border-b border-primary/40 bg-card/30 backdrop-blur-sm">
         <div className="flex items-center gap-2 px-4 py-4">
           <div className="text-primary text-xl font-semibold">
@@ -60,19 +70,16 @@ export function AppSidebar() {
 
       <SidebarContent className="bg-transparent">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-secondary/80 text-xs font-medium uppercase tracking-wider">
-            Navigation
-          </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="space-y-3 mt-6">
               {navigation.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a
                       href={item.url}
-                      className="flex items-center gap-3 px-3 py-2 text-foreground/80 hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-200"
+                      className="flex items-center gap-4 px-4 py-4 text-foreground/80 hover:text-primary hover:bg-primary/10 rounded-lg transition-all duration-200 text-base"
                     >
-                      <item.icon className="w-4 h-4" />
+                      <item.icon className="w-5 h-5" />
                       <span className="font-medium">{item.title}</span>
                     </a>
                   </SidebarMenuButton>

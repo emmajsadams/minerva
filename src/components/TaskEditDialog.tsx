@@ -113,13 +113,13 @@ export function TaskEditDialog({
         style={{ maxWidth: "56rem", width: "95vw" }}
       >
         {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
-        <div 
+        <div
           className="absolute transform -rotate-[4deg] translate-x-6 translate-y-4 -z-10"
           style={{
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%'
+            width: "100%",
+            height: "100%",
           }}
         >
           <svg

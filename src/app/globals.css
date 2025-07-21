@@ -303,6 +303,11 @@
   --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
   --sidebar-border: 200 70% 25%; /* Same as border */
   --sidebar-ring: 195 100% 50%; /* Same as ring */
+  
+  /* Sidebar width variables */
+  --sidebar-width: 16rem;
+  --sidebar-width-mobile: 18rem;
+  --sidebar-width-icon: 3rem;
 }
 
 .dark {
@@ -314,6 +319,11 @@
   --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
   --sidebar-border: 200 70% 25%; /* Same as border */
   --sidebar-ring: 195 100% 50%; /* Same as ring */
+  
+  /* Sidebar width variables */
+  --sidebar-width: 16rem;
+  --sidebar-width-mobile: 18rem;
+  --sidebar-width-icon: 3rem;
 }
 
 @theme inline {

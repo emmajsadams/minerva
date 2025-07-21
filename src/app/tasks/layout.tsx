@@ -37,12 +37,10 @@ export default function TasksLayout({
   }
 
   return (
-    <SidebarProvider>
-      <div className="min-h-screen bg-background text-foreground">
+    <SidebarProvider defaultOpen={true}>
+      <div className="min-h-screen bg-background text-foreground flex">
         <AppSidebar />
-        <SidebarInset>
-          {children}
-        </SidebarInset>
+        <SidebarInset className="flex-1">{children}</SidebarInset>
       </div>
     </SidebarProvider>
   );
