@@ -46,7 +46,7 @@ export function StyledDialog({
       >
         {/* Aquatic-themed Shadow - Large Rotated Dialog Shape */}
         <div
-          className="absolute transform -rotate-[4deg] translate-x-6 translate-y-4 -z-10"
+          className="absolute transform -rotate-[3deg] translate-x-2 translate-y-1 -z-10"
           style={{
             top: 0,
             left: 0,
@@ -60,7 +60,7 @@ export function StyledDialog({
             preserveAspectRatio="none"
           >
             <path
-              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
+              d="M 25 0 Q 50 -2 75 0 Q 100 0 100 25 Q 102 50 100 75 Q 100 100 75 100 Q 50 102 25 100 Q 0 100 0 75 Q -2 50 0 25 Q 0 0 25 0 Z"
               fill="#1E90FF"
               opacity="0.85"
             />
@@ -69,18 +69,18 @@ export function StyledDialog({
 
         {/* Large Angled Triangular Accent Element - Overflowing Top Left */}
         {showTriangle && (
-          <div className="absolute -top-[60px] -left-[80px] z-20">
+          <div className="absolute -top-[40px] -left-[90px] z-[5]">
             <svg
-              width="200"
-              height="100"
-              viewBox="0 0 200 100"
+              width="220"
+              height="110"
+              viewBox="0 0 220 110"
               className="overflow-visible"
             >
               <path
-                d="M 0 0 L 140 0 L 20 60 Z"
-                fill="rgba(0, 102, 204, 0.85)"
+                d="M 0 30 L 160 0 L 30 80 Z"
+                fill="#007FFF"
                 className="drop-shadow-lg"
-                transform="rotate(190 100 50)"
+                transform="rotate(185 110 55)"
               />
             </svg>
           </div>
@@ -94,14 +94,17 @@ export function StyledDialog({
             preserveAspectRatio="none"
           >
             <path
-              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
+              d="M 25 0 Q 50 -2 75 0 Q 100 0 100 25 Q 102 50 100 75 Q 100 100 75 100 Q 50 102 25 100 Q 0 100 0 75 Q -2 50 0 25 Q 0 0 25 0 Z"
               fill="hsl(var(--card) / 0.85)"
             />
           </svg>
 
           {/* Main Dialog Content - Generic reusable component */}
-          <div className="relative z-10 p-8" style={{ padding: "4rem" }}>
-            <DialogHeader className="mb-6">
+          <div
+            className="relative z-[15] p-8"
+            style={{ padding: "2rem 5rem 2.5rem 5rem" }}
+          >
+            <DialogHeader className="mb-4">
               <DialogTitle className="text-2xl text-foreground font-medium mb-2">
                 {title}
               </DialogTitle>

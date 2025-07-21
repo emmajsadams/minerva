@@ -139,11 +139,6 @@ export function TaskEditDialog({
       isOpen={isOpen}
       onClose={onClose}
       title={isCreating ? "Create New Task" : "Edit Task Details"}
-      description={
-        isCreating
-          ? "Define your task parameters and dive into the details"
-          : "Modify your task parameters and dive deeper into the details"
-      }
       footer={
         <div className="flex items-center justify-between w-full">
           {!isCreating && onDelete && (
@@ -202,12 +197,6 @@ export function TaskEditDialog({
       <div className="flex flex-col gap-8 py-4">
         {/* Task Name */}
         <div className="space-y-3">
-          <Label
-            htmlFor="task-name"
-            className="text-secondary font-medium text-sm"
-          >
-            Task Name
-          </Label>
           <Input
             id="task-name"
             value={name}
