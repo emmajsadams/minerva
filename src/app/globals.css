@@ -34,10 +34,12 @@
     --radius: 0.5rem; /* Softer edges */
 
     /* Persona 3 accent colors */
-    --gold: 46 100% 65%; /* Golden accent (#ffc54a) */
+    --gold: 45 100% 55%; /* Brighter golden accent (#ffbf00) */
     --glass-shimmer: 195 100% 85%; /* Glass reflection */
     --underwater-blue: 200 100% 30%; /* Deep underwater */
-    --soul-glow: 195 100% 70%; /* Soul energy glow */
+    --soul-glow: 280 100% 75%; /* Purple soul energy glow */
+    --persona-red: 0 85% 65%; /* Red accent for variety */
+    --persona-green: 120 60% 60%; /* Green accent for variety */
   }
 
   .dark {
@@ -290,6 +292,113 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: underwater-shimmer 3s ease-in-out infinite;
+  }
+
+  /* Persona 3 menu text colors */
+  .text-soul-glow {
+    color: hsl(var(--soul-glow));
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .text-persona-red {
+    color: hsl(var(--persona-red));
+  }
+
+  .text-persona-green {
+    color: hsl(var(--persona-green));
+  }
+
+  /* Additional background utilities for logo */
+  .bg-glass-shimmer {
+    background-color: hsl(var(--glass-shimmer));
+  }
+
+  .bg-soul-glow {
+    background-color: hsl(var(--soul-glow));
+  }
+
+  /* Shadow utilities for menu items */
+  .shadow-soul-glow\/20 {
+    box-shadow: 0 4px 6px hsl(var(--soul-glow) / 0.2);
+  }
+
+  .shadow-gold\/20 {
+    box-shadow: 0 4px 6px hsl(var(--gold) / 0.2);
+  }
+
+  .shadow-persona-red\/20 {
+    box-shadow: 0 4px 6px hsl(var(--persona-red) / 0.2);
+  }
+
+  .shadow-persona-green\/20 {
+    box-shadow: 0 4px 6px hsl(var(--persona-green) / 0.2);
+  }
+
+  .shadow-primary\/20 {
+    box-shadow: 0 4px 6px hsl(var(--primary) / 0.2);
+  }
+
+  .shadow-secondary\/20 {
+    box-shadow: 0 4px 6px hsl(var(--secondary) / 0.2);
+  }
+}
+
+/* Persona 3 Keyframe Animations */
+@keyframes underwater-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+    transform: translateY(0px);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translateY(-5px) rotate(-1deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes glass-reflect {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes soul-dive {
+  0% {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
   }
 }
 

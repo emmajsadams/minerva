@@ -4,8 +4,8 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState } from "react";
 import { EditIcon, DeleteIcon, ConfirmIcon } from "@/components/ui/icons";
+import { Plus } from "lucide-react";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
-import { SidebarTrigger } from "@/components/ui/sidebar";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
 export default function TasksPage() {
@@ -14,26 +14,23 @@ export default function TasksPage() {
   const updateTask = useMutation(api.tasks.updateTask);
   const deleteTask = useMutation(api.tasks.deleteTask);
 
-  const [newTaskName, setNewTaskName] = useState("");
-  const [showCreateForm, setShowCreateForm] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
   const [editingTask, setEditingTask] = useState<Doc<"tasks"> | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const handleCreateTask = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTaskName.trim()) return;
-
+  const handleCreateTask = async (taskData: {
+    name: string;
+    description?: string;
+    status: "todo" | "in_progress" | "done";
+    priority: "low" | "medium" | "high";
+    dueDate?: string;
+  }) => {
     try {
-      await createTask({
-        name: newTaskName,
-        status: "todo",
-        priority: "medium",
-      });
-      setNewTaskName("");
-      setShowCreateForm(false);
+      await createTask(taskData);
     } catch (error) {
       console.error("Failed to create task:", error);
+      throw error;
     }
   };
 
@@ -94,92 +91,32 @@ export default function TasksPage() {
 
   if (tasks === undefined) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="h-full flex items-center justify-center">
         <div className="text-lg">Loading tasks...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative bg-background text-foreground">
-      {/* Header with sidebar trigger */}
-      <div className="glass-panel border-b shadow-lg relative z-10">
-        <div className="flex items-center gap-4 px-6 py-4">
-          <SidebarTrigger className="text-primary hover:bg-primary/10" />
-          <div className="flex items-center space-x-6">
-            <div className="text-secondary/80 text-sm">
-              Personal Task Management
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <div className="h-full w-full relative bg-background text-foreground">
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-8">
-        {/* Create Task Section */}
-        <div className="mb-8">
-          {!showCreateForm ? (
-            <button
-              onClick={() => setShowCreateForm(true)}
-              className="glass-panel hover:glow-aqua px-8 py-4 text-primary border border-primary/30 rounded-lg font-medium transition-all duration-300 hover:scale-105 soul-dive"
-            >
-              + Create New Task
-            </button>
-          ) : (
-            <form
-              onSubmit={handleCreateTask}
-              className="glass-panel p-8 rounded-xl soul-dive"
-            >
-              <div className="flex gap-6">
-                <div className="flex-1">
-                  <div className="text-secondary font-medium text-sm mb-3">
-                    Task Name
-                  </div>
-                  <input
-                    type="text"
-                    value={newTaskName}
-                    onChange={(e) => setNewTaskName(e.target.value)}
-                    placeholder="Enter task description..."
-                    className="persona-input w-full px-4 py-3 rounded-lg"
-                    autoFocus
-                  />
-                </div>
-                <div className="flex gap-4 items-end">
-                  <button
-                    type="submit"
-                    className="glass-panel hover:glow-aqua px-6 py-3 text-primary border border-primary/50 rounded-lg font-medium transition-all duration-300"
-                  >
-                    Create
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowCreateForm(false);
-                      setNewTaskName("");
-                    }}
-                    className="glass-panel hover:glow-glass px-6 py-3 text-secondary border border-secondary/30 rounded-lg font-medium transition-all duration-300"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </form>
-          )}
-        </div>
-
+      <div className="w-full p-8">
         {/* Tasks Collection */}
-        <div className="glass-panel rounded-xl overflow-hidden soul-dive">
-          <div className="glass-panel px-8 py-6 border-b border-primary/30">
-            <h2 className="text-primary font-medium text-lg">Your Tasks</h2>
-            <p className="text-secondary/80 text-sm mt-1">
-              Manage your personal development journey
-            </p>
-          </div>
-          <table className="min-w-full">
-            <thead className="glass-panel">
+        <div className="w-full min-w-[800px] max-w-6xl mx-auto bg-transparent rounded-xl overflow-hidden">
+          <table className="w-full table-auto">
+            <thead className="bg-transparent">
               <tr>
                 <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
-                  Task
+                  <div className="flex items-center gap-3">
+                    Task
+                    <button
+                      onClick={() => setIsCreateDialogOpen(true)}
+                      className="glass-panel hover:glow-aqua w-8 h-8 flex items-center justify-center text-primary border border-primary/30 rounded transition-all duration-300 hover:scale-105"
+                      title="Create New Task"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
                 </th>
                 <th className="px-8 py-6 text-left text-sm font-medium text-secondary">
                   Status
@@ -294,6 +231,15 @@ export default function TasksPage() {
         isOpen={isEditDialogOpen}
         onClose={handleCloseEditDialog}
         onSave={handleSaveTask}
+      />
+
+      <TaskEditDialog
+        task={null}
+        isOpen={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onSave={() => Promise.resolve()}
+        onCreate={handleCreateTask}
+        isCreating={true}
       />
     </div>
   );

@@ -31,6 +31,8 @@ interface TaskEditDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (taskId: string, updates: Partial<Task>) => Promise<void>;
+  onCreate?: (taskData: Omit<Task, "_id" | "deleted">) => Promise<void>;
+  isCreating?: boolean;
 }
 
 export function TaskEditDialog({
@@ -38,6 +40,8 @@ export function TaskEditDialog({
   isOpen,
   onClose,
   onSave,
+  onCreate,
+  isCreating = false,
 }: TaskEditDialogProps) {
   const [name, setName] = useState("");
   const [status, setStatus] = useState<Task["status"]>("todo");
@@ -64,14 +68,21 @@ export function TaskEditDialog({
 
   // Update form when task changes
   useEffect(() => {
-    if (task) {
+    if (task && !isCreating) {
       setName(task.name);
       setStatus(task.status);
       setPriority(task.priority);
       setDueDate(task.dueDate || "");
       editor?.commands.setContent(task.description || "");
+    } else if (isCreating) {
+      // Reset to defaults for creating new task
+      setName("");
+      setStatus("todo");
+      setPriority("medium");
+      setDueDate("");
+      editor?.commands.clearContent();
     }
-  }, [task, editor]);
+  }, [task, editor, isCreating]);
 
   // Reset form when dialog closes
   useEffect(() => {
@@ -85,21 +96,30 @@ export function TaskEditDialog({
   }, [isOpen, editor]);
 
   const handleSave = async () => {
-    if (!task || !name.trim()) return;
+    if (!name.trim()) return;
 
     setIsSaving(true);
     try {
       const description = editor?.getHTML() || "";
-      await onSave(task._id, {
+      const taskData = {
         name: name.trim(),
         description,
         status,
         priority,
         dueDate: dueDate || undefined,
-      });
+      };
+
+      if (isCreating && onCreate) {
+        await onCreate(taskData);
+      } else if (task && onSave) {
+        await onSave(task._id, taskData);
+      }
       onClose();
     } catch (error) {
-      console.error("Failed to update task:", error);
+      console.error(
+        isCreating ? "Failed to create task:" : "Failed to update task:",
+        error
+      );
     } finally {
       setIsSaving(false);
     }
@@ -108,9 +128,15 @@ export function TaskEditDialog({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8"
+        className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8 [&>*]:shadow-none [&>*]:border-0"
         showCloseButton={false}
-        style={{ maxWidth: "56rem", width: "95vw" }}
+        style={{
+          maxWidth: "56rem",
+          width: "95vw",
+          boxShadow: "none",
+          border: "none",
+          outline: "none",
+        }}
       >
         {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
         <div
@@ -153,7 +179,7 @@ export function TaskEditDialog({
         </div>
 
         {/* Main Dialog Rectangle - SVG Shape */}
-        <div className="relative overflow-hidden shadow-2xl shadow-primary/20">
+        <div className="relative overflow-hidden">
           <svg
             className="absolute inset-0 w-full h-full"
             viewBox="0 0 100 100"
@@ -168,10 +194,12 @@ export function TaskEditDialog({
           <div className="relative z-10 p-8" style={{ padding: "4rem" }}>
             <DialogHeader className="mb-6">
               <DialogTitle className="text-2xl text-foreground font-medium mb-2">
-                Edit Task Details
+                {isCreating ? "Create New Task" : "Edit Task Details"}
               </DialogTitle>
               <DialogDescription className="text-secondary/80 text-sm">
-                Modify your task parameters and dive deeper into the details
+                {isCreating
+                  ? "Define your task parameters and dive into the details"
+                  : "Modify your task parameters and dive deeper into the details"}
               </DialogDescription>
             </DialogHeader>
 
@@ -272,7 +300,13 @@ export function TaskEditDialog({
                 disabled={isSaving || !name.trim()}
                 className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
               >
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving
+                  ? isCreating
+                    ? "Creating..."
+                    : "Saving..."
+                  : isCreating
+                    ? "Create Task"
+                    : "Save Changes"}
               </Button>
             </DialogFooter>
           </div>
