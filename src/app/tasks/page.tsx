@@ -2,8 +2,7 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useState } from "react";
-import { PlusIcon } from "@/components/ui/icons";
+import { useState, useEffect } from "react";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
@@ -68,6 +67,17 @@ export default function TasksPage() {
     setEditingTask(null);
   };
 
+  // Listen for create task events from sidebar
+  useEffect(() => {
+    const handleCreateTaskEvent = () => {
+      setIsCreateDialogOpen(true);
+    };
+
+    window.addEventListener("create-task", handleCreateTaskEvent);
+    return () =>
+      window.removeEventListener("create-task", handleCreateTaskEvent);
+  }, []);
+
   if (tasks === undefined) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -88,17 +98,7 @@ export default function TasksPage() {
           <div className="space-y-4">
             {/* Header */}
             <div className="grid grid-cols-10 gap-4 px-8 py-6 text-left text-sm font-medium text-secondary">
-              <div className="col-span-4 flex items-center gap-3">
-                Task
-                <button
-                  onClick={() => setIsCreateDialogOpen(true)}
-                  className="w-8 h-8 flex items-center justify-center text-primary transition-all duration-300 hover:scale-105 rounded-full bg-primary/10 hover:bg-primary/20 backdrop-blur-sm hover:shadow-lg hover:shadow-primary/30 relative overflow-hidden group"
-                  title="Create New Task"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-full group-hover:translate-x-full transform" />
-                  <PlusIcon className="w-4 h-4 relative z-10" />
-                </button>
-              </div>
+              <div className="col-span-4">Task</div>
               <div className="col-span-2">Status</div>
               <div className="col-span-2">Priority</div>
               <div className="col-span-2">Due Date</div>

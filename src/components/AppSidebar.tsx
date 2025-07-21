@@ -21,21 +21,13 @@ import {
   ChevronUp,
   User2,
   LogOut,
-  Home,
   CheckSquare,
   Calendar,
   Settings,
 } from "lucide-react";
+import { PlusIcon } from "@/components/ui/icons";
 
 const navigation = [
-  {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: Home,
-    color: "text-blue-300",
-    rotation: "-rotate-3",
-    shadow: "shadow-blue-300/20",
-  },
   {
     title: "Tasks",
     url: "/tasks",
@@ -64,6 +56,11 @@ const navigation = [
 
 export function AppSidebar() {
   const { signOut } = useAuthActions();
+
+  const handleCreateTask = () => {
+    // Dispatch a custom event that the tasks page can listen to
+    window.dispatchEvent(new CustomEvent("create-task"));
+  };
 
   return (
     <Sidebar
@@ -100,6 +97,56 @@ export function AppSidebar() {
                   {/* Shadow element */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl blur-sm opacity-60 transform rotate-1 translate-x-1 translate-y-1 -z-10"></div>
                 </div>
+              </SidebarMenuItem>
+
+              {/* Create Task Button */}
+              <SidebarMenuItem
+                className="relative w-full flex justify-center"
+                style={{ marginBottom: "2em" }}
+              >
+                <SidebarMenuButton asChild>
+                  <button
+                    onClick={handleCreateTask}
+                    className="
+                      flex items-center gap-6 px-6 py-6 
+                      hover:bg-primary/10 rounded-lg 
+                      transition-all duration-300 text-lg font-bold
+                      transform hover:scale-105 -rotate-2
+                      relative z-10 justify-center w-full max-w-xs
+                      bg-primary/20
+                    "
+                  >
+                    <PlusIcon className="w-7 h-7 text-primary" />
+                    <span
+                      className="
+                        font-bold tracking-wide text-primary
+                        drop-shadow-lg
+                      "
+                      style={{
+                        textShadow: `
+                          2px 2px 4px rgba(0, 0, 0, 0.5),
+                          0 0 8px var(--primary),
+                          0 0 12px var(--secondary)
+                        `,
+                      }}
+                    >
+                      NEW TASK
+                    </span>
+                  </button>
+                </SidebarMenuButton>
+                {/* Background shadow element */}
+                <div
+                  className="
+                    absolute inset-0 
+                    -rotate-2 transform
+                    bg-gradient-to-r from-primary/20 to-primary/30
+                    rounded-lg blur-sm opacity-60
+                    shadow-primary/30
+                  "
+                  style={{
+                    zIndex: -1,
+                  }}
+                />
               </SidebarMenuItem>
 
               {/* Navigation menu items */}
