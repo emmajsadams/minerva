@@ -99,7 +99,7 @@ export function StyledDialog({
             />
           </svg>
 
-          {/* Main Dialog Content */}
+          {/* Main Dialog Content - Generic reusable component */}
           <div className="relative z-10 p-8" style={{ padding: "4rem" }}>
             <DialogHeader className="mb-6">
               <DialogTitle className="text-2xl text-foreground font-medium mb-2">
