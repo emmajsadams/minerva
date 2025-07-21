@@ -4,34 +4,20 @@ import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { StyledDialog } from "@/components/StyledDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-interface Task {
-  _id: string;
-  name: string;
-  description?: string;
-  status: "todo" | "in_progress" | "done";
-  priority: "low" | "medium" | "high";
-  dueDate?: string;
-  deleted?: boolean;
-}
+import type { Doc } from "../../convex/_generated/dataModel";
 
 interface TaskEditDialogProps {
-  task: Task | null;
+  task: Doc<"tasks"> | null;
   isOpen: boolean;
   onClose: () => void;
-  onSave: (taskId: string, updates: Partial<Task>) => Promise<void>;
-  onCreate?: (taskData: Omit<Task, "_id" | "deleted">) => Promise<void>;
+  onSave: (taskId: string, updates: Partial<Doc<"tasks">>) => Promise<void>;
+  onCreate?: (
+    taskData: Omit<Doc<"tasks">, "_id" | "_creationTime" | "deleted">
+  ) => Promise<void>;
   isCreating?: boolean;
 }
 
@@ -44,8 +30,8 @@ export function TaskEditDialog({
   isCreating = false,
 }: TaskEditDialogProps) {
   const [name, setName] = useState("");
-  const [status, setStatus] = useState<Task["status"]>("todo");
-  const [priority, setPriority] = useState<Task["priority"]>("medium");
+  const [status, setStatus] = useState<Doc<"tasks">["status"]>("todo");
+  const [priority, setPriority] = useState<Doc<"tasks">["priority"]>("medium");
   const [dueDate, setDueDate] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -126,192 +112,121 @@ export function TaskEditDialog({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent
-        className="p-0 bg-transparent border-0 shadow-none soul-dive mx-8 [&>*]:shadow-none [&>*]:border-0"
-        showCloseButton={false}
-        style={{
-          maxWidth: "56rem",
-          width: "95vw",
-          boxShadow: "none",
-          border: "none",
-          outline: "none",
-        }}
-      >
-        {/* Persona 3-style Shadow - Large Rotated Dialog Shape */}
-        <div
-          className="absolute transform -rotate-[4deg] translate-x-6 translate-y-4 -z-10"
-          style={{
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-          }}
+    <StyledDialog
+      isOpen={isOpen}
+      onClose={onClose}
+      title={isCreating ? "Create New Task" : "Edit Task Details"}
+      description={
+        isCreating
+          ? "Define your task parameters and dive into the details"
+          : "Modify your task parameters and dive deeper into the details"
+      }
+      footer={
+        <Button
+          onClick={handleSave}
+          disabled={isSaving || !name.trim()}
+          className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
         >
-          <svg
-            className="w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
+          {isSaving
+            ? isCreating
+              ? "Creating..."
+              : "Saving..."
+            : isCreating
+              ? "Create Task"
+              : "Save Changes"}
+        </Button>
+      }
+    >
+      <div className="flex flex-col gap-8 py-4">
+        {/* Task Name */}
+        <div className="space-y-3">
+          <Label
+            htmlFor="task-name"
+            className="text-secondary font-medium text-sm"
           >
-            <path
-              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
-              fill="#1E90FF"
-              opacity="0.85"
-            />
-          </svg>
+            Task Name
+          </Label>
+          <Input
+            id="task-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter task name..."
+            className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+          />
         </div>
 
-        {/* Large Angled Triangular Accent Element - Overflowing Top Left */}
-        <div className="absolute -top-[60px] -left-[80px] z-20">
-          <svg
-            width="200"
-            height="100"
-            viewBox="0 0 200 100"
-            className="overflow-visible"
-          >
-            <path
-              d="M 0 0 L 140 0 L 20 60 Z"
-              fill="rgba(0, 102, 204, 0.85)"
-              className="drop-shadow-lg"
-              transform="rotate(190 100 50)"
-            />
-          </svg>
-        </div>
+        {/* Status and Priority */}
+        <div className="flex gap-6">
+          <div className="flex-1 space-y-3">
+            <Label
+              htmlFor="status"
+              className="text-secondary font-medium text-sm"
+            >
+              Status
+            </Label>
+            <select
+              id="status"
+              value={status}
+              onChange={(e) =>
+                setStatus(e.target.value as Doc<"tasks">["status"])
+              }
+              className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+            >
+              <option value="todo">To Do</option>
+              <option value="in_progress">In Progress</option>
+              <option value="done">Completed</option>
+            </select>
+          </div>
 
-        {/* Main Dialog Rectangle - SVG Shape */}
-        <div className="relative overflow-hidden">
-          <svg
-            className="absolute inset-0 w-full h-full"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M 20 0 Q 50 -3 80 0 Q 100 0 100 20 Q 103 50 100 80 Q 100 100 80 100 Q 50 103 20 100 Q 0 100 0 80 Q -3 50 0 20 Q 0 0 20 0 Z"
-              fill="hsl(var(--card) / 0.85)"
-            />
-          </svg>
-          {/* Main Dialog Content */}
-          <div className="relative z-10 p-8" style={{ padding: "4rem" }}>
-            <DialogHeader className="mb-6">
-              <DialogTitle className="text-2xl text-foreground font-medium mb-2">
-                {isCreating ? "Create New Task" : "Edit Task Details"}
-              </DialogTitle>
-              <DialogDescription className="text-secondary/80 text-sm">
-                {isCreating
-                  ? "Define your task parameters and dive into the details"
-                  : "Modify your task parameters and dive deeper into the details"}
-              </DialogDescription>
-            </DialogHeader>
-
-            <div className="flex flex-col gap-8 py-4">
-              {/* Task Name */}
-              <div className="space-y-3">
-                <Label
-                  htmlFor="task-name"
-                  className="text-secondary font-medium text-sm"
-                >
-                  Task Name
-                </Label>
-                <Input
-                  id="task-name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Enter task name..."
-                  className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
-                />
-              </div>
-
-              {/* Status and Priority */}
-              <div className="flex gap-6">
-                <div className="flex-1 space-y-3">
-                  <Label
-                    htmlFor="status"
-                    className="text-secondary font-medium text-sm"
-                  >
-                    Status
-                  </Label>
-                  <select
-                    id="status"
-                    value={status}
-                    onChange={(e) =>
-                      setStatus(e.target.value as Task["status"])
-                    }
-                    className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
-                  >
-                    <option value="todo">To Do</option>
-                    <option value="in_progress">In Progress</option>
-                    <option value="done">Completed</option>
-                  </select>
-                </div>
-
-                <div className="flex-1 space-y-3">
-                  <Label
-                    htmlFor="priority"
-                    className="text-secondary font-medium text-sm"
-                  >
-                    Priority
-                  </Label>
-                  <select
-                    id="priority"
-                    value={priority}
-                    onChange={(e) =>
-                      setPriority(e.target.value as Task["priority"])
-                    }
-                    className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Due Date */}
-              <div className="space-y-3">
-                <Label
-                  htmlFor="due-date"
-                  className="text-secondary font-medium text-sm"
-                >
-                  Due Date
-                </Label>
-                <Input
-                  id="due-date"
-                  type="date"
-                  value={dueDate}
-                  onChange={(e) => setDueDate(e.target.value)}
-                  className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
-                />
-              </div>
-
-              {/* Description Editor */}
-              <div className="space-y-3">
-                <Label className="text-secondary font-medium text-sm">
-                  Description
-                </Label>
-                <div className="min-h-[200px] bg-input border border-transparent rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300">
-                  <EditorContent editor={editor} />
-                </div>
-              </div>
-            </div>
-
-            <DialogFooter className="pt-6 mt-6">
-              <Button
-                onClick={handleSave}
-                disabled={isSaving || !name.trim()}
-                className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
-              >
-                {isSaving
-                  ? isCreating
-                    ? "Creating..."
-                    : "Saving..."
-                  : isCreating
-                    ? "Create Task"
-                    : "Save Changes"}
-              </Button>
-            </DialogFooter>
+          <div className="flex-1 space-y-3">
+            <Label
+              htmlFor="priority"
+              className="text-secondary font-medium text-sm"
+            >
+              Priority
+            </Label>
+            <select
+              id="priority"
+              value={priority}
+              onChange={(e) =>
+                setPriority(e.target.value as Doc<"tasks">["priority"])
+              }
+              className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+
+        {/* Due Date */}
+        <div className="space-y-3">
+          <Label
+            htmlFor="due-date"
+            className="text-secondary font-medium text-sm"
+          >
+            Due Date
+          </Label>
+          <Input
+            id="due-date"
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+          />
+        </div>
+
+        {/* Description Editor */}
+        <div className="space-y-3">
+          <Label className="text-secondary font-medium text-sm">
+            Description
+          </Label>
+          <div className="min-h-[200px] bg-input border border-transparent rounded-lg overflow-hidden hover:border-primary/30 transition-all duration-300">
+            <EditorContent editor={editor} />
+          </div>
+        </div>
+      </div>
+    </StyledDialog>
   );
 }
