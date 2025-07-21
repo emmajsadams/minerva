@@ -3,8 +3,6 @@
 @import "./reset.css";
 
 @import "tailwindcss";
-@source inline("grid-cols-10");
-@source inline("col-span-{1,2,3,4,5,6,7,8,9,10}");
 
 @custom-variant dark (&:is(.dark *));
 
