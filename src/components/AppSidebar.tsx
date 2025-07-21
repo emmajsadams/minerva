@@ -127,35 +127,33 @@ export function AppSidebar() {
                 className="relative w-full flex justify-center"
                 style={{ marginBottom: "2em" }}
               >
-                <SidebarMenuButton asChild>
-                  <button
-                    onClick={handleCreateTask}
+                <SidebarMenuButton
+                  onClick={handleCreateTask}
+                  className="
+                    flex items-center gap-6 px-6 py-6 
+                    hover:bg-primary/10 rounded-lg 
+                    transition-all duration-300 text-lg font-bold
+                    transform hover:scale-105 -rotate-2
+                    relative z-10 justify-center w-full max-w-xs
+                    bg-primary/20
+                  "
+                >
+                  <PlusIcon className="w-7 h-7 text-primary" />
+                  <span
                     className="
-                      flex items-center gap-6 px-6 py-6 
-                      hover:bg-primary/10 rounded-lg 
-                      transition-all duration-300 text-lg font-bold
-                      transform hover:scale-105 -rotate-2
-                      relative z-10 justify-center w-full max-w-xs
-                      bg-primary/20
+                      font-bold tracking-wide text-primary
+                      drop-shadow-lg
                     "
+                    style={{
+                      textShadow: `
+                        2px 2px 4px rgba(0, 0, 0, 0.5),
+                        0 0 8px var(--primary),
+                        0 0 12px var(--secondary)
+                      `,
+                    }}
                   >
-                    <PlusIcon className="w-7 h-7 text-primary" />
-                    <span
-                      className="
-                        font-bold tracking-wide text-primary
-                        drop-shadow-lg
-                      "
-                      style={{
-                        textShadow: `
-                          2px 2px 4px rgba(0, 0, 0, 0.5),
-                          0 0 8px var(--primary),
-                          0 0 12px var(--secondary)
-                        `,
-                      }}
-                    >
-                      NEW TASK
-                    </span>
-                  </button>
+                    NEW TASK
+                  </span>
                 </SidebarMenuButton>
                 {/* Background shadow element */}
                 <div
@@ -179,41 +177,41 @@ export function AppSidebar() {
                   className="relative w-full flex justify-center"
                   style={{ marginBottom: "2em" }}
                 >
-                  <SidebarMenuButton asChild={!item.onClick}>
-                    {item.onClick ? (
-                      <button
-                        onClick={() => signOut()}
+                  {item.onClick ? (
+                    <SidebarMenuButton
+                      onClick={() => signOut()}
+                      className={`
+                        flex items-center gap-6 px-6 py-6 
+                        hover:bg-primary/5 rounded-lg 
+                        transition-all duration-300 text-lg font-bold
+                        ${item.rotation} transform hover:scale-105
+                        relative z-10 justify-center w-full max-w-xs
+                      `}
+                    >
+                      <item.icon
+                        className={`w-7 h-7 ${item.color}`}
+                        style={{
+                          transform: `rotate(${-2 - index * 1.5}deg)`,
+                        }}
+                      />
+                      <span
                         className={`
-                          flex items-center gap-6 px-6 py-6 
-                          hover:bg-primary/5 rounded-lg 
-                          transition-all duration-300 text-lg font-bold
-                          ${item.rotation} transform hover:scale-105
-                          relative z-10 justify-center w-full max-w-xs
+                          font-bold tracking-wide ${item.color}
+                          drop-shadow-lg
                         `}
+                        style={{
+                          textShadow: `
+                            2px 2px 4px rgba(0, 0, 0, 0.5),
+                            0 0 8px var(--primary),
+                            0 0 12px var(--secondary)
+                          `,
+                        }}
                       >
-                        <item.icon
-                          className={`w-7 h-7 ${item.color}`}
-                          style={{
-                            transform: `rotate(${-2 - index * 1.5}deg)`,
-                          }}
-                        />
-                        <span
-                          className={`
-                            font-bold tracking-wide ${item.color}
-                            drop-shadow-lg
-                          `}
-                          style={{
-                            textShadow: `
-                              2px 2px 4px rgba(0, 0, 0, 0.5),
-                              0 0 8px var(--primary),
-                              0 0 12px var(--secondary)
-                            `,
-                          }}
-                        >
-                          {item.title.toUpperCase()}
-                        </span>
-                      </button>
-                    ) : (
+                        {item.title.toUpperCase()}
+                      </span>
+                    </SidebarMenuButton>
+                  ) : (
+                    <SidebarMenuButton asChild>
                       <a
                         href={item.url}
                         className={`
@@ -246,21 +244,8 @@ export function AppSidebar() {
                           {item.title.toUpperCase()}
                         </span>
                       </a>
-                    )}
-                  </SidebarMenuButton>
-                  {/* Background shadow element */}
-                  <div
-                    className={`
-                      absolute inset-0 
-                      ${item.rotation} transform
-                      bg-gradient-to-r from-blue-400/10 to-blue-500/10
-                      rounded-lg blur-sm opacity-60
-                      ${item.shadow}
-                    `}
-                    style={{
-                      zIndex: -1,
-                    }}
-                  />
+                    </SidebarMenuButton>
+                  )}
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
