@@ -7,6 +7,19 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    "grid-cols-10",
+    "col-span-2",
+    "col-span-4",
+    "grid",
+    "gap-4",
+    "bg-gold/20",
+    "text-gold",
+    "bg-destructive/20",
+    "text-destructive",
+    "bg-primary/20",
+    "text-primary",
+  ],
   theme: {
     extend: {
       fontFamily: {
@@ -57,6 +70,10 @@ export default {
           3: "hsl(var(--chart-3))",
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))",
+        },
+        gold: {
+          DEFAULT: "#fbbf24",
+          foreground: "#451a03",
         },
       },
       animation: {
