@@ -115,6 +115,70 @@ Based on detailed analysis of Persona 3 Reload's interface design, our UI system
 - Consistent interaction patterns across all components
 - Error states and validation feedback provide clear guidance
 
+#### Icon Design Language & Visual Symbols
+
+**Persona 3 Reload Icon Aesthetic Research:**
+
+Based on extensive research into Persona 3 Reload's UI design philosophy, the game's icon system follows these key principles:
+
+**Core Design Philosophy:**
+
+- Icons embody the "Sea of Souls" concept - representing depth, introspection, and psychological navigation
+- Visual elements evoke underwater imagery with flowing, organic shapes
+- Emphasis on elegance and sophistication over aggressive or sharp design elements
+- Icons feel "ephemeral" and contemplative, matching the game's themes of mortality and self-discovery
+
+**Visual Characteristics:**
+
+- **Organic curves** instead of sharp geometric shapes - icons flow like water currents
+- **Translucent layers** with subtle opacity variations creating depth
+- **Subtle gradients** from deep blue to aqua, mimicking underwater lighting
+- **Minimal line weights** with elegant, refined strokes
+- **Glass-like reflections** and shimmer effects on interactive elements
+- **Rounded corners** and soft edges throughout all icon designs
+
+**Color Application in Icons:**
+
+- Primary electric blue (#00BBFA) for active/primary action icons
+- Light aqua (#79D7FD) for secondary or supportive action icons
+- Deep navy (#001736) for background elements and containers
+- Subtle white highlights for glass-like reflection effects
+- Golden accents (#ffc54a) sparingly used for important status indicators
+
+**Icon Animation Principles:**
+
+- **Gentle floating motions** - icons subtly move as if suspended in water
+- **Fade transitions** rather than sharp appearing/disappearing
+- **Scale transformations** with ease-out timing for organic feel
+- **Shimmer effects** on hover states to suggest underwater light play
+- **Cascading animations** where multiple icons animate in sequence like bubbles rising
+
+**Symbolic Elements:**
+
+- **Water droplets** and **bubble motifs** for ephemeral actions
+- **Flowing ribbons** or **wave patterns** for navigation elements
+- **Crystalline shapes** for data/information related icons
+- **Organic geometric patterns** that suggest psychological depth
+- **Layered transparency** to represent different levels of consciousness
+
+**Technical Implementation:**
+
+- SVG-based icons for crisp rendering at all sizes
+- CSS animations for hover and interaction states
+- Subtle drop shadows and inner shadows for dimensional depth
+- Consistent stroke-width (2px) for visual harmony
+- 24x24px base size with scalable vector architecture
+
+**Icon Categories:**
+
+- **Action icons**: Edit, Add, Delete - using flowing, organic shapes
+- **Status icons**: Priority levels using gradient-filled geometric forms
+- **Navigation icons**: Soft, rounded arrows and directional indicators
+- **Content icons**: Document, task, note symbols with aquatic styling
+- **System icons**: Settings, profile, logout using minimalist water-inspired forms
+
+This research reveals that Persona 3 Reload's icons are fundamentally different from standard app icons - they prioritize emotional resonance and thematic consistency over conventional usability patterns, creating a cohesive underwater psychological landscape.
+
 This design system creates a cohesive, accessible, and aesthetically striking interface that honors Persona 3's visual legacy while serving modern productivity needs.
 
 ## Tech Stack
