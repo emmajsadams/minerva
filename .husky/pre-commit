@@ -12,8 +12,8 @@ bunx lint-staged
 echo "🧪 Running tests..."
 bun test
 
-# Build project
+# Build project (same as Vercel)
 echo "🏗️ Building project..."
-bun run build
+bunx convex deploy --cmd 'bun run build'
 
 echo "✅ All pre-commit checks passed!"
