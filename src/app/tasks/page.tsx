@@ -4,16 +4,13 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { useState, useEffect } from "react";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
-import type { Doc, Id } from "../../../convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 export default function TasksPage() {
+  const router = useRouter();
   const tasks = useQuery(api.tasks.getTasks);
   const createTask = useMutation(api.tasks.createTask);
-  const updateTask = useMutation(api.tasks.updateTask);
-  const deleteTask = useMutation(api.tasks.deleteTask);
 
-  const [editingTask, setEditingTask] = useState<Doc<"tasks"> | null>(null);
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -33,28 +30,7 @@ export default function TasksPage() {
   };
 
   const handleEditTask = (taskId: string) => {
-    const task = tasks?.find((t) => t._id === taskId);
-    if (task) {
-      setEditingTask(task);
-      setIsEditDialogOpen(true);
-    }
-  };
-
-  const handleSaveTask = async (
-    taskId: string,
-    updates: Partial<Doc<"tasks">>
-  ) => {
-    try {
-      await updateTask({ id: taskId as Id<"tasks">, ...updates });
-    } catch (error) {
-      console.error("Failed to update task:", error);
-      throw error;
-    }
-  };
-
-  const handleCloseEditDialog = () => {
-    setIsEditDialogOpen(false);
-    setEditingTask(null);
+    router.push(`/tasks/${taskId}`);
   };
 
   // Listen for create task and search events from sidebar
@@ -170,16 +146,6 @@ export default function TasksPage() {
           </div>
         </div>
       </div>
-
-      <TaskEditDialog
-        task={editingTask}
-        isOpen={isEditDialogOpen}
-        onClose={handleCloseEditDialog}
-        onSave={handleSaveTask}
-        onDelete={async (taskId: string) => {
-          await deleteTask({ id: taskId as Id<"tasks"> });
-        }}
-      />
 
       <TaskEditDialog
         task={null}
