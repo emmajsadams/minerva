@@ -15,6 +15,7 @@ export default function TasksPage() {
   const [editingTask, setEditingTask] = useState<Doc<"tasks"> | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleCreateTask = async (taskData: {
     name: string;
@@ -28,17 +29,6 @@ export default function TasksPage() {
     } catch (error) {
       console.error("Failed to create task:", error);
       throw error;
-    }
-  };
-
-  const handleStatusChange = async (
-    taskId: string,
-    status: "todo" | "in_progress" | "done"
-  ) => {
-    try {
-      await updateTask({ id: taskId as Id<"tasks">, status });
-    } catch (error) {
-      console.error("Failed to update task:", error);
     }
   };
 
@@ -67,15 +57,28 @@ export default function TasksPage() {
     setEditingTask(null);
   };
 
-  // Listen for create task events from sidebar
+  // Listen for create task and search events from sidebar
   useEffect(() => {
     const handleCreateTaskEvent = () => {
       setIsCreateDialogOpen(true);
     };
 
+    const handleSearchTasksEvent = (event: CustomEvent) => {
+      setSearchTerm(event.detail.searchTerm);
+    };
+
     window.addEventListener("create-task", handleCreateTaskEvent);
-    return () =>
+    window.addEventListener(
+      "search-tasks",
+      handleSearchTasksEvent as EventListener
+    );
+    return () => {
       window.removeEventListener("create-task", handleCreateTaskEvent);
+      window.removeEventListener(
+        "search-tasks",
+        handleSearchTasksEvent as EventListener
+      );
+    };
   }, []);
 
   if (tasks === undefined) {
@@ -86,6 +89,14 @@ export default function TasksPage() {
     );
   }
 
+  // Filter tasks based on search term
+  const filteredTasks = tasks.filter(
+    (task) =>
+      task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (task.description &&
+        task.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="h-full w-full relative bg-background text-foreground">
       {/* Main Content */}
@@ -95,27 +106,21 @@ export default function TasksPage() {
       >
         {/* Tasks Collection */}
         <div className="w-full min-w-[800px] max-w-4xl mx-auto bg-transparent rounded-xl">
-          <div className="space-y-4">
-            {/* Header */}
-            <div className="grid grid-cols-10 gap-4 px-8 py-6 text-left text-sm font-medium text-secondary">
-              <div className="col-span-4">Task</div>
-              <div className="col-span-2">Status</div>
-              <div className="col-span-2">Priority</div>
-              <div className="col-span-2">Due Date</div>
-            </div>
-
+          <div className="space-y-4" style={{ marginTop: "1.5rem" }}>
             {/* Tasks */}
-            {tasks.length === 0 ? (
+            {filteredTasks.length === 0 ? (
               <div className="px-8 py-16 text-center bg-slate-800/60 rounded-xl shadow-lg shadow-black/20">
                 <div className="text-secondary/60 text-lg mb-2">
-                  No tasks yet
+                  {searchTerm ? "No tasks found" : "No tasks yet"}
                 </div>
                 <div className="text-muted-foreground text-sm">
-                  Create your first task to begin your journey
+                  {searchTerm
+                    ? "Try adjusting your search terms"
+                    : "Create your first task to begin your journey"}
                 </div>
               </div>
             ) : (
-              tasks.map((task) => (
+              filteredTasks.map((task) => (
                 <div
                   key={task._id}
                   onClick={() => handleEditTask(task._id)}
@@ -134,30 +139,22 @@ export default function TasksPage() {
                     </div>
                   </div>
                   <div className="col-span-2">
-                    <select
-                      value={task.status}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        handleStatusChange(
-                          task._id,
-                          e.target.value as "todo" | "in_progress" | "done"
-                        );
-                      }}
-                      className="persona-input text-sm px-3 py-2 rounded-lg w-full"
-                    >
-                      <option value="todo">To Do</option>
-                      <option value="in_progress">In Progress</option>
-                      <option value="done">Completed</option>
-                    </select>
+                    <span className="text-sm text-muted-foreground">
+                      {task.status === "todo"
+                        ? "To Do"
+                        : task.status === "in_progress"
+                          ? "In Progress"
+                          : "Completed"}
+                    </span>
                   </div>
                   <div className="col-span-2">
                     <span
                       className={`inline-flex px-3 py-1 text-xs font-medium rounded-full ${
                         task.priority === "high"
-                          ? "bg-destructive/20 text-destructive border border-destructive/30"
+                          ? "bg-destructive/20 text-destructive"
                           : task.priority === "medium"
-                            ? "bg-gold/20 text-gold border border-gold/30"
-                            : "bg-primary/20 text-primary border border-primary/30"
+                            ? "bg-gold/20 text-gold"
+                            : "bg-primary/20 text-primary"
                       }`}
                     >
                       {task.priority.charAt(0).toUpperCase() +

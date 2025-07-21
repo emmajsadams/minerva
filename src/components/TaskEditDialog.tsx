@@ -152,7 +152,7 @@ export function TaskEditDialog({
                 <Button
                   onClick={() => setShowDeleteConfirm(true)}
                   disabled={isSaving || isDeleting}
-                  className="px-6 py-3 bg-destructive/20 border-2 border-destructive/30 text-destructive font-medium rounded-lg hover:bg-destructive/30 hover:border-destructive/50 transition-all duration-300"
+                  className="px-6 py-3 text-destructive font-medium rounded-lg transition-all duration-300 hover:bg-white hover:text-destructive hover:shadow-lg hover:shadow-destructive/30"
                 >
                   Delete Task
                 </Button>
@@ -164,14 +164,14 @@ export function TaskEditDialog({
                   <Button
                     onClick={handleDelete}
                     disabled={isDeleting}
-                    className="px-4 py-2 bg-destructive border-2 border-destructive text-destructive-foreground font-medium rounded-lg hover:bg-destructive/90 transition-all duration-300"
+                    className="px-4 py-2 text-destructive font-medium rounded-lg transition-all duration-300 hover:bg-white hover:text-destructive hover:shadow-lg hover:shadow-destructive/30"
                   >
                     {isDeleting ? "Deleting..." : "Confirm"}
                   </Button>
                   <Button
                     onClick={() => setShowDeleteConfirm(false)}
                     disabled={isDeleting}
-                    className="px-4 py-2 bg-muted border-2 border-muted text-muted-foreground font-medium rounded-lg hover:bg-muted/80 transition-all duration-300"
+                    className="px-4 py-2 text-muted-foreground font-medium rounded-lg transition-all duration-300 hover:bg-white hover:text-foreground hover:shadow-lg hover:shadow-primary/30"
                   >
                     Cancel
                   </Button>
@@ -182,7 +182,7 @@ export function TaskEditDialog({
           <Button
             onClick={handleSave}
             disabled={isSaving || !name.trim() || isDeleting}
-            className="px-8 py-3 bg-primary border-2 border-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-all duration-300 ml-auto"
+            className="px-8 py-3 text-primary font-medium rounded-lg transition-all duration-300 ml-auto hover:bg-white hover:text-primary hover:shadow-lg hover:shadow-primary/30"
           >
             {isSaving
               ? isCreating

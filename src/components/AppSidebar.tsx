@@ -4,28 +4,15 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ChevronUp,
-  User2,
-  LogOut,
-  CheckSquare,
-  Calendar,
-  Settings,
-} from "lucide-react";
+import { LogOut, CheckSquare, Calendar, Settings, Search } from "lucide-react";
 import { PlusIcon } from "@/components/ui/icons";
+import { Input } from "@/components/ui/input";
 
 const navigation = [
   {
@@ -52,6 +39,15 @@ const navigation = [
     rotation: "-rotate-2",
     shadow: "shadow-blue-200/20",
   },
+  {
+    title: "Sign Out",
+    url: "#",
+    icon: LogOut,
+    color: "text-destructive",
+    rotation: "-rotate-3",
+    shadow: "shadow-destructive/20",
+    onClick: true,
+  },
 ];
 
 export function AppSidebar() {
@@ -62,11 +58,17 @@ export function AppSidebar() {
     window.dispatchEvent(new CustomEvent("create-task"));
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Dispatch a custom event with the search term
+    window.dispatchEvent(
+      new CustomEvent("search-tasks", {
+        detail: { searchTerm: e.target.value },
+      })
+    );
+  };
+
   return (
-    <Sidebar
-      collapsible="none"
-      className="border-r border-primary/40 bg-card/50 backdrop-blur-xl"
-    >
+    <Sidebar collapsible="none" className="bg-card/50 backdrop-blur-xl">
       <SidebarContent className="bg-transparent">
         <SidebarGroup>
           <SidebarGroupContent>
@@ -74,7 +76,7 @@ export function AppSidebar() {
               {/* Logo as first menu item */}
               <SidebarMenuItem
                 className="relative w-full flex justify-center"
-                style={{ marginBottom: "2em" }}
+                style={{ marginBottom: "2em", marginTop: "2em" }}
               >
                 <div className="relative">
                   {/* Main logo container with glass morphism */}
@@ -96,6 +98,27 @@ export function AppSidebar() {
 
                   {/* Shadow element */}
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl blur-sm opacity-60 transform rotate-1 translate-x-1 translate-y-1 -z-10"></div>
+                </div>
+              </SidebarMenuItem>
+
+              {/* Search Input */}
+              <SidebarMenuItem
+                className="relative w-full flex justify-start"
+                style={{
+                  marginBottom: "2em",
+                  paddingLeft: "2rem",
+                  paddingRight: "2rem",
+                }}
+              >
+                <div className="relative w-full max-w-xs">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search tasks..."
+                    onChange={handleSearchChange}
+                    className="!pl-12 pr-4 py-3 bg-input border border-transparent text-foreground font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+                    style={{ paddingLeft: "2.5rem" }}
+                  />
                 </div>
               </SidebarMenuItem>
 
@@ -156,39 +179,74 @@ export function AppSidebar() {
                   className="relative w-full flex justify-center"
                   style={{ marginBottom: "2em" }}
                 >
-                  <SidebarMenuButton asChild>
-                    <a
-                      href={item.url}
-                      className={`
-                        flex items-center gap-6 px-6 py-6 
-                        hover:bg-primary/5 rounded-lg 
-                        transition-all duration-300 text-lg font-bold
-                        ${item.rotation} transform hover:scale-105
-                        relative z-10 justify-center w-full max-w-xs
-                      `}
-                    >
-                      <item.icon
-                        className={`w-7 h-7 ${item.color}`}
-                        style={{
-                          transform: `rotate(${-2 - index * 1.5}deg)`,
-                        }}
-                      />
-                      <span
+                  <SidebarMenuButton asChild={!item.onClick}>
+                    {item.onClick ? (
+                      <button
+                        onClick={() => signOut()}
                         className={`
-                          font-bold tracking-wide ${item.color}
-                          drop-shadow-lg
+                          flex items-center gap-6 px-6 py-6 
+                          hover:bg-primary/5 rounded-lg 
+                          transition-all duration-300 text-lg font-bold
+                          ${item.rotation} transform hover:scale-105
+                          relative z-10 justify-center w-full max-w-xs
                         `}
-                        style={{
-                          textShadow: `
-                            2px 2px 4px rgba(0, 0, 0, 0.5),
-                            0 0 8px var(--primary),
-                            0 0 12px var(--secondary)
-                          `,
-                        }}
                       >
-                        {item.title.toUpperCase()}
-                      </span>
-                    </a>
+                        <item.icon
+                          className={`w-7 h-7 ${item.color}`}
+                          style={{
+                            transform: `rotate(${-2 - index * 1.5}deg)`,
+                          }}
+                        />
+                        <span
+                          className={`
+                            font-bold tracking-wide ${item.color}
+                            drop-shadow-lg
+                          `}
+                          style={{
+                            textShadow: `
+                              2px 2px 4px rgba(0, 0, 0, 0.5),
+                              0 0 8px var(--primary),
+                              0 0 12px var(--secondary)
+                            `,
+                          }}
+                        >
+                          {item.title.toUpperCase()}
+                        </span>
+                      </button>
+                    ) : (
+                      <a
+                        href={item.url}
+                        className={`
+                          flex items-center gap-6 px-6 py-6 
+                          hover:bg-primary/5 rounded-lg 
+                          transition-all duration-300 text-lg font-bold
+                          ${item.rotation} transform hover:scale-105
+                          relative z-10 justify-center w-full max-w-xs
+                        `}
+                      >
+                        <item.icon
+                          className={`w-7 h-7 ${item.color}`}
+                          style={{
+                            transform: `rotate(${-2 - index * 1.5}deg)`,
+                          }}
+                        />
+                        <span
+                          className={`
+                            font-bold tracking-wide ${item.color}
+                            drop-shadow-lg
+                          `}
+                          style={{
+                            textShadow: `
+                              2px 2px 4px rgba(0, 0, 0, 0.5),
+                              0 0 8px var(--primary),
+                              0 0 12px var(--secondary)
+                            `,
+                          }}
+                        >
+                          {item.title.toUpperCase()}
+                        </span>
+                      </a>
+                    )}
                   </SidebarMenuButton>
                   {/* Background shadow element */}
                   <div
@@ -209,36 +267,6 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-
-      <SidebarFooter className="border-t border-primary/40 bg-card/30 backdrop-blur-sm">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="w-full justify-between hover:bg-primary/10">
-                  <div className="flex items-center gap-2">
-                    <User2 className="w-4 h-4" />
-                    <span className="font-medium">Account</span>
-                  </div>
-                  <ChevronUp className="w-4 h-4" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-[--radix-popper-anchor-width] bg-card/90 backdrop-blur-xl border border-primary/40"
-              >
-                <DropdownMenuItem
-                  onClick={() => signOut()}
-                  className="flex items-center gap-2 text-foreground/80 hover:text-destructive focus:text-destructive"
-                >
-                  <LogOut className="w-4 h-4" />
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
     </Sidebar>
   );
 }
