@@ -1,8 +1,10 @@
 "use client";
 
 import { useAuthActions } from "@convex-dev/auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useConvexAuth, useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,6 +12,8 @@ import { StyledDialog } from "@/components/StyledDialog";
 
 export function AuthForm() {
   const { signIn } = useAuthActions();
+  const { isAuthenticated } = useConvexAuth();
+  const currentUser = useQuery(api.users.getCurrentUser);
   const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -19,6 +23,48 @@ export function AuthForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [justLoggedIn, setJustLoggedIn] = useState(false);
+
+  // Handle login notification when user becomes authenticated
+  useEffect(() => {
+    if (isAuthenticated && currentUser && justLoggedIn && !isSignUp) {
+      const sendLoginNotification = async () => {
+        try {
+          await fetch("/api/auth/login-notification", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              userId: currentUser._id,
+              userEmail: currentUser.email || email,
+              userName: currentUser.name || name || "Unknown User",
+            }),
+          });
+        } catch (notificationError) {
+          console.error(
+            "Failed to send login notification:",
+            notificationError
+          );
+        }
+        setJustLoggedIn(false);
+      };
+
+      sendLoginNotification();
+      router.push("/tasks");
+    } else if (isAuthenticated && !justLoggedIn) {
+      // User was already authenticated, just redirect
+      router.push("/tasks");
+    }
+  }, [
+    isAuthenticated,
+    currentUser,
+    justLoggedIn,
+    isSignUp,
+    email,
+    name,
+    router,
+  ]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,8 +98,13 @@ export function AuthForm() {
 
       await signIn("password", authParams);
 
-      // Redirect to tasks page after successful authentication
-      router.push("/tasks");
+      // Set flag to trigger login notification in useEffect
+      if (!isSignUp) {
+        setJustLoggedIn(true);
+      } else {
+        // For signups, just redirect
+        router.push("/tasks");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed");
     } finally {

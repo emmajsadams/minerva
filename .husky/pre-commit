@@ -4,17 +4,22 @@ echo "🚀 Running pre-commit checks..."
 echo "🔍 Checking for secrets..."
 node scripts/check-secrets.js
 
-# Run linting
+# Run formatter todo use lint-staged
+# echo "✨ Running formatter..."
+# bunx lint-staged
+
+# Run linter
 echo "🧹 Running linter..."
-bun run lint
+bun run lint:fix
+git add -A
 
 # Run formatter
-echo "✨ Running formatter..."
-bunx lint-staged
+bun run format
+git add -A
 
 # Run tests (skipped for now due to DOM API issues in tests)
 # echo "🧪 Running tests..."
-# bun test
+bun test
 
 # Build project (same as Vercel)
 echo "🏗️ Building project..."

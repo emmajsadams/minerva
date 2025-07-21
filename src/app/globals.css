@@ -8,7 +8,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
     /* Persona 3 Reload - Sea of Souls Color Palette */
@@ -74,7 +73,8 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: "Space Grotesk", "Inter", "SF Pro Display", system-ui, sans-serif;
+    font-family:
+      "Space Grotesk", "Inter", "SF Pro Display", system-ui, sans-serif;
     background-image:
       radial-gradient(
         circle at 25% 25%,
@@ -348,7 +348,8 @@
 
 /* Persona 3 Keyframe Animations */
 @keyframes underwater-shimmer {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
     transform: translateY(0px);
   }
@@ -359,7 +360,8 @@
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
     opacity: 0.3;
   }
@@ -402,7 +404,6 @@
   }
 }
 
-
 :root {
   --sidebar: 218 100% 12%; /* Same as card */
   --sidebar-foreground: 201 100% 85%; /* Same as foreground */
@@ -412,7 +413,7 @@
   --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
   --sidebar-border: 200 70% 25%; /* Same as border */
   --sidebar-ring: 195 100% 50%; /* Same as ring */
-  
+
   /* Sidebar width variables */
   --sidebar-width: 16rem;
   --sidebar-width-mobile: 18rem;
@@ -428,7 +429,7 @@
   --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
   --sidebar-border: 200 70% 25%; /* Same as border */
   --sidebar-ring: 195 100% 50%; /* Same as ring */
-  
+
   /* Sidebar width variables */
   --sidebar-width: 16rem;
   --sidebar-width-mobile: 18rem;
@@ -445,4 +446,3 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
-

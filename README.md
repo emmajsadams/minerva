@@ -194,6 +194,7 @@ This design system creates a cohesive, accessible, and aesthetically striking in
 - Next.js - Full-stack framework
 - TypeScript - Programming language
 - Convex - Real-time data management and authentication
+- Resend - Email service integration
 - Vercel AI SDK - AI service integration
 
 **Development & Deployment**
@@ -223,6 +224,7 @@ This design system creates a cohesive, accessible, and aesthetically striking in
 - Note storage and organization
 - AI service integrations
 - Real-time data synchronization
+- Email notifications and reminders
 
 ## Development
 
@@ -248,3 +250,119 @@ bun run build
 ```
 
 This project uses Bun as the JavaScript runtime and package manager.
+
+## Email Integration (Resend)
+
+Minerva includes email functionality powered by Resend and Convex for sending notifications, reminders, and user communications.
+
+### Setup
+
+1. **Get a Resend API Key**
+   - Sign up at [Resend](https://resend.com)
+   - Create an API key in your dashboard
+   - Add your domain for sending emails
+
+2. **Configure Environment Variables**
+
+   ```bash
+   # Set the API key in your Convex deployment
+   bunx convex env set RESEND_API_KEY your_api_key_here
+
+   # Optional: Set your app URL for email links
+   bunx convex env set NEXT_PUBLIC_APP_URL https://your-domain.com
+   ```
+
+3. **Install Dependencies** (already included)
+   ```bash
+   bun add @convex-dev/resend
+   ```
+
+### Available Email Functions
+
+The email system includes several pre-built functions in `convex/emails.ts`:
+
+#### Welcome Email
+
+```typescript
+// Send a welcome email to new users
+sendWelcomeEmail({
+  to: "user@example.com",
+  name: "User Name",
+});
+```
+
+#### Task Reminder Email
+
+```typescript
+// Send task reminders with details
+sendTaskReminderEmail({
+  to: "user@example.com",
+  userName: "User Name",
+  taskName: "Complete project",
+  taskDescription: "Finish the quarterly report",
+  dueDate: "2024-01-15",
+  priority: "high",
+});
+```
+
+#### Daily Task Summary
+
+```typescript
+// Send daily productivity summaries
+sendDailyTaskSummary({
+  to: "user@example.com",
+  userName: "User Name",
+  totalTasks: 10,
+  completedTasks: 7,
+  pendingTasks: 3,
+  highPriorityTasks: 2,
+});
+```
+
+#### Test Email
+
+```typescript
+// Send test emails for development
+sendTestEmail({
+  to: "test@example.com",
+});
+```
+
+### Email Templates
+
+All emails use beautiful, responsive HTML templates that match Minerva's Persona 3-inspired design:
+
+- **Gradient headers** with the Minerva branding
+- **Responsive design** that works on all devices
+- **Consistent styling** with the app's aquatic theme
+- **Call-to-action buttons** linking back to the app
+- **Professional formatting** for task details and summaries
+
+### Features
+
+- **Durable email delivery** - Emails are queued and retried automatically
+- **Rate limiting** - Built-in protection against spam
+- **Idempotency** - Duplicate emails are prevented
+- **Rich HTML templates** - Beautiful, branded email designs
+- **Responsive design** - Emails look great on all devices
+
+### Usage in Application
+
+Email functions are internal mutations that can be called from other Convex functions or scheduled actions. They're perfect for:
+
+- User onboarding flows
+- Task deadline reminders
+- Daily/weekly productivity reports
+- System notifications
+- Feature announcements
+
+### Development & Testing
+
+Use the test email function to verify your setup:
+
+```bash
+# In Convex dashboard or via API call
+sendTestEmail({ to: "your-email@example.com" })
+```
+
+The email system integrates seamlessly with Convex's real-time capabilities, allowing you to send contextual emails based on user actions and task changes.
