@@ -16,7 +16,10 @@ interface TaskEditDialogProps {
   onClose: () => void;
   onSave: (taskId: string, updates: Partial<Doc<"tasks">>) => Promise<void>;
   onCreate?: (
-    taskData: Omit<Doc<"tasks">, "_id" | "_creationTime" | "deleted">
+    taskData: Omit<
+      Doc<"tasks">,
+      "_id" | "_creationTime" | "deleted" | "userId" | "createdAt" | "updatedAt"
+    >
   ) => Promise<void>;
   isCreating?: boolean;
 }
