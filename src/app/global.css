@@ -386,27 +386,13 @@
     max-width: 90vw !important;
   }
 
-  /* Force critical Tailwind dialog positioning classes for production builds */
-  [data-slot="dialog-content"] {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 50 !important;
-  }
-
-  /* Backup positioning for arbitrary value classes that might get purged */
-  .top-\[50\%\] {
-    top: 50% !important;
-  }
-  .left-\[50\%\] {
-    left: 50% !important;
-  }
-  .translate-x-\[-50\%\] {
-    transform: translateX(-50%) !important;
-  }
-  .translate-y-\[-50\%\] {
-    transform: translateY(-50%) !important;
+  /* Ensure dialog positioning works in production builds without conflicting with dev */
+  [data-slot="dialog-content"]:not(.fixed) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
   }
 }
 
