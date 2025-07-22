@@ -238,6 +238,49 @@ Available commands:
 
 Pre-commit hooks are automatically installed when running `bun install` via the `prepare` script.
 
+## CSS & Styling Guidelines
+
+**CRITICAL**: DO NOT use `!important` in CSS except for temporary debugging purposes. Always remove `!important` declarations after debugging.
+
+### Why avoid `!important`:
+
+- Makes CSS harder to maintain and debug
+- Creates specificity wars and unpredictable behavior
+- Indicates poor CSS architecture
+- Can break component reusability
+
+### Better alternatives:
+
+- Use proper CSS specificity and cascade
+- Create custom CSS classes with appropriate specificity
+- Use CSS modules or styled-components for scoped styles
+- Structure CSS with clear hierarchy and naming conventions
+
+### Example - Wrong:
+
+```css
+.my-input {
+  background: transparent !important;
+  border: none !important;
+}
+```
+
+### Example - Correct:
+
+```css
+.task-name-input {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.task-name-input:focus {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+```
+
 ## Git Workflow
 
 Whenever you've done some logical unit of work, stage all changes, generate a useful summary, commit, then push.

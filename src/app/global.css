@@ -444,3 +444,291 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* TipTap Editor Styles for Markdown Elements */
+@layer components {
+  /* Task List Styles */
+  .task-list {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 1rem 0 !important;
+  }
+
+  .task-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+  }
+
+  .task-item input[type="checkbox"] {
+    width: 1rem !important;
+    height: 1rem !important;
+    margin-top: 0.125rem !important;
+    accent-color: hsl(var(--primary)) !important;
+    border: 1px solid hsl(var(--border)) !important;
+    border-radius: 0.25rem !important;
+    background-color: hsl(var(--input)) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .task-item input[type="checkbox"]:checked {
+    background-color: hsl(var(--primary)) !important;
+    border-color: hsl(var(--primary)) !important;
+  }
+
+  .task-item p {
+    margin: 0 !important;
+    flex: 1 !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Code Block Styles */
+  .code-block {
+    background-color: hsl(var(--muted) / 0.5) !important;
+    border: 1px solid hsl(var(--border) / 0.3) !important;
+    border-radius: 0.5rem !important;
+    padding: 1rem !important;
+    margin: 1rem 0 !important;
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+    overflow-x: auto !important;
+  }
+
+  .code-block code {
+    background: none !important;
+    padding: 0 !important;
+    color: hsl(var(--foreground)) !important;
+    font-size: inherit !important;
+  }
+
+  .code-block .hljs-keyword {
+    color: hsl(var(--primary)) !important;
+  }
+
+  .code-block .hljs-string {
+    color: hsl(var(--secondary)) !important;
+  }
+
+  .code-block .hljs-comment {
+    color: hsl(var(--muted-foreground)) !important;
+    font-style: italic !important;
+  }
+
+  .code-block .hljs-function {
+    color: hsl(var(--accent)) !important;
+  }
+
+  /* Link Styles */
+  .link {
+    color: hsl(var(--primary)) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 0.25rem !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .link:hover {
+    color: hsl(var(--secondary)) !important;
+    text-decoration: none !important;
+    text-shadow: 0 0 4px hsl(var(--primary) / 0.3) !important;
+  }
+
+  /* Enhanced Prose Styles for Editor */
+  .ProseMirror h1 {
+    font-size: 1.875rem !important;
+    font-weight: 700 !important;
+    color: hsl(var(--primary)) !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 0.75rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.5rem !important;
+    font-weight: 600 !important;
+    color: hsl(var(--primary)) !important;
+    margin-top: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .ProseMirror h3 {
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    color: hsl(var(--secondary)) !important;
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .ProseMirror strong {
+    font-weight: 700 !important;
+    color: hsl(var(--primary)) !important;
+  }
+
+  .ProseMirror em {
+    font-style: italic !important;
+    color: hsl(var(--secondary)) !important;
+  }
+
+  .ProseMirror code {
+    background-color: hsl(var(--primary) / 0.2) !important;
+    color: hsl(var(--primary)) !important;
+    padding: 0.125rem 0.25rem !important;
+    border-radius: 0.25rem !important;
+    font-family: "JetBrains Mono", Consolas, monospace !important;
+    font-size: 0.875em !important;
+  }
+
+  .ProseMirror blockquote {
+    border-left: 4px solid hsl(var(--primary) / 0.3) !important;
+    padding-left: 1rem !important;
+    margin: 1rem 0 !important;
+    color: hsl(var(--secondary)) !important;
+    font-style: italic !important;
+    background-color: hsl(var(--muted) / 0.3) !important;
+    border-radius: 0 0.5rem 0.5rem 0 !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .ProseMirror ul,
+  .ProseMirror ol {
+    margin: 0.75rem 0 !important;
+    padding-left: 1.5rem !important;
+  }
+
+  .ProseMirror li {
+    margin: 0.25rem 0 !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  .ProseMirror ul li {
+    list-style-type: disc !important;
+  }
+
+  .ProseMirror ol li {
+    list-style-type: decimal !important;
+  }
+
+  .ProseMirror p {
+    margin: 0.5rem 0 !important;
+    color: hsl(var(--foreground)) !important;
+    line-height: 1.6 !important;
+  }
+
+  .ProseMirror p:first-child {
+    margin-top: 0 !important;
+  }
+
+  .ProseMirror p:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  /* Task Name Input - Transparent Title Style with Higher Specificity */
+  input.task-name-input,
+  input.task-name-input[type="text"] {
+    background-color: transparent;
+    background: transparent;
+    background-image: none;
+    border: 0px solid transparent;
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+    border-radius: 0;
+    border-bottom: 0px solid transparent;
+    border-bottom-width: 0;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+    outline: 0px solid transparent;
+    outline-width: 0;
+    outline-style: none;
+    outline-color: transparent;
+    outline-offset: 0;
+    text-decoration: none;
+    ring-width: 0;
+    ring-offset-width: 0;
+    ring-color: transparent;
+    ring-offset-color: transparent;
+    filter: none;
+    backdrop-filter: none;
+    -webkit-box-shadow: 0 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 0 transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  input.task-name-input:focus,
+  input.task-name-input[type="text"]:focus {
+    background-color: transparent;
+    background: transparent;
+    background-image: none;
+    border: 0px solid transparent;
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+    border-radius: 0;
+    border-bottom: 0px solid transparent;
+    border-bottom-width: 0;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+    outline: 0px solid transparent;
+    outline-width: 0;
+    outline-style: none;
+    outline-color: transparent;
+    outline-offset: 0;
+    text-decoration: none;
+    ring-width: 0;
+    ring-offset-width: 0;
+    ring-color: transparent;
+    ring-offset-color: transparent;
+    filter: none;
+    backdrop-filter: none;
+    -webkit-box-shadow: 0 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 0 transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  input.task-name-input:hover,
+  input.task-name-input:active,
+  input.task-name-input:focus-visible,
+  input.task-name-input[type="text"]:hover,
+  input.task-name-input[type="text"]:active,
+  input.task-name-input[type="text"]:focus-visible {
+    background-color: transparent;
+    background: transparent;
+    background-image: none;
+    border: 0px solid transparent;
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+    border-radius: 0;
+    border-bottom: 0px solid transparent;
+    border-bottom-width: 0;
+    border-bottom-style: none;
+    border-bottom-color: transparent;
+    box-shadow: 0 0 0 0 transparent;
+    outline: 0px solid transparent;
+    outline-width: 0;
+    outline-style: none;
+    outline-color: transparent;
+    outline-offset: 0;
+    text-decoration: none;
+    ring-width: 0;
+    ring-offset-width: 0;
+    ring-color: transparent;
+    ring-offset-color: transparent;
+    filter: none;
+    backdrop-filter: none;
+    -webkit-box-shadow: 0 0 0 0 transparent;
+    -moz-box-shadow: 0 0 0 0 transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}

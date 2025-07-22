@@ -4,6 +4,11 @@ import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Typography from "@tiptap/extension-typography";
+import { common, createLowlight } from "lowlight";
 import { StyledDialog } from "@/components/StyledDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,11 +47,46 @@ export function TaskEditDialog({
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
+  const lowlight = createLowlight(common);
+
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false, // Disable default code block to use lowlight version
+      }),
       Placeholder.configure({
         placeholder: "Describe your task in detail...",
+      }),
+      TaskList.configure({
+        HTMLAttributes: {
+          class: "task-list",
+        },
+      }),
+      TaskItem.configure({
+        HTMLAttributes: {
+          class: "task-item",
+        },
+        nested: true,
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        HTMLAttributes: {
+          class: "code-block",
+        },
+      }),
+      Typography.configure({
+        // Enable various markdown-like features
+        oneHalf: false,
+        oneQuarter: false,
+        threeQuarters: false,
+        plusMinus: false,
+        notEqual: false,
+        laquo: false,
+        raquo: false,
+        multiplication: false,
+        superscriptTwo: false,
+        superscriptThree: false,
+        trademark: false,
       }),
     ],
     content: "",
@@ -54,7 +94,7 @@ export function TaskEditDialog({
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm max-w-none prose-invert focus:outline-none min-h-[200px] p-6 bg-transparent text-foreground prose-headings:text-primary prose-strong:text-primary prose-em:text-secondary prose-code:text-primary prose-code:bg-primary/20 prose-code:px-2 prose-code:py-1 prose-a:text-primary prose-blockquote:text-secondary prose-blockquote:border-primary/30",
+          "prose prose-sm max-w-none prose-invert focus:outline-none min-h-[200px] p-6 bg-transparent text-foreground prose-headings:text-primary prose-strong:text-primary prose-em:text-secondary prose-code:text-primary prose-code:bg-primary/20 prose-code:px-2 prose-code:py-1 prose-a:text-primary prose-blockquote:text-secondary prose-blockquote:border-primary/30 prose-ul:text-foreground prose-ol:text-foreground prose-li:text-foreground",
       },
     },
   });
@@ -138,7 +178,7 @@ export function TaskEditDialog({
     <StyledDialog
       isOpen={isOpen}
       onClose={onClose}
-      title={isCreating ? "Create New Task" : "Edit Task Details"}
+      title="" // Remove the built-in title since we'll add our own
       footer={
         <div className="flex items-center justify-between w-full">
           {!isCreating && onDelete && (
@@ -195,14 +235,18 @@ export function TaskEditDialog({
       }
     >
       <div className="flex flex-col gap-8 py-4">
-        {/* Task Name */}
-        <div className="space-y-3">
+        {/* Task Name as Title */}
+        <div className="mb-2">
           <Input
             id="task-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter task name..."
-            className="bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
+            placeholder={isCreating ? "Enter task name..." : "Task name"}
+            className="task-name-input text-2xl text-foreground font-medium px-0 py-0 placeholder:text-muted-foreground"
+            style={{
+              fontSize: "1.5rem",
+              lineHeight: "2rem",
+            }}
           />
         </div>
 

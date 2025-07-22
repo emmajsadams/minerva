@@ -2,17 +2,27 @@
 
 import { useQuery, useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import type { Doc, Id } from "../../../convex/_generated/dataModel";
 
-export default function TasksPage() {
+function TasksPageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const tasks = useQuery(api.tasks.getTasks);
   const createTask = useMutation(api.tasks.createTask);
+  const updateTask = useMutation(api.tasks.updateTask);
+  const deleteTask = useMutation(api.tasks.deleteTask);
 
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+
+  // Get edit task ID from URL params
+  const editTaskId = searchParams.get("edit");
+  const taskToEdit = editTaskId
+    ? tasks?.find((task) => task._id === editTaskId)
+    : null;
 
   const handleCreateTask = async (taskData: {
     name: string;
@@ -30,7 +40,34 @@ export default function TasksPage() {
   };
 
   const handleEditTask = (taskId: string) => {
-    router.push(`/tasks/${taskId}`);
+    router.push(`/tasks?edit=${taskId}`);
+  };
+
+  const handleSaveTask = async (
+    taskId: string,
+    updates: Partial<Doc<"tasks">>
+  ) => {
+    try {
+      await updateTask({ id: taskId as Id<"tasks">, ...updates });
+      router.push("/tasks"); // Remove edit param
+    } catch (error) {
+      console.error("Failed to update task:", error);
+      throw error;
+    }
+  };
+
+  const handleDeleteTask = async (taskId: string) => {
+    try {
+      await deleteTask({ id: taskId as Id<"tasks"> });
+      router.push("/tasks"); // Remove edit param
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+      throw error;
+    }
+  };
+
+  const handleCloseEditDialog = () => {
+    router.push("/tasks"); // Remove edit param
   };
 
   // Listen for create task and search events from sidebar
@@ -147,6 +184,7 @@ export default function TasksPage() {
         </div>
       </div>
 
+      {/* Create Task Dialog */}
       <TaskEditDialog
         task={null}
         isOpen={isCreateDialogOpen}
@@ -155,6 +193,32 @@ export default function TasksPage() {
         onCreate={handleCreateTask}
         isCreating={true}
       />
+
+      {/* Edit Task Dialog */}
+      {taskToEdit && (
+        <TaskEditDialog
+          task={taskToEdit}
+          isOpen={true}
+          onClose={handleCloseEditDialog}
+          onSave={handleSaveTask}
+          onDelete={handleDeleteTask}
+          isCreating={false}
+        />
+      )}
     </div>
+  );
+}
+
+export default function TasksPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="h-full flex items-center justify-center">
+          <div className="text-lg">Loading tasks...</div>
+        </div>
+      }
+    >
+      <TasksPageContent />
+    </Suspense>
   );
 }
