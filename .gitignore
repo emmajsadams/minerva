@@ -40,3 +40,4 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # TODO: Prune the environment variables out of the git history
 .specstory/*
+.vercel

@@ -29,4 +29,6 @@ bunx convex deploy --cmd 'bun run build'
 echo "🔄 Restarting dev server..."
 bun run dev:restart
 
+convex deploy
+
 echo "✅ All pre-commit checks passed!"
