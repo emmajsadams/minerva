@@ -343,15 +343,16 @@
     box-shadow: 0 4px 6px hsl(var(--secondary) / 0.2);
   }
 
-  /* Triangle accent positioning */
+  /* Triangle accent positioning - Fixed for production builds */
   .triangle-accent {
     position: absolute;
-    top: -40px;
-    left: -90px;
+    top: calc(-2.5rem);
+    left: calc(-5.625rem);
     z-index: 5;
+    pointer-events: none;
   }
 
-  /* Dialog shadow positioning */
+  /* Dialog shadow positioning - Fixed for production builds */
   .dialog-shadow {
     position: absolute;
     top: 0;
@@ -360,6 +361,18 @@
     height: 100%;
     transform: rotate(-3deg) translateX(0.5rem) translateY(0.25rem);
     z-index: -10;
+    pointer-events: none;
+  }
+
+  /* Styled Dialog Content - Force centered positioning */
+  .styled-dialog-content {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 50 !important;
+    max-height: 90vh !important;
+    max-width: 90vw !important;
   }
 }
 
