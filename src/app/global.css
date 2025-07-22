@@ -342,6 +342,14 @@
   .shadow-secondary\/20 {
     box-shadow: 0 4px 6px hsl(var(--secondary) / 0.2);
   }
+
+  /* Triangle accent positioning */
+  .triangle-accent {
+    position: absolute;
+    top: -40px;
+    left: -90px;
+    z-index: 5;
+  }
 }
 
 /* Persona 3 Keyframe Animations */
