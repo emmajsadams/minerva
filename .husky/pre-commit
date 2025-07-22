@@ -25,4 +25,8 @@ bun test
 echo "🏗️ Building project..."
 bunx convex deploy --cmd 'bun run build'
 
+# Restart dev server to ensure it works after build
+echo "🔄 Restarting dev server..."
+bun run dev:restart
+
 echo "✅ All pre-commit checks passed!"
