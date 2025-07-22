@@ -4,9 +4,14 @@
 
 @import "tailwindcss";
 
-@source "src/**/*.{js,ts,jsx,tsx}";
-@source "src/app/**/*.{js,ts,jsx,tsx}";
-@source "src/components/**/*.{js,ts,jsx,tsx}";
+/* Optimized content detection for Tailwind v4 */
+@source "src/**/*.{js,ts,jsx,tsx,md,mdx}";
+@source "src/app/**/*.{js,ts,jsx,tsx,md,mdx}";
+@source "src/components/**/*.{js,ts,jsx,tsx,md,mdx}";
+@source "src/lib/**/*.{js,ts,jsx,tsx}";
+@source "src/hooks/**/*.{js,ts,jsx,tsx}";
+@source "src/types/**/*.{js,ts,jsx,tsx}";
+@source "convex/**/*.{js,ts}";
 
 @custom-variant dark (&:is(.dark *));
 
