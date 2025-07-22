@@ -13,6 +13,8 @@
 @source "src/types/**/*.{js,ts,jsx,tsx}";
 @source "convex/**/*.{js,ts}";
 
+/* Force critical dialog positioning classes for production */
+
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
@@ -382,6 +384,29 @@
     z-index: 50 !important;
     max-height: 90vh !important;
     max-width: 90vw !important;
+  }
+
+  /* Force critical Tailwind dialog positioning classes for production builds */
+  [data-slot="dialog-content"] {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 50 !important;
+  }
+
+  /* Backup positioning for arbitrary value classes that might get purged */
+  .top-\[50\%\] {
+    top: 50% !important;
+  }
+  .left-\[50\%\] {
+    left: 50% !important;
+  }
+  .translate-x-\[-50\%\] {
+    transform: translateX(-50%) !important;
+  }
+  .translate-y-\[-50\%\] {
+    transform: translateY(-50%) !important;
   }
 }
 
