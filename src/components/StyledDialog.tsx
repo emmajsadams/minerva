@@ -45,10 +45,7 @@ export function StyledDialog({
         }}
       >
         {/* Dialog wrapper for positioning context */}
-        <div
-          className="relative w-full h-full"
-          style={{ position: "relative", isolation: "isolate" }}
-        >
+        <div className="relative">
           {/* Aquatic-themed Shadow - Large Rotated Dialog Shape */}
           <div className="dialog-shadow">
             <svg
