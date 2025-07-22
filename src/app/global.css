@@ -2,6 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @layer base {
   :root {
@@ -58,9 +59,6 @@
     --input: 217 85% 10%;
     --ring: 195 100% 50%;
   }
-}
-
-@layer base {
   * {
     border-color: hsl(var(--border));
   }
@@ -151,9 +149,9 @@
     z-index: 1;
     animation: float 8s ease-in-out infinite;
   }
-}
 
-@layer components {
+  /* TODO: components layer here maybe? */
+
   /* Persona 3 - Sea of Souls glow effects */
   .glow-aqua {
     box-shadow:
@@ -360,111 +358,9 @@
     z-index: -10;
     pointer-events: none;
   }
-}
 
-/* Persona 3 Keyframe Animations */
-@keyframes underwater-shimmer {
-  0%,
-  100% {
-    background-position: 0% 50%;
-    transform: translateY(0px);
-  }
-  50% {
-    background-position: 100% 50%;
-    transform: translateY(-2px);
-  }
-}
+  /* TipTap Editor Styles for Markdown Elements */
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
-  }
-  33% {
-    transform: translateY(-10px) rotate(1deg);
-    opacity: 0.6;
-  }
-  66% {
-    transform: translateY(-5px) rotate(-1deg);
-    opacity: 0.4;
-  }
-}
-
-@keyframes glass-reflect {
-  0% {
-    left: -100%;
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% {
-    left: 100%;
-    opacity: 0;
-  }
-}
-
-@keyframes soul-dive {
-  0% {
-    transform: scale(0.8) rotate(-5deg);
-    opacity: 0;
-  }
-  50% {
-    transform: scale(1.05) rotate(2deg);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-}
-
-:root {
-  --sidebar: 218 100% 12%; /* Same as card */
-  --sidebar-foreground: 201 100% 85%; /* Same as foreground */
-  --sidebar-primary: 195 100% 50%; /* Same as primary */
-  --sidebar-primary-foreground: 217 91% 8%; /* Same as primary-foreground */
-  --sidebar-accent: 217 85% 10%; /* Same as muted */
-  --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
-  --sidebar-border: 200 70% 25%; /* Same as border */
-  --sidebar-ring: 195 100% 50%; /* Same as ring */
-
-  /* Sidebar width variables */
-  --sidebar-width: 16rem;
-  --sidebar-width-mobile: 18rem;
-  --sidebar-width-icon: 3rem;
-}
-
-.dark {
-  --sidebar: 218 100% 12%; /* Same as card */
-  --sidebar-foreground: 201 100% 85%; /* Same as foreground */
-  --sidebar-primary: 195 100% 50%; /* Same as primary */
-  --sidebar-primary-foreground: 217 91% 8%; /* Same as primary-foreground */
-  --sidebar-accent: 217 85% 10%; /* Same as muted */
-  --sidebar-accent-foreground: 195 100% 85%; /* Same as card-foreground */
-  --sidebar-border: 200 70% 25%; /* Same as border */
-  --sidebar-ring: 195 100% 50%; /* Same as ring */
-
-  /* Sidebar width variables */
-  --sidebar-width: 16rem;
-  --sidebar-width-mobile: 18rem;
-  --sidebar-width-icon: 3rem;
-}
-
-@theme inline {
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-/* TipTap Editor Styles for Markdown Elements */
-@layer components {
   /* Task List Styles */
   .task-list {
     list-style: none !important;
@@ -748,5 +644,63 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+  }
+}
+
+/* Persona 3 Keyframe Animations */
+@keyframes underwater-shimmer {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    transform: translateY(0px);
+  }
+  50% {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translateY(-10px) rotate(1deg);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translateY(-5px) rotate(-1deg);
+    opacity: 0.4;
+  }
+}
+
+@keyframes glass-reflect {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes soul-dive {
+  0% {
+    transform: scale(0.8) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
   }
 }
