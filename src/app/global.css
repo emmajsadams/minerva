@@ -13,7 +13,71 @@
 @source "src/types/**/*.{js,ts,jsx,tsx}";
 @source "convex/**/*.{js,ts}";
 
-/* Force critical dialog positioning classes for production */
+/* Tailwind v4 Safelist - Protect critical dynamic classes from production purging */
+@source inline("fixed absolute relative static sticky");
+@source inline("top-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,72,80,96}");
+@source inline("left-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,72,80,96}");
+@source inline("right-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,72,80,96}");
+@source inline("bottom-{0,1,2,3,4,5,6,8,10,12,16,20,24,32,40,48,56,64,72,80,96}");
+
+/* Arbitrary value positioning classes that get purged */
+@source inline("top-[50%] left-[50%] right-[50%] bottom-[50%]");
+@source inline("top-[25%] left-[25%] right-[25%] bottom-[25%]");
+@source inline("top-[75%] left-[75%] right-[75%] bottom-[75%]");
+
+/* Transform classes for centering */
+@source inline("translate-x-[-50%] translate-y-[-50%] translate-x-[50%] translate-y-[50%]");
+@source inline("{,hover:,focus:}transform translate-x-{0,1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("{,hover:,focus:}transform translate-y-{0,1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("{,hover:,focus:}transform -translate-x-{0,1,2,3,4,5,6,8,10,12,16,20,24}");
+@source inline("{,hover:,focus:}transform -translate-y-{0,1,2,3,4,5,6,8,10,12,16,20,24}");
+
+/* Z-index layers for modals and overlays */
+@source inline("z-{0,10,20,30,40,50,auto}");
+@source inline("z-{-10,-20,-30,-40,-50}");
+
+/* Dynamic status and priority classes */
+@source inline("{,hover:,focus:}bg-status-{pending,active,inactive,completed,cancelled,in-progress}");
+@source inline("{,hover:,focus:}text-status-{pending,active,inactive,completed,cancelled,in-progress}");
+@source inline("{,hover:,focus:}border-status-{pending,active,inactive,completed,cancelled,in-progress}");
+@source inline("{,hover:,focus:}bg-priority-{low,medium,high,urgent,critical}");
+@source inline("{,hover:,focus:}text-priority-{low,medium,high,urgent,critical}");
+
+/* Common arbitrary color values and opacity combinations */
+@source inline("bg-black/{10,20,30,40,50,60,70,80,90}");
+@source inline("bg-white/{10,20,30,40,50,60,70,80,90}");
+@source inline("{,hover:,focus:}opacity-{0,5,10,20,25,30,40,50,60,70,75,80,90,95,100}");
+
+/* Grid and layout utilities that might be dynamic */
+@source inline("{sm:,md:,lg:,xl:,2xl:}grid-cols-{1,2,3,4,5,6,7,8,9,10,11,12}");
+@source inline("{sm:,md:,lg:,xl:,2xl:}grid-rows-{1,2,3,4,5,6}");
+@source inline("{sm:,md:,lg:,xl:,2xl:}gap-{0,1,2,3,4,5,6,8,10,12,14,16,20,24}");
+
+/* Modal and dialog sizing */
+@source inline("{sm:,md:,lg:,xl:,2xl:}max-w-{xs,sm,md,lg,xl,2xl,3xl,4xl,5xl,6xl,7xl}");
+@source inline("{sm:,md:,lg:,xl:,2xl:}w-{full,screen,min,max,fit}");
+@source inline("{sm:,md:,lg:,xl:,2xl:}h-{full,screen,min,max,fit}");
+@source inline("max-w-[calc(100%-2rem)] w-[95vw] max-h-[90vh] max-w-[90vw]");
+
+/* Animation and transition states */
+@source inline("{,hover:,focus:,active:}transition-{none,all,colors,opacity,shadow,transform}");
+@source inline("{,hover:,focus:,active:}duration-{75,100,150,200,300,500,700,1000}");
+@source inline("{,hover:,focus:,active:}ease-{linear,in,out,in-out}");
+
+/* Common spacing patterns that might be conditionally applied */
+@source inline("{p,m}{t,r,b,l,x,y}-{0,1,2,3,4,5,6,7,8,9,10,11,12,14,16,20,24,28,32,36,40,44,48,52,56,60,64}");
+
+/* Text and font utilities */
+@source inline("{sm:,md:,lg:,xl:,2xl:}text-{xs,sm,base,lg,xl,2xl,3xl,4xl,5xl,6xl,7xl,8xl,9xl}");
+@source inline("font-{thin,extralight,light,normal,medium,semibold,bold,extrabold,black}");
+
+/* Border utilities */
+@source inline("{,hover:,focus:}border-{0,2,4,8}");
+@source inline("{,hover:,focus:}rounded-{none,sm,md,lg,xl,2xl,3xl,full}");
+
+/* Shadow utilities for layered components */
+@source inline("{,hover:,focus:}shadow-{sm,md,lg,xl,2xl,inner,none}");
+@source inline("drop-shadow-{sm,md,lg,xl,2xl,none}");
 
 @custom-variant dark (&:is(.dark *));
 
