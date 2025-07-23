@@ -313,6 +313,11 @@
     background-color: hsl(var(--soul-glow));
   }
 
+  /* Radial gradient utilities for 404 page */
+  .bg-gradient-radial {
+    background: radial-gradient(circle, var(--tw-gradient-stops));
+  }
+
   /* Shadow utilities for menu items */
   .shadow-soul-glow\/20 {
     box-shadow: 0 4px 6px hsl(var(--soul-glow) / 0.2);

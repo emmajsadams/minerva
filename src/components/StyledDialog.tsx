@@ -99,11 +99,11 @@ export function StyledDialog({
               style={{ padding: "2rem 5rem 2.5rem 5rem" }}
             >
               <DialogHeader className="mb-4">
-                <DialogTitle className="text-2xl text-foreground font-medium mb-2">
+                <DialogTitle className="sr-only">
                   {title}
                 </DialogTitle>
                 {description && (
-                  <DialogDescription className="text-secondary/80 text-sm">
+                  <DialogDescription className="sr-only">
                     {description}
                   </DialogDescription>
                 )}
