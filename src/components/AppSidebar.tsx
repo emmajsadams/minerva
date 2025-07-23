@@ -81,19 +81,25 @@ export function AppSidebar() {
                 <div className="relative">
                   {/* Main logo container with glass morphism */}
                   <div className="glass-panel px-6 py-4 rounded-xl relative overflow-hidden soul-dive">
-                    {/* Background gradient effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-soul-glow/20 rounded-xl"></div>
+                    {/* Background gradient effect with fallback */}
+                    <div className="absolute inset-0 rounded-xl" style={{
+                      background: 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--secondary) / 0.1) 50%, hsl(var(--soul-glow) / 0.2) 100%)'
+                    }}></div>
 
-                    {/* Logo text */}
+                    {/* Logo text with shimmer effect */}
                     <div className="relative z-10 text-center">
                       <div className="text-2xl font-bold tracking-wider text-shimmer">
                         MINERVA
                       </div>
                     </div>
 
-                    {/* Floating geometric elements */}
-                    <div className="absolute top-2 left-2 w-1 h-1 bg-glass-shimmer rounded-full"></div>
-                    <div className="absolute bottom-2 right-2 w-1 h-1 bg-soul-glow rounded-full"></div>
+                    {/* Floating geometric elements with inline styles for production safety */}
+                    <div className="absolute top-2 left-2 w-1 h-1 rounded-full" style={{
+                      backgroundColor: 'hsl(var(--glass-shimmer))'
+                    }}></div>
+                    <div className="absolute bottom-2 right-2 w-1 h-1 rounded-full" style={{
+                      backgroundColor: 'hsl(var(--soul-glow))'
+                    }}></div>
                   </div>
 
                   {/* Shadow element */}

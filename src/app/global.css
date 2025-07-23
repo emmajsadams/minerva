@@ -304,12 +304,14 @@
     color: hsl(var(--persona-green));
   }
 
-  /* Additional background utilities for logo */
+  /* Additional background utilities for logo - with fallbacks */
   .bg-glass-shimmer {
+    background-color: hsl(195 100% 85%); /* fallback */
     background-color: hsl(var(--glass-shimmer));
   }
 
   .bg-soul-glow {
+    background-color: hsl(280 100% 75%); /* fallback */
     background-color: hsl(var(--soul-glow));
   }
 
