@@ -19,7 +19,7 @@ fi
 
 # Deploy Convex first (backend)
 echo "🔧 Deploying Convex backend..."
-if convex deploy --prod; then
+if convex deploy; then
   echo "✅ Convex deployment successful!"
 else
   echo "❌ Convex deployment failed - aborting Vercel deployment"
