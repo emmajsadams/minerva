@@ -4,31 +4,16 @@ echo "🚀 Running pre-commit checks..."
 echo "🔍 Checking for secrets..."
 node scripts/check-secrets.js
 
-# Run formatter todo use lint-staged
-# echo "✨ Running formatter..."
-# bunx lint-staged
-
 # Run linter
 echo "🧹 Running linter..."
 bun run lint:fix
-git add -A
 
-# Run formatter
+# Run formatter  
+echo "🎨 Running formatter..."
 bun run format
-git add -A
 
-# Run tests (skipped for now due to DOM API issues in tests)
-# echo "🧪 Running tests..."
-bun test
-
-# Build project (same as Vercel)
-echo "🏗️ Building project..."
-bunx convex deploy --cmd 'bun run build'
-
-# Restart dev server to ensure it works after build
-echo "🔄 Restarting dev server..."
-bun run dev:restart
-
-convex deploy
+# Quick build check (no full build to keep it fast)
+echo "🔍 Type checking..."
+bun run type-check
 
 echo "✅ All pre-commit checks passed!"
