@@ -1,0 +1,51 @@
+#!/bin/sh
+echo "🚀 Running post-commit deployment checks..."
+
+# Get the current branch
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+echo "📋 Current branch: $BRANCH"
+
+# Only deploy from main branch to avoid unnecessary deployments
+if [ "$BRANCH" != "main" ]; then
+  echo "⏭️  Skipping deployment - not on main branch"
+  exit 0
+fi
+
+# Check if we're in a CI environment (skip if so)
+if [ "$CI" = "true" ]; then
+  echo "⏭️  Skipping deployment - running in CI environment"
+  exit 0
+fi
+
+# Deploy to Vercel preview to test CSS and functionality
+echo "🌍 Deploying to Vercel preview to verify CSS and functionality..."
+echo "   This helps catch issues before they reach production"
+
+# Deploy with preview flag to create a unique URL
+vercel deploy --prebuilt=false --yes 2>&1 | tee /tmp/vercel-deploy.log
+
+# Check if deployment was successful
+if [ $? -eq 0 ]; then
+  # Extract preview URL from deployment output
+  PREVIEW_URL=$(grep -o 'https://[^[:space:]]*\.vercel\.app' /tmp/vercel-deploy.log | tail -1)
+  
+  if [ -n "$PREVIEW_URL" ]; then
+    echo "✅ Deployment successful!"
+    echo "🔗 Preview URL: $PREVIEW_URL"
+    echo "🎨 Please verify CSS and functionality work correctly"
+    
+    # Optional: Open URL in browser (uncomment if desired)
+    # open "$PREVIEW_URL" 2>/dev/null || true
+  else
+    echo "✅ Deployment completed (URL not captured)"
+  fi
+else
+  echo "❌ Deployment failed - check output above"
+  echo "💡 This is just a warning - your commit was still successful"
+fi
+
+# Clean up
+rm -f /tmp/vercel-deploy.log
+
+echo "📝 Note: This deployment helps catch CSS issues early"
+echo "🔍 Compare the preview with your local version to ensure consistency"

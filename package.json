@@ -50,6 +50,7 @@
     "format:check": "prettier --check .",
     "type-check": "bunx tsc --noEmit",
     "test": "bun test --preload ./src/setupTests.ts",
+    "deploy:verify": "./scripts/deploy-and-verify.sh",
     "prepare": "husky"
   },
   "lint-staged": {
