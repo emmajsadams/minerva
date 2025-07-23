@@ -10,7 +10,7 @@ const dom = new JSDOM("<!DOCTYPE html><html><body></body></html>", {
 });
 
 // Set up DOM globals immediately
-global.window = dom.window as any;
+global.window = dom.window as unknown as Window & typeof globalThis;
 global.document = dom.window.document;
 global.navigator = dom.window.navigator;
 global.HTMLElement = dom.window.HTMLElement;
@@ -37,7 +37,7 @@ global.cancelAnimationFrame = (id: number) => clearTimeout(id);
 
 // Patch dispatchEvent to handle Radix UI's custom event dispatching
 const originalDispatchEvent = dom.window.EventTarget.prototype.dispatchEvent;
-global.EventTarget.prototype.dispatchEvent = function (event: any) {
+global.EventTarget.prototype.dispatchEvent = function (event: Event | unknown) {
   // If Radix UI passes something that's not an Event, wrap it
   if (!(event instanceof Event)) {
     // Create a CustomEvent if a non-Event object is passed

@@ -82,9 +82,13 @@ export function AppSidebar() {
                   {/* Main logo container with glass morphism */}
                   <div className="glass-panel px-6 py-4 rounded-xl relative overflow-hidden soul-dive">
                     {/* Background gradient effect with fallback */}
-                    <div className="absolute inset-0 rounded-xl" style={{
-                      background: 'linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--secondary) / 0.1) 50%, hsl(var(--soul-glow) / 0.2) 100%)'
-                    }}></div>
+                    <div
+                      className="absolute inset-0 rounded-xl"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, hsl(var(--primary) / 0.2) 0%, hsl(var(--secondary) / 0.1) 50%, hsl(var(--soul-glow) / 0.2) 100%)",
+                      }}
+                    ></div>
 
                     {/* Logo text with shimmer effect */}
                     <div className="relative z-10 text-center">
@@ -94,12 +98,18 @@ export function AppSidebar() {
                     </div>
 
                     {/* Floating geometric elements with inline styles for production safety */}
-                    <div className="absolute top-2 left-2 w-1 h-1 rounded-full" style={{
-                      backgroundColor: 'hsl(var(--glass-shimmer))'
-                    }}></div>
-                    <div className="absolute bottom-2 right-2 w-1 h-1 rounded-full" style={{
-                      backgroundColor: 'hsl(var(--soul-glow))'
-                    }}></div>
+                    <div
+                      className="absolute top-2 left-2 w-1 h-1 rounded-full"
+                      style={{
+                        backgroundColor: "hsl(var(--glass-shimmer))",
+                      }}
+                    ></div>
+                    <div
+                      className="absolute bottom-2 right-2 w-1 h-1 rounded-full"
+                      style={{
+                        backgroundColor: "hsl(var(--soul-glow))",
+                      }}
+                    ></div>
                   </div>
 
                   {/* Shadow element */}

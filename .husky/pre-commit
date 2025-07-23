@@ -1,19 +1,34 @@
+#!/bin/sh
+set -e  # Exit immediately if any command fails
+
 echo "🚀 Running pre-commit checks..."
 
 # Check for secrets
 echo "🔍 Checking for secrets..."
-node scripts/check-secrets.js
+if ! node scripts/check-secrets.js; then
+  echo "❌ Secret check failed!"
+  exit 1
+fi
 
-# Run linter
+# Run linter (check only, don't auto-fix)
 echo "🧹 Running linter..."
-bun run lint:fix
+if ! bun run lint; then
+  echo "❌ Linting failed! Run 'bun run lint:fix' to fix issues."
+  exit 1
+fi
 
-# Run formatter  
-echo "🎨 Running formatter..."
-bun run format
+# Run formatter check (don't auto-format)
+echo "🎨 Checking code formatting..."
+if ! bun run format:check; then
+  echo "❌ Code formatting check failed! Run 'bun run format' to fix formatting."
+  exit 1
+fi
 
-# Quick build check (no full build to keep it fast)
+# Type checking
 echo "🔍 Type checking..."
-bun run type-check
+if ! bun run type-check; then
+  echo "❌ Type checking failed!"
+  exit 1
+fi
 
 echo "✅ All pre-commit checks passed!"
