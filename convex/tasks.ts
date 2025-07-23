@@ -102,7 +102,37 @@ export const getTasks = query({
       .collect();
 
     // Filter out deleted tasks
-    return allTasks.filter((task) => !task.deleted);
+    const activeTasks = allTasks.filter((task) => !task.deleted);
+
+    // Sort by: 1) date (oldest first), 2) priority (high->medium->low), 3) name
+    return activeTasks.sort((a, b) => {
+      // Helper function to convert priority to number for sorting
+      const priorityOrder = { high: 3, medium: 2, low: 1 };
+
+      // 1. Sort by due date (oldest first)
+      // Tasks without due dates should come after tasks with due dates
+      const aDate = a.dueDate
+        ? new Date(a.dueDate).getTime()
+        : Number.MAX_SAFE_INTEGER;
+      const bDate = b.dueDate
+        ? new Date(b.dueDate).getTime()
+        : Number.MAX_SAFE_INTEGER;
+
+      if (aDate !== bDate) {
+        return aDate - bDate; // oldest first
+      }
+
+      // 2. Sort by priority (high -> medium -> low)
+      const aPriority = priorityOrder[a.priority] || 0;
+      const bPriority = priorityOrder[b.priority] || 0;
+
+      if (aPriority !== bPriority) {
+        return bPriority - aPriority; // high priority first
+      }
+
+      // 3. Sort by name (alphabetically)
+      return a.name.localeCompare(b.name);
+    });
   },
 });
 

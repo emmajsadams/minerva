@@ -6,6 +6,31 @@ import { useState, useEffect, Suspense } from "react";
 import { TaskEditDialog } from "@/components/TaskEditDialog";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { Doc, Id } from "../../../convex/_generated/dataModel";
+import {
+  formatDistanceToNow,
+  isToday,
+  isTomorrow,
+  isYesterday,
+} from "date-fns";
+
+// Helper function to format relative dates
+const formatRelativeDate = (dateString: string): string => {
+  const date = new Date(dateString);
+
+  // Handle special cases for better UX
+  if (isToday(date)) {
+    return "Today";
+  }
+  if (isTomorrow(date)) {
+    return "Tomorrow";
+  }
+  if (isYesterday(date)) {
+    return "Yesterday";
+  }
+
+  // For all other dates, use relative formatting with suffix
+  return formatDistanceToNow(date, { addSuffix: true });
+};
 
 function TasksPageContent() {
   const router = useRouter();
@@ -172,7 +197,7 @@ function TasksPageContent() {
                     </span>
                   </div>
                   <div className="col-span-2 text-sm text-muted-foreground">
-                    {task.dueDate || "—"}
+                    {task.dueDate ? formatRelativeDate(task.dueDate) : "—"}
                   </div>
                 </div>
               ))
