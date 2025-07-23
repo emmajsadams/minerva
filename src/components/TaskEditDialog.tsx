@@ -241,16 +241,20 @@ export function TaskEditDialog({
     >
       <div className="flex flex-col gap-8 py-4">
         {/* Task Name as Title */}
-        <div className="mb-2">
+        <div className="-mt-4 mb-2">
           <Input
             id="task-name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={isCreating ? "Enter task name..." : "Task name"}
-            className="task-name-input text-2xl text-foreground font-medium px-0 py-0 placeholder:text-muted-foreground"
+            className="task-name-input text-2xl text-foreground font-medium px-0 py-0 placeholder:text-muted-foreground bg-transparent border-none shadow-none outline-none ring-0"
             style={{
               fontSize: "1.5rem",
               lineHeight: "2rem",
+              background: "transparent",
+              border: "none",
+              boxShadow: "none",
+              outline: "none",
             }}
           />
         </div>
@@ -293,9 +297,9 @@ export function TaskEditDialog({
               }
               className="w-full bg-input border border-transparent text-foreground px-4 py-3 font-medium rounded-lg hover:border-primary/30 focus:border-primary focus:shadow-lg focus:shadow-primary/20 transition-all duration-300"
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="low">🌖 Low</option>
+              <option value="medium">🌗 Medium</option>
+              <option value="high">🌘 High</option>
             </select>
           </div>
         </div>

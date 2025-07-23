@@ -159,7 +159,7 @@ function TasksPageContent() {
                 <div
                   key={task._id}
                   onClick={() => handleEditTask(task._id)}
-                  className="grid grid-cols-10 gap-4 p-8 bg-slate-800 hover:bg-slate-700 transition-all duration-300 rounded-xl group shadow-lg shadow-black/20 mb-6 cursor-pointer hover:shadow-xl hover:shadow-black/30 hover:scale-[1.02]"
+                  className="grid grid-cols-6 gap-4 p-8 bg-slate-800 hover:bg-slate-700 transition-all duration-300 rounded-xl group shadow-lg shadow-black/20 mb-6 cursor-pointer hover:shadow-xl hover:shadow-black/30 hover:scale-[1.02]"
                   style={{
                     backgroundColor: "rgba(30, 41, 59, 0.8)",
                     padding: "2rem",
@@ -169,32 +169,16 @@ function TasksPageContent() {
                   }}
                 >
                   <div className="col-span-4">
-                    <div className="text-foreground font-medium">
+                    <div className="text-foreground font-medium flex items-center gap-3">
+                      <span className="text-lg">
+                        {task.priority === "high"
+                          ? "🌘"
+                          : task.priority === "medium"
+                            ? "🌗"
+                            : "🌖"}
+                      </span>
                       {task.name}
                     </div>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="text-sm text-muted-foreground">
-                      {task.status === "todo"
-                        ? "To Do"
-                        : task.status === "in_progress"
-                          ? "In Progress"
-                          : "Completed"}
-                    </span>
-                  </div>
-                  <div className="col-span-2">
-                    <span
-                      className={`inline-flex px-3 py-1 text-xs font-medium rounded-full ${
-                        task.priority === "high"
-                          ? "bg-destructive/20 text-destructive"
-                          : task.priority === "medium"
-                            ? "bg-gold/20 text-gold"
-                            : "bg-primary/20 text-primary"
-                      }`}
-                    >
-                      {task.priority.charAt(0).toUpperCase() +
-                        task.priority.slice(1)}
-                    </span>
                   </div>
                   <div className="col-span-2 text-sm text-muted-foreground">
                     {task.dueDate ? formatRelativeDate(task.dueDate) : "—"}
