@@ -179,7 +179,11 @@ export function TaskEditDialog({
       isOpen={isOpen}
       onClose={onClose}
       title={isCreating ? "Create New Task" : "Edit Task"}
-      description={isCreating ? "Create a new task with details, priority, and due date" : "Edit task details, status, priority, and due date"}
+      description={
+        isCreating
+          ? "Create a new task with details, priority, and due date"
+          : "Edit task details, status, priority, and due date"
+      }
       footer={
         <div className="flex items-center justify-between w-full">
           {!isCreating && onDelete && (

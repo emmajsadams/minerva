@@ -65,8 +65,8 @@ export default function NotFound() {
               Lost in the Sea of Souls
             </h2>
             <p className="text-lg text-muted-foreground max-w-md mx-auto leading-relaxed">
-              The page you&apos;re looking for has drifted into the depths of the
-              digital ocean. Let me guide you back to familiar waters.
+              The page you&apos;re looking for has drifted into the depths of
+              the digital ocean. Let me guide you back to familiar waters.
             </p>
           </div>
 
@@ -103,7 +103,8 @@ export default function NotFound() {
           {/* Decorative elements */}
           <div className="pt-8 border-t border-border/30">
             <p className="text-sm text-muted-foreground">
-              &ldquo;In the depths of uncertainty, we find our way back to purpose.&rdquo;
+              &ldquo;In the depths of uncertainty, we find our way back to
+              purpose.&rdquo;
             </p>
           </div>
         </div>

@@ -42,7 +42,7 @@
     "dev:stop": "./scripts/dev-server.sh stop",
     "dev:restart": "./scripts/dev-server.sh restart",
     "dev:status": "./scripts/dev-server.sh status",
-    "build": "next build",
+    "build": "next build'",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
