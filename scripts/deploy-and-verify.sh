@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "🚀 Vercel Deployment and CSS Verification Script"
-echo "================================================"
+echo "🚀 Full Deployment and Verification Script"
+echo "=========================================="
 
 # Check if Vercel CLI is available
 if ! command -v vercel &> /dev/null; then
@@ -9,17 +9,35 @@ if ! command -v vercel &> /dev/null; then
     exit 1
 fi
 
-# Build and deploy
-echo "📦 Building and deploying to Vercel..."
-vercel deploy --prebuilt=false --yes | tee /tmp/vercel-deploy.log
+# Check if Convex CLI is available
+if ! command -v convex &> /dev/null; then
+    echo "❌ Convex CLI not found. Install with: bun install"
+    exit 1
+fi
+
+# Deploy Convex first (backend)
+echo "🔧 Deploying Convex backend..."
+if convex deploy --prod; then
+    echo "✅ Convex deployment successful!"
+else
+    echo "❌ Convex deployment failed - aborting Vercel deployment"
+    exit 1
+fi
+
+echo ""
+
+# Build and deploy to Vercel production
+echo "📦 Building and deploying to Vercel production..."
+vercel deploy --prod --prebuilt=false --yes | tee /tmp/vercel-deploy.log
 
 # Extract URLs
-PREVIEW_URL=$(grep -o 'https://[^[:space:]]*\.vercel\.app' /tmp/vercel-deploy.log | tail -1)
+PRODUCTION_URL=$(grep -o 'https://[^[:space:]]*\.vercel\.app' /tmp/vercel-deploy.log | tail -1)
 
-if [ -n "$PREVIEW_URL" ]; then
+if [ -n "$PRODUCTION_URL" ]; then
     echo ""
-    echo "✅ Deployment successful!"
-    echo "🔗 Preview URL: $PREVIEW_URL"
+    echo "✅ Production deployment successful!"
+    echo "🔗 Production URL: $PRODUCTION_URL"
+    echo "🎉 Both Convex and Vercel deployments completed successfully"
     echo ""
     echo "🎨 CSS Verification Checklist:"
     echo "   • Check font rendering (JetBrains Mono, Space Grotesk)"
@@ -30,18 +48,18 @@ if [ -n "$PREVIEW_URL" ]; then
     echo "   • Test Soul Bubbles icon on mobile"
     echo ""
     echo "🔍 Compare with local development:"
-    echo "   Local:   http://localhost:3000"
-    echo "   Preview: $PREVIEW_URL"
+    echo "   Local:      http://localhost:3000"
+    echo "   Production: $PRODUCTION_URL"
     echo ""
     
     # Ask if user wants to open URLs
     read -p "🌐 Open both URLs for comparison? (y/n): " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "🌍 Opening local and preview URLs..."
+        echo "🌍 Opening local and production URLs..."
         open "http://localhost:3000" 2>/dev/null || true
         sleep 2
-        open "$PREVIEW_URL" 2>/dev/null || true
+        open "$PRODUCTION_URL" 2>/dev/null || true
     fi
     
     echo ""
@@ -52,7 +70,7 @@ if [ -n "$PREVIEW_URL" ]; then
     echo "   4. Check for any console errors in browser dev tools"
     
 else
-    echo "❌ Could not extract preview URL from deployment output"
+    echo "❌ Could not extract production URL from deployment output"
     echo "📋 Full deployment log:"
     cat /tmp/vercel-deploy.log
 fi
