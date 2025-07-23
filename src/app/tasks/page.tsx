@@ -113,12 +113,9 @@ function TasksPageContent() {
   return (
     <div className="h-full w-full relative bg-background text-foreground">
       {/* Main Content */}
-      <div
-        className="w-full p-8"
-        style={{ paddingLeft: "6rem", paddingRight: "6rem" }}
-      >
+      <div className="w-full p-8 md:px-24 px-4">
         {/* Tasks Collection */}
-        <div className="w-full min-w-[800px] max-w-4xl mx-auto bg-transparent rounded-xl">
+        <div className="w-full md:min-w-[800px] max-w-4xl mx-auto bg-transparent rounded-xl">
           <div className="space-y-4" style={{ marginTop: "1.5rem" }}>
             {/* Tasks */}
             {filteredTasks.length === 0 ? (

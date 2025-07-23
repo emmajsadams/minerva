@@ -68,7 +68,7 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="none" className="bg-card/50 backdrop-blur-xl">
+    <Sidebar collapsible="icon" className="bg-card/50 backdrop-blur-xl">
       <SidebarContent className="bg-transparent">
         <SidebarGroup>
           <SidebarGroupContent>
@@ -101,9 +101,9 @@ export function AppSidebar() {
                 </div>
               </SidebarMenuItem>
 
-              {/* Search Input */}
+              {/* Search Input - hidden on mobile, shown in header instead */}
               <SidebarMenuItem
-                className="relative w-full flex justify-start"
+                className="relative w-full justify-start hidden md:flex"
                 style={{
                   marginBottom: "2em",
                   paddingLeft: "2rem",
